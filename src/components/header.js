@@ -108,15 +108,14 @@ const Arrow = styled.img`
 `
 
 class Header extends Component {
-  
-
+    
     render(){
       return (
         <Container >
             <Links>
-                <A to="/women">WOMEN</A>
-                <A to="/men">MAN</A>
-                <A to="kids">KIDS</A>
+                <A to="/category/women">WOMEN</A>
+                <A to="/category/men">MAN</A>
+                <A to="/category/kids">KIDS</A>
             </Links>
             
             <Icon src={icon} alt="icon" />

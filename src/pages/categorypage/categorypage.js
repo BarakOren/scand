@@ -1,7 +1,7 @@
-import react, {Component} from "react";
+import React, {Component} from "react";
 import styled from "styled-components";
 import Item from "./components/item";
-
+import { withRouter } from 'react-router-dom'
 const Page = styled.div`
     width: 100%;
     height: 85vh;
@@ -23,16 +23,31 @@ const ItemsContainer = styled.div`
     flex-wrap: wrap;
     gap: 100px;
 
-    &:after {
-    content: "";
-    flex: auto;
+  @media only screen and (max-width: 1000px) {
+        justify-content: space-evenly;
+        gap: 30px 0;
   }
+`
+
+const DummieItem = styled.div`
+    /* to keep all items on the left. */
+    height: 25vw;
+    width: 20vw;
+    padding: 16px;
+
+    @media only screen and (max-width: 1000px) {
+        height: 33vw;
+        width: 28vw;
+    }
 `
 
 
 
 class CategoryPage extends Component {
-
+    componentDidMount(){
+        console.log(this.props);
+        console.log(this.props.match.params.id);
+      }
 
     render(){
         return(
@@ -40,11 +55,11 @@ class CategoryPage extends Component {
                 <CategoryTitle>Women</CategoryTitle>
                 <ItemsContainer>
                     <Item /><Item /><Item /><Item />
-                    <Item /><Item /><Item /><Item />
                     <Item />
                     <Item />
                     <Item />
                     <Item />
+                    <DummieItem />
                 </ItemsContainer>
                 
             </Page>
@@ -52,4 +67,4 @@ class CategoryPage extends Component {
     }
 }
 
-export default CategoryPage;
+export default withRouter(CategoryPage);

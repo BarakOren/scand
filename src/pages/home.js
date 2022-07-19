@@ -51,10 +51,9 @@ class Home extends Component {
             <Page>
                 <Welcome>Welcome</Welcome>
                 <Nav>
-                    <A to="/women">WOMEN</A>
-                    <A to="/men">MAN</A>
-                    <A to="/kids">KIDS</A>
-                    <A to="/itempage">item</A>
+                    <A to="/category/women">WOMEN</A>
+                    <A to="/category/men">MAN</A>
+                    <A to="/category/kids">KIDS</A>
                 </Nav>
             </Page>
         )

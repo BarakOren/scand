@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import prod from "../../assets/prod.png";
+import arrow from "../../assets/whitecart.png";
 
 const ItemContainer = styled.div`
     padding: 24px 0;
@@ -87,6 +88,12 @@ const RightSide = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media only screen and (max-width: 1100px) {
+        width: 30%;
+    }
+    @media only screen and (max-width: 1100px) {
+        width: 35%;
+    }
 `
 
 const MiddleCol = styled.div`
@@ -120,8 +127,27 @@ const ItemImage = styled.div`
     height: 100%;
     background-position: center;
     background-size: cover;
+    position: relative;
 `
 
+const ImageArrowButton = styled.button`
+    width: 24px;
+    height: 24px;
+    background: rgb(0, 0, 0, 0.73);
+    position: absolute;
+    bottom: 10px; 
+    right: ${p => p.left ? "40px" : "10px"};
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const Arrow = styled.img`
+    width: 60%;
+    height: auto;
+    transform: ${p => p.left ? "" : "rotate(180deg)"};
+`
 
 class CartItem extends Component {
 
@@ -153,7 +179,10 @@ class CartItem extends Component {
                         <CurrentAmount>1</CurrentAmount>
                         <AmountButton>-</AmountButton>
                     </MiddleCol>
-                    <ItemImage style={{backgroundImage: `url(${prod})`}} />
+                    <ItemImage style={{backgroundImage: `url(${prod})`}}>
+                        <ImageArrowButton><Arrow src={arrow} alt="left" /></ImageArrowButton>
+                        <ImageArrowButton left={true}><Arrow left={true} src={arrow} alt="left" /></ImageArrowButton>
+                    </ItemImage>
                 </RightSide>
                
         </ItemContainer>

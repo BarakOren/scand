@@ -4,8 +4,8 @@ import prod from "../../../assets/prod.png";
 import whitecart from "../../../assets/whitecart.png";
 
 const ItemContainer = styled.div`
-    height: 428px;
-    width: 352px;
+    height: 25vw;
+    width: 20vw;
     padding: 16px;
     transition: .2s all;
     position: relative;
@@ -14,7 +14,10 @@ const ItemContainer = styled.div`
         box-shadow: 0px 4px 35px 0px #A8ACB030;
     }
 
-   
+    @media only screen and (max-width: 1000px) {
+        height: 33vw;
+        width: 28vw;
+    }
 
 `
 
@@ -23,7 +26,8 @@ const ItemImage = styled.div`
     height: 80%;
     background-position: center;
     background-size: cover;
-    margin-bottom: 30px;
+    margin-bottom: 1vw;
+    position: relative;
 `
 
 const Title = styled.p`
@@ -32,6 +36,9 @@ const Title = styled.p`
     text-align: left;
     font-weight: 300;
     margin: 10px 0;
+    @media only screen and (max-width: 1050px) {
+        margin: 5px 0;
+    }
 `
 
 const Price = styled.p`
@@ -40,18 +47,22 @@ const Price = styled.p`
     text-align: left;
     margin: 10px 0;
     width: 100%;
+    @media only screen and (max-width: 1050px) {
+        margin: 5px 0;
+    }
 `
 
 const AddToCartButton = styled.button`  
     opacity: 0;
-    width: 52px;
-    height: 52px;
+    width: 3.5vw;
+    height: 3.5vw;
     border: none;
     background: #5ECE7B;
     border-radius: 50%;
     position: absolute;
-    right: 31px;
-    top: 72%;
+    right: 1vw;
+    bottom: 0;
+    transform: translateY(50%);
     cursor: pointer;
     transition: .4s all;
 
@@ -61,7 +72,7 @@ const AddToCartButton = styled.button`
 `
 
 const CartIcon = styled.img`
-    width: 24px;
+    width: 1.7vw;
     height: auto;
     position: relative;
     right: 1px;
@@ -73,10 +84,11 @@ class Item extends Component {
     render(){
         return(
             <ItemContainer>
+                <ItemImage style={{backgroundImage: `url(${prod})`}}>
                 <AddToCartButton>
                     <CartIcon src={whitecart} alt="add-to-cart-button" />
                 </AddToCartButton>
-                <ItemImage style={{backgroundImage: `url(${prod})`}} />
+                </ItemImage>
                 <Title>Apollo Running Short</Title>
                 <Price>50.00$</Price>
             </ItemContainer>

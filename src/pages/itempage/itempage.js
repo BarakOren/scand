@@ -28,6 +28,10 @@ const SmallImage = styled.button`
     background-position: center;
     background-size: cover;
     cursor: pointer;
+    @media only screen and (max-width: 1000px) {
+        width: 120px;
+        height: 120px;
+    }
 `
 
 const SelectedImage = styled.div`
@@ -44,6 +48,9 @@ const DetailsContainer = styled.div`
     align-items: flex-start;
     width: 300px;
     margin-right: 50px;
+    @media only screen and (max-width: 1000px) {
+        margin-right: unset;
+    }
 `
 
 const ItemName = styled.h1`

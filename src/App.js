@@ -29,13 +29,15 @@ const AppContainer = styled.div`
 class App extends Component {
   
   render(){
+  
     return (
       <AppContainer >
         <GlobalStyle />
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/women" element={<CategoryPage />} />
+          <Route path="/category/:category" element={<CategoryPage />} />
+          <Route path="/category/:category" render={(props) => <CategoryPage {...props} />}/> 
           <Route path="/itempage" element={<ItemPage/>} />
           <Route path="/cart" element={<CartPage/>} />
           <Route path="*" element={<Error/>} />
@@ -46,5 +48,6 @@ class App extends Component {
   }
   
 }
+
 
 export default App;
