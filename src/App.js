@@ -1,6 +1,12 @@
 import React, {Component} from "react";
 import styled, {createGlobalStyle} from "styled-components";
 import Header from "./components/header";
+import {Routes,Route} from "react-router-dom";
+import CategoryPage from "./pages/categorypage/categorypage";
+import Home from "./pages/home";
+import ItemPage from "./pages/itempage/itempage";
+import CartPage from "./pages/cartpage/cartpage";
+import Error from "./pages/error";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -27,6 +33,13 @@ class App extends Component {
       <AppContainer >
         <GlobalStyle />
         <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/women" element={<CategoryPage />} />
+          <Route path="/itempage" element={<ItemPage/>} />
+          <Route path="/cart" element={<CartPage/>} />
+          <Route path="*" element={<Error/>} />
+        </Routes>
         {/* add switch */}
       </AppContainer>
     );
