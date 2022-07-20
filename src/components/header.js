@@ -7,6 +7,7 @@ import arrow from "../assets/arrow.png";
 import CurrencyToggler from "./currencytoggler";
 import CartOverlay from "./cartOverlay/cartOverlay";
 
+
 const Container = styled.nav`
     /* border: 1px solid black; */
     width: 100%;
@@ -104,35 +105,65 @@ const Currency = styled.button`
 const Arrow = styled.img`
     height: 4px;
     width: auto;
-
 `
 
 class Header extends Component {
     
+    constructor() {
+        super()
+        this.state = {
+          cartToggler: false,
+          currenciesToggler: true
+        }
+      }
+
+      toggle(popup, popupnum){
+            //to make sure both togglers wont open up at the same time,
+            // "closeOther" get the other toggler and close it.   
+          const closeOther = Object.keys(this.state)[popupnum]
+          this.setState({
+                [popup]: !this.state[popup],
+                [closeOther]: closeOther === true && false
+          })
+      }
+
+      toggleOutsideClick(popup){
+        // closing the window in case the user clicks outside of the popup while its open.
+        if(this.state[popup] === true){
+            console.log(this.state[popup])
+             this.setState({
+                [popup]: false
+            })
+        }
+      }
+
     render(){
+        const cartKey = Object.keys(this.state)[0]
+        const currenciesKey = Object.keys(this.state)[1]
       return (
         <Container >
             <Links>
-                <A to="/category/women">WOMEN</A>
-                <A to="/category/men">MAN</A>
-                <A to="/category/kids">KIDS</A>
+                <A to="/women">WOMEN</A>
+                <A to="/men">MAN</A>
+                <A to="/kids">KIDS</A>
             </Links>
-            
-            <Icon src={icon} alt="icon" />
-            
-            <SettingsContaier>
+            <A to="/">
+                <Icon src={icon} alt="icon" />
+            </A>
+                
+            <SettingsContaier >
                 <CurrencyContainer >
-                    <Currency>$</Currency>
+                    <Currency onClick={() => this.toggle(currenciesKey, 0)}>$</Currency>
                     <Arrow src={arrow} alt="arrow-button" />
-                    <CurrencyToggler />
+                    <CurrencyToggler currenciesKey={currenciesKey} toggleOutsideClick={this.toggleOutsideClick} state={this.state.currenciesToggler}/>
                 </CurrencyContainer>
                 
-                <CartButton>
+                <CartButton onClick={() => this.toggle(cartKey, 1)}>
                     <CartIcon src={cart} alt="cart-icon" />
                     <ItemsAmount>14</ItemsAmount>
                 </CartButton>
              
-                <CartOverlay />
+                <CartOverlay state={this.state.cartToggler} />
 
             </SettingsContaier>
         </Container>

@@ -1,14 +1,16 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import prod from "../../../assets/prod.png";
 import whitecart from "../../../assets/whitecart.png";
+import { Link } from "react-router-dom";
 
-const ItemContainer = styled.div`
+const ItemContainer = styled(Link)`
     height: 25vw;
     width: 20vw;
     padding: 16px;
     transition: .2s all;
     position: relative;
+    text-decoration: none;
+    color: black;
 
     &:hover{ 
         box-shadow: 0px 4px 35px 0px #A8ACB030;
@@ -82,15 +84,17 @@ const CartIcon = styled.img`
 class Item extends Component {
     
     render(){
+        const {id ,name, price, imageUrl} = this.props.item
+        const { category } = this.props; 
         return(
-            <ItemContainer>
-                <ItemImage style={{backgroundImage: `url(${prod})`}}>
+            <ItemContainer to={`${category}/${id}`}>
+                <ItemImage style={{backgroundImage: `url(${imageUrl})`}}>
                 <AddToCartButton>
                     <CartIcon src={whitecart} alt="add-to-cart-button" />
                 </AddToCartButton>
                 </ItemImage>
-                <Title>Apollo Running Short</Title>
-                <Price>50.00$</Price>
+                <Title>{name}</Title>
+                <Price>{price}$</Price>
             </ItemContainer>
         )
     }

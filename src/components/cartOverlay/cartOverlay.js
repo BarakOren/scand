@@ -2,8 +2,9 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import CartOverlayItem from "./cartOverlayItem";
 
+
 const Container = styled.div`
-display: none; 
+    display: ${p => p.display ? "block" : "none"}; 
     min-height: 300px;
     width: 325px;
     padding: 32px 16px;
@@ -74,7 +75,7 @@ class CartOverlay extends Component {
 
     render(){
         return(
-            <Container>
+            <Container display={this.props.state}>
                 <MyBag>My Bag,<ItemCount> 3 items</ItemCount></MyBag>
                 <CartOverlayItem />
                 <CartOverlayItem />

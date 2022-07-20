@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import styled, {createGlobalStyle} from "styled-components";
 import Header from "./components/header";
-import {Routes,Route} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import CategoryPage from "./pages/categorypage/categorypage";
 import Home from "./pages/home";
 import ItemPage from "./pages/itempage/itempage";
@@ -33,16 +33,19 @@ class App extends Component {
     return (
       <AppContainer >
         <GlobalStyle />
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/category/:category" element={<CategoryPage />} />
-          <Route path="/category/:category" render={(props) => <CategoryPage {...props} />}/> 
-          <Route path="/itempage" element={<ItemPage/>} />
-          <Route path="/cart" element={<CartPage/>} />
-          <Route path="*" element={<Error/>} />
-        </Routes>
-        {/* add switch */}
+        <Router>
+          <>
+          <Header />
+          <Switch>
+            <Route exact path="/"><Home /></Route>
+            <Route exact path="/:category"><CategoryPage /></Route>
+            <Route exact path="/:category/:id"><ItemPage /></Route>
+            <Route exact path="/cart"><CartPage /></Route>
+            <Route exact path="*"><Error /></Route>
+          </Switch>
+          </>
+        </Router>
+        
       </AppContainer>
     );
   }

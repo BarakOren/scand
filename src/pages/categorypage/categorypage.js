@@ -2,10 +2,12 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import Item from "./components/item";
 import { withRouter } from 'react-router-dom'
+import {fakedata} from "../../fakedata";
+
+
 const Page = styled.div`
     width: 100%;
-    height: 85vh;
-
+    padding-bottom: 50px;
 `
 
 const CategoryTitle = styled.h1`
@@ -44,24 +46,18 @@ const DummieItem = styled.div`
 
 
 class CategoryPage extends Component {
-    componentDidMount(){
-        console.log(this.props);
-        console.log(this.props.match.params.id);
-      }
 
     render(){
+        const param = this.props.match.params.category
         return(
             <Page>
-                <CategoryTitle>Women</CategoryTitle>
+                <CategoryTitle>{param}</CategoryTitle>
                 <ItemsContainer>
-                    <Item /><Item /><Item /><Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <DummieItem />
+                    {fakedata[param].map((item, index) => {
+                        return <Item item={item} key={index} category={param}/>
+                    })}
+                    {fakedata[param].length % 3 !== 0 && <DummieItem />}
                 </ItemsContainer>
-                
             </Page>
         )
     }

@@ -23,9 +23,30 @@ const Currency = styled.button`
 
 class CurrencyToggler extends Component {
 
+    // constructor(props) {
+    //     super(props);
+    
+    //     this.wrapperRef = React.createRef();
+    //     this.handleClickOutside = this.handleClickOutside.bind(this);
+    //   }
+    
+    //   componentDidMount() {
+    //     document.addEventListener("mousedown", this.handleClickOutside);
+    //   }
+    
+    //   componentWillUnmount() {
+    //     document.removeEventListener("mousedown", this.handleClickOutside);
+    //   }
+  
+    //   handleClickOutside(event) {
+    //     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+    //       this.props.toggleOutsideClick(this.props.currenciesKey)
+    //     }
+    //   }
+
     render(){
         return(
-            <Container >
+            <Container ref={this.wrapperRef} display={this.props.state} >
                 <Currency>&#x24; USD</Currency>
                 <Currency style={{background: "#EEEEEE"}}>&#x20AC; EUR</Currency>
                 <Currency>&#xa5; JPY</Currency>

@@ -1,0 +1,4 @@
+export const cartTypes = {
+    TOGGLE_OVERLAY: 'TOGGLE_OVERLAY',
+    ADD_PRODUCT_TO_CART: 'ADD_PRODUCT_TO_CART',
+  }

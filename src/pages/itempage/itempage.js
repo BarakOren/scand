@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import prod from "../../assets/prod.png";
+import { fakedata } from "../../fakedata";
+import { withRouter } from 'react-router-dom'
 
 const Page = styled.div`
     width: 100%;
@@ -142,16 +143,18 @@ const Description = styled.p`
 class ItemPage extends Component {
 
     render(){
+        const {id, category} = this.props.match.params
+        const data = fakedata[category].reduce( item => id === item.id)
         return(
             <Page>
                 <ImagesContainer>
-                    <SmallImage style={{backgroundImage: `url(${prod})`}} />
-                    <SmallImage style={{backgroundImage: `url(${prod})`}} />
-                    <SmallImage style={{backgroundImage: `url(${prod})`}} />
+                    <SmallImage style={{backgroundImage: `url(${data.imageUrl})`}} />
+                    <SmallImage style={{backgroundImage: `url(${data.imageUrl})`}} />
+                    <SmallImage style={{backgroundImage: `url(${data.imageUrl})`}} />
                 </ImagesContainer>
-                <SelectedImage style={{backgroundImage: `url(${prod})`}} />
+                <SelectedImage style={{backgroundImage: `url(${data.imageUrl})`}} />
                 <DetailsContainer>
-                    <ItemName>Apollo</ItemName>
+                    <ItemName>{data.name}</ItemName>
                     <SubName>Running Short</SubName>
 
                     <Label>Size:</Label>
@@ -170,7 +173,7 @@ class ItemPage extends Component {
                     </OptionsContainer>
                    
                     <Label style={{marginTop: "30px"}}>Price:</Label>
-                    <Price>$200.00</Price>
+                    <Price>${data.price}</Price>
 
                     <Button>ADD TO CART</Button>
 
@@ -183,4 +186,4 @@ class ItemPage extends Component {
     }
 }
 
-export default ItemPage;
+export default withRouter(ItemPage);
