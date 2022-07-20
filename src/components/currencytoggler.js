@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 
 const Container = styled.div`
-    display: ${p => p.display ? "block" : "none"};
+    display: ${p => p.display === "on" ? "block" : "none"};
     height: 130px;
     width: 100px;
     padding: 6px 0;
@@ -45,8 +46,10 @@ class CurrencyToggler extends Component {
     //   }
 
     render(){
+        const {state,currenciesToggle} = this.props
+        console.log(currenciesToggle)
         return(
-            <Container ref={this.wrapperRef} display={this.props.state} >
+            <Container ref={this.wrapperRef} display={currenciesToggle ? "on" : "off"} >
                 <Currency>&#x24; USD</Currency>
                 <Currency style={{background: "#EEEEEE"}}>&#x20AC; EUR</Currency>
                 <Currency>&#xa5; JPY</Currency>
@@ -55,4 +58,13 @@ class CurrencyToggler extends Component {
     }
 }
 
-export default CurrencyToggler;
+const mapStateToProps = store => ({
+    currenciesToggle: store.currencies.popupToggle
+})
+
+
+const mapDispatchToProps = dispatch => ({
+
+});
+  
+export default connect(mapStateToProps,mapDispatchToProps)(CurrencyToggler);

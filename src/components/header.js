@@ -6,16 +6,19 @@ import cart from "../assets/cart.png";
 import arrow from "../assets/arrow.png";
 import CurrencyToggler from "./currencytoggler";
 import CartOverlay from "./cartOverlay/cartOverlay";
+import { connect } from "react-redux";
+import { toggleOverlay } from "../redux/cart/actions";
+import { popupToggle } from "../redux/currencies/actions";
 
 
 const Container = styled.nav`
-    /* border: 1px solid black; */
     width: 100%;
     height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: relative;
+    z-index: 5;
 `
 
 const Links = styled.div`
@@ -99,7 +102,7 @@ const Currency = styled.button`
     border: none;
     background: none;
     font-size: 20px;
-
+    cursor: pointer;
 `
 
 const Arrow = styled.img`
@@ -108,38 +111,18 @@ const Arrow = styled.img`
 `
 
 class Header extends Component {
-    
-    constructor() {
-        super()
-        this.state = {
-          cartToggler: false,
-          currenciesToggler: true
-        }
-      }
-
-      toggle(popup, popupnum){
-            //to make sure both togglers wont open up at the same time,
-            // "closeOther" get the other toggler and close it.   
-          const closeOther = Object.keys(this.state)[popupnum]
-          this.setState({
-                [popup]: !this.state[popup],
-                [closeOther]: closeOther === true && false
-          })
-      }
-
-      toggleOutsideClick(popup){
-        // closing the window in case the user clicks outside of the popup while its open.
-        if(this.state[popup] === true){
-            console.log(this.state[popup])
-             this.setState({
-                [popup]: false
-            })
-        }
-      }
 
     render(){
-        const cartKey = Object.keys(this.state)[0]
-        const currenciesKey = Object.keys(this.state)[1]
+        const {toggleCart, popupToggle, cartOverlayToggle, currenciesToggle} = this.props;
+        
+        function toggleCartFunction(){
+            toggleCart(); if(currenciesToggle === true){popupToggle()}
+        }
+
+        function toggleCurrenciesFunction(){
+            popupToggle(); if(cartOverlayToggle === true){toggleCart()}
+        }
+
       return (
         <Container >
             <Links>
@@ -153,17 +136,17 @@ class Header extends Component {
                 
             <SettingsContaier >
                 <CurrencyContainer >
-                    <Currency onClick={() => this.toggle(currenciesKey, 0)}>$</Currency>
-                    <Arrow src={arrow} alt="arrow-button" />
-                    <CurrencyToggler currenciesKey={currenciesKey} toggleOutsideClick={this.toggleOutsideClick} state={this.state.currenciesToggler}/>
+                    <Currency onClick={toggleCurrenciesFunction}>$</Currency>
+                    <Arrow onClick={toggleCurrenciesFunction} src={arrow} alt="arrow-button" />
+                    <CurrencyToggler />
                 </CurrencyContainer>
                 
-                <CartButton onClick={() => this.toggle(cartKey, 1)}>
+                <CartButton onClick={toggleCartFunction} >
                     <CartIcon src={cart} alt="cart-icon" />
                     <ItemsAmount>14</ItemsAmount>
                 </CartButton>
              
-                <CartOverlay state={this.state.cartToggler} />
+                <CartOverlay />
 
             </SettingsContaier>
         </Container>
@@ -172,5 +155,14 @@ class Header extends Component {
     
   }
 
+const mapStateToProps = store => ({
+    cartOverlayToggle: store.cart.overlayToggler,
+    currenciesToggle: store.currencies.popupToggle
+})
+
+const mapDispatchToProps = dispatch => ({
+    toggleCart: () => dispatch(toggleOverlay()),
+    popupToggle: () => dispatch(popupToggle())
+});
   
-  export default Header;
+export default connect(mapStateToProps,mapDispatchToProps)(Header);

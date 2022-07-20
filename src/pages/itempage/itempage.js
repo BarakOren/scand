@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import { fakedata } from "../../fakedata";
 import { withRouter } from 'react-router-dom'
+import { connect } from "react-redux";
+import {AddToCart} from "../../redux/cart/actions";
 
 const Page = styled.div`
     width: 100%;
@@ -144,7 +146,9 @@ class ItemPage extends Component {
 
     render(){
         const {id, category} = this.props.match.params
-        const data = fakedata[category].reduce( item => id === item.id)
+        const {AddToCart} = this.props;
+        const data = fakedata[category].reduce(item => id === item.id)
+
         return(
             <Page>
                 <ImagesContainer>
@@ -175,7 +179,7 @@ class ItemPage extends Component {
                     <Label style={{marginTop: "30px"}}>Price:</Label>
                     <Price>${data.price}</Price>
 
-                    <Button>ADD TO CART</Button>
+                    <Button onClick={() => AddToCart(data)}>ADD TO CART</Button>
 
                     <Description>Find stunning women's cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses and party dresses from all your favorite brands.</Description>
 
@@ -186,4 +190,15 @@ class ItemPage extends Component {
     }
 }
 
-export default withRouter(ItemPage);
+const mapStateToProps = store => ({
+    // cartOverlayToggle: store.cart.overlayToggler,
+    // currenciesToggle: store.currencies.popupToggle
+})
+
+const mapDispatchToProps = dispatch => ({
+    AddToCart: (item) => dispatch(AddToCart(item))
+});
+  
+
+const ItemPageWithRouter = withRouter(ItemPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ItemPageWithRouter);

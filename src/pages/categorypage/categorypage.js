@@ -3,7 +3,8 @@ import styled from "styled-components";
 import Item from "./components/item";
 import { withRouter } from 'react-router-dom'
 import {fakedata} from "../../fakedata";
-
+import { connect } from "react-redux";
+import {popupToggle} from "../../redux/currencies/actions";
 
 const Page = styled.div`
     width: 100%;
@@ -44,10 +45,16 @@ const DummieItem = styled.div`
 `
 
 
-
 class CategoryPage extends Component {
 
+    // componentDidUpdate(prevProps) {
+    //     if (prevProps.match.params.category !== this.props.match.params.category) {
+    //       console.log("h")
+    //     }
+    // }
+
     render(){
+        
         const param = this.props.match.params.category
         return(
             <Page>
@@ -63,4 +70,13 @@ class CategoryPage extends Component {
     }
 }
 
-export default withRouter(CategoryPage);
+const mapStateToProps = store => ({
+    cartOverlay: store.cart.overlayToggler
+})
+
+const mapDispatchToProps = dispatch => ({
+    popupToggle: () => dispatch(popupToggle())
+})
+
+const CategoryWithRouter = withRouter(CategoryPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryWithRouter);

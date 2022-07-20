@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import whitecart from "../../../assets/whitecart.png";
 import { Link } from "react-router-dom";
+import {AddToCart} from "../../../redux/cart/actions"
 
 const ItemContainer = styled(Link)`
     height: 25vw;

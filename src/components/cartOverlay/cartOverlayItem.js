@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import prod from "../../assets/prod.png";
+import { connect } from "react-redux";
+import { AddToCart, RemoveFromCart } from "../../redux/cart/actions";
 
 const Container = styled.div`
     height: 190px;
@@ -111,6 +113,9 @@ const ItemImage = styled.div`
 class CartOverlayItem extends Component {
 
     render(){
+
+        const {item, addToCart, removeFromCart} = this.props;
+
         return(
             <Container>
                 <LeftColumn>
@@ -132,9 +137,9 @@ class CartOverlayItem extends Component {
                 </LeftColumn>
 
                 <MiddleCol>
-                    <AmountButton>+</AmountButton>
+                    <AmountButton onClick={() => addToCart(item)}>+</AmountButton>
                     <CurrentAmount>1</CurrentAmount>
-                    <AmountButton>-</AmountButton>
+                    <AmountButton onClick={() => removeFromCart(item)}>-</AmountButton>
                 </MiddleCol>
 
                 <ItemImage style={{backgroundImage: `url(${prod})`}} />
@@ -144,4 +149,14 @@ class CartOverlayItem extends Component {
     }
 }
 
-export default CartOverlayItem;
+const mapStateToProps = store => ({
+    // cart: store.cart.cart,
+    // cartOverlayToggle: store.cart.overlayToggler,
+})
+
+const mapDispatchToProps = dispatch => ({
+    addToCart: (item) => dispatch(AddToCart(item)),
+    removeFromCart: (item) => dispatch(RemoveFromCart(item)),
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(CartOverlayItem);

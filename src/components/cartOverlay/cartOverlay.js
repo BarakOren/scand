@@ -1,10 +1,12 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import CartOverlayItem from "./cartOverlayItem";
+import {Link} from "react-router-dom";
+import { connect } from "react-redux";
 
 
 const Container = styled.div`
-    display: ${p => p.display ? "block" : "none"}; 
+    display: ${p => p.display === "on" ? "block" : "none"}; 
     min-height: 300px;
     width: 325px;
     padding: 32px 16px;
@@ -56,7 +58,8 @@ const ButtonContainer = styled.div`
     align-items:center;
 `
 
-const Button = styled.div`
+const Button = styled(Link)`
+    text-decoration: none;
     width: 40%;
     height: 100%;
     border: 1px solid ${p => p.border};
@@ -70,26 +73,41 @@ const Button = styled.div`
     cursor: pointer;
 `
 
+const NoItems = styled.p`
+    font-size: 1.2em;
+`
 
 class CartOverlay extends Component {
 
     render(){
+        const {cart, cartOverlayToggle} = this.props
         return(
-            <Container display={this.props.state}>
+            <Container display={cartOverlayToggle ? "on" : "off"}>
                 <MyBag>My Bag,<ItemCount> 3 items</ItemCount></MyBag>
-                <CartOverlayItem />
-                <CartOverlayItem />
+                
+                {cart.length === 0 && <NoItems>no items, yet...</NoItems>}
+
+                {cart.length > 0 && cart.map((item, index) => {
+                    return <CartOverlayItem key={index} item={item}/>
+                })}
+
                 <TotalContainer>
                     <TotalText>Total:</TotalText>
                     <TotalPrice>$200</TotalPrice>
                 </TotalContainer>
                 <ButtonContainer>
-                    <Button bg={"white"} color={"#1D1F22"} border={"#1D1F22"}>View bag</Button>
-                    <Button bg={"#5ECE7B"} color={"white"} border={"#5ECE7B"}>CHECK OUT</Button>
+                    <Button to="/cart" bg={"white"} color={"#1D1F22"} border={"#1D1F22"}>View bag</Button>
+                    <Button to="/cart" bg={"#5ECE7B"} color={"white"} border={"#5ECE7B"}>CHECK OUT</Button>
                 </ButtonContainer>
             </Container>
         )
     }
 }
 
-export default CartOverlay;
+const mapStateToProps = store => ({
+    cart: store.cart.cart,
+    cartOverlayToggle: store.cart.overlayToggler,
+})
+
+
+export default connect(mapStateToProps)(CartOverlay);
