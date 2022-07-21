@@ -47,18 +47,12 @@ const DummieItem = styled.div`
 
 class CategoryPage extends Component {
 
-    // componentDidUpdate(prevProps) {
-    //     if (prevProps.match.params.category !== this.props.match.params.category) {
-    //       console.log("h")
-    //     }
-    // }
-
     render(){
         
         const param = this.props.match.params.category
         return(
             <Page>
-                <CategoryTitle>{param}</CategoryTitle>
+                <CategoryTitle>{param.toUpperCase()}</CategoryTitle>
                 <ItemsContainer>
                     {fakedata[param].map((item, index) => {
                         return <Item item={item} key={index} category={param}/>

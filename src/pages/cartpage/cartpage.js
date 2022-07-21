@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import CartItem from "./cartitem";
+import { connect } from "react-redux";
 
 const Page = styled.div`
     width: 100%;
@@ -41,20 +42,30 @@ const Button = styled.button`
     cursor: pointer;
 `
 
+const NoItems = styled.h1`
+    font-size: 4em;
+    margin: 10vh 0;
+`
 
 class CartPage extends Component {
 
 
     render(){
+        const {cart} = this.props;
+        const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
+        const total =  cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity * cartItem.price, 0)
+        const tax = (21 / 100) * total
         return(
             <Page>
                 <Title>Cart</Title>
-                <CartItem />
-                <CartItem />
+                {cart.length === 0 && <NoItems>No Items..</NoItems>}
+                {cart.map((item, index) => {
+                    return <CartItem key={index} item={item} /> 
+                })}
                 <OrderContainer>
-                    <Text>Tax 21%: <Bold>$42</Bold></Text>
-                    <Text>Quantity: <Bold>3</Bold></Text>
-                    <Text>Total: <Bold>$200.00</Bold></Text>
+                    <Text>Tax 21%: <Bold>${tax}</Bold></Text>
+                    <Text>Quantity: <Bold>{quantity}</Bold></Text>
+                    <Text>Total: <Bold>${total}</Bold></Text>
                 <Button>Order</Button>
                 </OrderContainer>
             </Page>
@@ -62,4 +73,13 @@ class CartPage extends Component {
     }
 }
 
-export default CartPage;
+const mapStateToProps = store => ({
+    cart: store.cart.cart,
+})
+
+const mapDispatchToProps = dispatch => ({
+    // toggleCart: () => dispatch(toggleOverlay()),
+});
+  
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartPage);

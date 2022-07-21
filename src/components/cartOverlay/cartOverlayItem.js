@@ -115,7 +115,6 @@ class CartOverlayItem extends Component {
     render(){
 
         const {item, addToCart, removeFromCart} = this.props;
-
         return(
             <Container>
                 <LeftColumn>
@@ -138,7 +137,7 @@ class CartOverlayItem extends Component {
 
                 <MiddleCol>
                     <AmountButton onClick={() => addToCart(item)}>+</AmountButton>
-                    <CurrentAmount>1</CurrentAmount>
+                    <CurrentAmount>{item.quantity || "0"}</CurrentAmount>
                     <AmountButton onClick={() => removeFromCart(item)}>-</AmountButton>
                 </MiddleCol>
 

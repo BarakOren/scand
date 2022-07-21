@@ -3,18 +3,38 @@ import styled from "styled-components";
 import CartOverlayItem from "./cartOverlayItem";
 import {Link} from "react-router-dom";
 import { connect } from "react-redux";
-
+import {toggleOverlay} from "../../redux/cart/actions"
 
 const Container = styled.div`
     display: ${p => p.display === "on" ? "block" : "none"}; 
-    min-height: 300px;
+    min-height: 30vh;
+    max-height: 70vh;
     width: 325px;
     padding: 32px 16px;
     background-color: white;
     position: absolute;
-    right: -20px;
+    right: 4vw;
     top: 80px;
     z-index: 2;
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+    width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+    background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    }
 `
 
 const MyBag = styled.h2`
@@ -77,10 +97,13 @@ const NoItems = styled.p`
     font-size: 1.2em;
 `
 
+
+
 class CartOverlay extends Component {
 
     render(){
-        const {cart, cartOverlayToggle} = this.props
+        const {cart, cartOverlayToggle, toggleCart} = this.props
+        const total =  cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity * cartItem.price, 0)
         return(
             <Container display={cartOverlayToggle ? "on" : "off"}>
                 <MyBag>My Bag,<ItemCount> 3 items</ItemCount></MyBag>
@@ -93,11 +116,11 @@ class CartOverlay extends Component {
 
                 <TotalContainer>
                     <TotalText>Total:</TotalText>
-                    <TotalPrice>$200</TotalPrice>
+                    <TotalPrice>${total}</TotalPrice>
                 </TotalContainer>
                 <ButtonContainer>
-                    <Button to="/cart" bg={"white"} color={"#1D1F22"} border={"#1D1F22"}>View bag</Button>
-                    <Button to="/cart" bg={"#5ECE7B"} color={"white"} border={"#5ECE7B"}>CHECK OUT</Button>
+                    <Button onClick={toggleCart} to="/cart" bg={"white"} color={"#1D1F22"} border={"#1D1F22"}>View bag</Button>
+                    <Button onClick={toggleCart} to="/cart" bg={"#5ECE7B"} color={"white"} border={"#5ECE7B"}>CHECK OUT</Button>
                 </ButtonContainer>
             </Container>
         )
@@ -109,5 +132,9 @@ const mapStateToProps = store => ({
     cartOverlayToggle: store.cart.overlayToggler,
 })
 
+const mapDispatchToProps = dispatch => ({
+    toggleCart: () => dispatch(toggleOverlay()),
+});
+  
 
-export default connect(mapStateToProps)(CartOverlay);
+export default connect(mapStateToProps, mapDispatchToProps)(CartOverlay);

@@ -27,7 +27,7 @@ const AppContainer = styled.div`
 const Shader = styled.div`
   display: ${p => p.display === "on" ? "block" : "none"};
   position: fixed;
-  top: 80px;
+  top: 0;
   left: 0;
   z-index: 1;
   width: 100vw;
@@ -36,9 +36,9 @@ const Shader = styled.div`
 `
 
 class App extends Component {
-  
+
   render(){
-  
+
     const { cartOverlayToggle } = this.props;
     return (
       <AppContainer >
@@ -46,16 +46,16 @@ class App extends Component {
         <Router>
           <>
           <Header />
-          <Shader display={cartOverlayToggle ? "on" : "off"} />
           <Switch>
             <Route exact path="/"><Home /></Route>
+            <Route exact path="/cart"><CartPage /></Route>
             <Route exact path="/:category" component={(props) => <CategoryPage {...props} />}/>
             <Route exact path="/:category/:id"><ItemPage /></Route>
-            <Route exact path="/cart"><CartPage /></Route>
             <Route exact path="*"><Error /></Route>
           </Switch>
           </>
         </Router>
+          <Shader display={cartOverlayToggle ? "on" : "off"} />
         
       </AppContainer>
     );

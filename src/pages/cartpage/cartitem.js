@@ -1,7 +1,10 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import prod from "../../assets/prod.png";
-import arrow from "../../assets/whitecart.png";
+import arrow from "../../assets/whitearrow.png";
+import { connect } from "react-redux";
+import { AddToCart, RemoveFromCart } from "../../redux/cart/actions";
+
 
 const ItemContainer = styled.div`
     padding: 24px 0;
@@ -141,23 +144,31 @@ const ImageArrowButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 `
 
 const Arrow = styled.img`
     width: 60%;
     height: auto;
     transform: ${p => p.left ? "" : "rotate(180deg)"};
+
 `
 
 class CartItem extends Component {
 
     render(){
+
+        const {item, addToCart, removeFromCart} = this.props;
+        // onClick={() => removeFromCart(item)
+        // onClick={() => addToCart(item)
+
+        console.log(item)
         return(
         <ItemContainer>
             <DetailsContainer>
-                <ItemName>Apollo</ItemName>
+                <ItemName>{item.name}</ItemName>
                 <SubName>Running Short</SubName>
-                <Price>$200.00</Price>
+                <Price>${item.price}</Price>
                 <Label>Size:</Label>
                 <OptionsContainer>
                     <SizeOption>S</SizeOption>
@@ -175,9 +186,9 @@ class CartItem extends Component {
 
                 <RightSide>
                     <MiddleCol>
-                        <AmountButton>+</AmountButton>
-                        <CurrentAmount>1</CurrentAmount>
-                        <AmountButton>-</AmountButton>
+                        <AmountButton onClick={() => addToCart(item)}>+</AmountButton>
+                        <CurrentAmount>{item.quantity || "0"}</CurrentAmount>
+                        <AmountButton onClick={() => removeFromCart(item)}>-</AmountButton>
                     </MiddleCol>
                     <ItemImage style={{backgroundImage: `url(${prod})`}}>
                         <ImageArrowButton><Arrow src={arrow} alt="left" /></ImageArrowButton>
@@ -190,4 +201,11 @@ class CartItem extends Component {
     }
 }
 
-export default CartItem;
+const mapDispatchToProps = dispatch => ({
+    addToCart: (item) => dispatch(AddToCart(item)),
+    removeFromCart: (item) => dispatch(RemoveFromCart(item)),
+});
+
+export default connect(null,mapDispatchToProps)(CartItem);
+
+

@@ -2,23 +2,29 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import icon from "../assets/icon.png";
-import cart from "../assets/cart.png";
+import cartimg from "../assets/cart.png";
 import arrow from "../assets/arrow.png";
 import CurrencyToggler from "./currencytoggler";
 import CartOverlay from "./cartOverlay/cartOverlay";
 import { connect } from "react-redux";
 import { toggleOverlay } from "../redux/cart/actions";
 import { popupToggle } from "../redux/currencies/actions";
+import { withRouter } from 'react-router-dom';
 
 
 const Container = styled.nav`
     width: 100%;
+    padding: 0 6%;
     height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: relative;
-    z-index: 5;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background-color: white;
 `
 
 const Links = styled.div`
@@ -41,7 +47,7 @@ const A = styled(Link)`
     width: 81px;
     color: black;
     text-decoration: none;
-    /* selected: #5ECE7B */
+    padding: 0 15px;
 `
 
 const Icon = styled.img`
@@ -110,11 +116,39 @@ const Arrow = styled.img`
     width: auto;
 `
 
+const Shader = styled.div`
+  display: ${p => p.display === "on" ? "block" : "none"};
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -5;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0,0,0, 0.22);
+`
+
 class Header extends Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            param: this.props.location.pathname
+        }
+    }
+
+    componentWillMount() {
+        this.unlisten = this.props.history.listen((location, action) => {
+            this.setState({ param : "/" + location.pathname.split('/')[1] })
+        });
+      }
+
+    componentWillUnmount() {
+        this.unlisten();
+    }
+
     render(){
-        const {toggleCart, popupToggle, cartOverlayToggle, currenciesToggle} = this.props;
-        
+        const { cart, toggleCart, popupToggle, cartOverlayToggle, currenciesToggle} = this.props;
+
         function toggleCartFunction(){
             toggleCart(); if(currenciesToggle === true){popupToggle()}
         }
@@ -123,14 +157,22 @@ class Header extends Component {
             popupToggle(); if(cartOverlayToggle === true){toggleCart()}
         }
 
+        const links = [
+            'women', 'men', 'kids'
+        ]
+
+        const param = this.state.param
+
+        const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
+
       return (
         <Container >
             <Links>
-                <A to="/women">WOMEN</A>
-                <A to="/men">MAN</A>
-                <A to="/kids">KIDS</A>
+                {links.map((link, index) => {
+                    return <A style={{color: param === `/${link}` && "#5ECE7B", borderBottom: param === `/${link}` && "1px solid #5ECE7B"}} key={index} to={`/${link}`}>{link.toUpperCase()}</A>
+                })}
             </Links>
-            <A to="/">
+            <A to="/" >
                 <Icon src={icon} alt="icon" />
             </A>
                 
@@ -142,13 +184,15 @@ class Header extends Component {
                 </CurrencyContainer>
                 
                 <CartButton onClick={toggleCartFunction} >
-                    <CartIcon src={cart} alt="cart-icon" />
-                    <ItemsAmount>14</ItemsAmount>
+                    <CartIcon src={cartimg} alt="cart-icon" />
+                    {cart.length > 0 && <ItemsAmount>{quantity}</ItemsAmount>}
                 </CartButton>
              
                 <CartOverlay />
 
             </SettingsContaier>
+            {/* <Shader display={cartOverlayToggle ? "on" : "off"} /> */}
+
         </Container>
       );
     }
@@ -157,7 +201,8 @@ class Header extends Component {
 
 const mapStateToProps = store => ({
     cartOverlayToggle: store.cart.overlayToggler,
-    currenciesToggle: store.currencies.popupToggle
+    currenciesToggle: store.currencies.popupToggle,
+    cart: store.cart.cart
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -165,4 +210,6 @@ const mapDispatchToProps = dispatch => ({
     popupToggle: () => dispatch(popupToggle())
 });
   
-export default connect(mapStateToProps,mapDispatchToProps)(Header);
+
+const HeaderWithRouter = withRouter(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderWithRouter);
