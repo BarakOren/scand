@@ -196,8 +196,17 @@ class ItemPage extends Component {
 
         const handleSubmit = (e) => {
             e.preventDefault();
-            AddToCart(data)
+            const obj = {
+                id: data.id,
+                name: data.name,
+                price: data.price,
+                size: this.state.size,
+                color: this.state.color,
+                images: data.images
+            }
+            AddToCart(obj)
         }
+
 
         return(
             <Page>
@@ -205,7 +214,6 @@ class ItemPage extends Component {
                     {data.images.map((image, index) => {
                         return <SmallImage key={index} onClick={() => switchImages(image)} style={{backgroundImage: `url(${image})`}} /> 
                     })}
-                  
                 </ImagesContainer>
                 <SelectedImage style={{backgroundImage: `url(${currentImage ? currentImage : data.images[0]})`}} />
                 <DetailsContainer>
@@ -217,8 +225,10 @@ class ItemPage extends Component {
                         <OptionsContainer onChange={handleSizeChange}>
                             {data.sizes.map((size) => {
                                 return <SizeOption 
+                                onChange={handleColorChange}
                                 type="radio"
                                 key={size}
+                                required 
                                 value={size} 
                                 checked={this.state.size === size}
                                 ></SizeOption>
@@ -229,8 +239,10 @@ class ItemPage extends Component {
                         <OptionsContainer onChange={handleColorChange} style={{justifyContent: "flex-start"}}>
                             {data.colors.map((color) => {
                                 return <ColorOption 
+                                onChange={handleColorChange}
                                 key={color} 
                                 bg={color}
+                                required
                                 type="radio"
                                 value={color} 
                                 checked={this.state.color === color}
