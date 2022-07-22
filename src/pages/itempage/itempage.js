@@ -75,6 +75,7 @@ const Label = styled.p`
     font-size: 18px;
     font-weight: 700;
     margin: 6px 0;
+    color: #1D1F22;
 `
 
 const OptionsContainer = styled.div`
@@ -86,11 +87,10 @@ const OptionsContainer = styled.div`
    
 `
 
-const SizeOption = styled.button`
+const SizeOption = styled.input`
     width: 63px;
     height: 45px;
     font-family: Source Sans Pro;
-    font-size: 14px;
     font-weight: 400;
     text-align: center;
     border: 1px solid #1D1F22;
@@ -99,17 +99,33 @@ const SizeOption = styled.button`
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    -webkit-appearance: none;
+    margin: 0;
+
+    &:after {
+        content: "${p => p.value}";
+        font-size: 16px;
+    }
+
+    &:checked {
+        background: #1D1F22;
+        color: white;
+    }
 `
 
 
-const ColorOption = styled.button`
+const ColorOption = styled.input`
     cursor: pointer;
     height: 32px;
     width: 32px;
     background-color: ${p => p.bg};
-    outline: 1px solid #5ECE7B;
     outline-offset: 1px;
     border: none;
+    -webkit-appearance: none;
+
+    &:checked {
+        outline: 1px solid #5ECE7B;
+    }
 `
 
 const Price = styled.p`
@@ -142,45 +158,92 @@ const Description = styled.p`
     line-height: 26px;
 `
 
+const Form = styled.form`
+    width: 100%;
+    text-align: left;
+
+`
+
 class ItemPage extends Component {
+
+    constructor() {
+        super()
+        this.state = {
+          currentImage: null,
+          size: '',
+          color: ''
+        }
+    }
+
+
 
     render(){
         const {id, category} = this.props.match.params
         const {AddToCart} = this.props;
+        const {currentImage} = this.state
         const data = fakedata[category].reduce(item => id === item.id)
+  
+        const switchImages = (currentImage) => {this.setState({ currentImage })}
+        
+        const handleSizeChange = (e) => {
+            this.setState({size: e.target.value})
+        }
+
+           
+        const handleColorChange = (e) => {
+            this.setState({color: e.target.value})
+        }
+
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            AddToCart(data)
+        }
 
         return(
             <Page>
                 <ImagesContainer>
-                    <SmallImage style={{backgroundImage: `url(${data.imageUrl})`}} />
-                    <SmallImage style={{backgroundImage: `url(${data.imageUrl})`}} />
-                    <SmallImage style={{backgroundImage: `url(${data.imageUrl})`}} />
+                    {data.images.map((image, index) => {
+                        return <SmallImage key={index} onClick={() => switchImages(image)} style={{backgroundImage: `url(${image})`}} /> 
+                    })}
+                  
                 </ImagesContainer>
-                <SelectedImage style={{backgroundImage: `url(${data.imageUrl})`}} />
+                <SelectedImage style={{backgroundImage: `url(${currentImage ? currentImage : data.images[0]})`}} />
                 <DetailsContainer>
                     <ItemName>{data.name}</ItemName>
                     <SubName>Running Short</SubName>
 
-                    <Label>Size:</Label>
-                    <OptionsContainer>
-                        <SizeOption>S</SizeOption>
-                        <SizeOption>M</SizeOption>
-                        <SizeOption>L</SizeOption>
-                        <SizeOption>XL</SizeOption>
-                    </OptionsContainer>
+                    <Form onSubmit={handleSubmit}>
+                        <Label>Size:</Label>
+                        <OptionsContainer onChange={handleSizeChange}>
+                            {data.sizes.map((size) => {
+                                return <SizeOption 
+                                type="radio"
+                                key={size}
+                                value={size} 
+                                checked={this.state.size === size}
+                                ></SizeOption>
+                            })}
+                        </OptionsContainer>
 
-                    <Label>Color:</Label>
-                    <OptionsContainer style={{justifyContent: "flex-start", gap: "0 15px"}}>
-                        <ColorOption bg={"grey"}/>
-                        <ColorOption bg={"grey"}/>
-                        <ColorOption bg={"grey"}/>
-                    </OptionsContainer>
+                        <Label>Color:</Label>
+                        <OptionsContainer onChange={handleColorChange} style={{justifyContent: "flex-start"}}>
+                            {data.colors.map((color) => {
+                                return <ColorOption 
+                                key={color} 
+                                bg={color}
+                                type="radio"
+                                value={color} 
+                                checked={this.state.color === color}
+                                />
+                            })}
+                        </OptionsContainer>
                    
-                    <Label style={{marginTop: "30px"}}>Price:</Label>
-                    <Price>${data.price}</Price>
+                        <Label style={{marginTop: "30px"}}>Price:</Label>
+                        <Price>${data.price}</Price>
 
-                    <Button onClick={() => AddToCart(data)}>ADD TO CART</Button>
-
+                        <Button type="submit">ADD TO CART</Button>
+                    </Form>
+                    
                     <Description>Find stunning women's cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses and party dresses from all your favorite brands.</Description>
 
                 </DetailsContainer>
