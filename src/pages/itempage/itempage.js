@@ -161,8 +161,8 @@ const Description = styled.p`
 const Form = styled.form`
     width: 100%;
     text-align: left;
-
 `
+
 
 class ItemPage extends Component {
 
@@ -231,6 +231,7 @@ class ItemPage extends Component {
                                 type="radio"
                                 key={size}
                                 required 
+                                name="size"
                                 value={size} 
                                 checked={this.state.size === size}
                                 ></SizeOption>
@@ -245,13 +246,13 @@ class ItemPage extends Component {
                                 key={color} 
                                 bg={color}
                                 required
+                                name="color"
                                 type="radio"
                                 value={color} 
                                 checked={this.state.color === color}
                                 />
                             })}
                         </OptionsContainer>
-                   
                         <Label style={{marginTop: "30px"}}>Price:</Label>
                         <Price>${data.price}</Price>
 

@@ -48,6 +48,8 @@ const A = styled(Link)`
     color: black;
     text-decoration: none;
     padding: 0 15px;
+    color: ${p => p.current ? "#5ECE7B" : "black"};
+    border-bottom: ${p => p.current && "1px solid #5ECE7B"}}   
 `
 
 const Icon = styled.img`
@@ -157,19 +159,15 @@ class Header extends Component {
             popupToggle(); if(cartOverlayToggle === true){toggleCart()}
         }
 
-        const links = [
-            'women', 'men', 'kids'
-        ]
-
+        const links = ['women', 'men', 'kids']
         const param = this.state.param
-
         const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
 
       return (
         <Container >
             <Links>
                 {links.map((link, index) => {
-                    return <A style={{color: param === `/${link}` && "#5ECE7B", borderBottom: param === `/${link}` && "1px solid #5ECE7B"}} key={index} to={`/${link}`}>{link.toUpperCase()}</A>
+                    return <A current={param === `/${link}`} key={index} to={`/${link}`}>{link.toUpperCase()}</A>
                 })}
             </Links>
             <A to="/" >
@@ -191,7 +189,6 @@ class Header extends Component {
                 <CartOverlay />
 
             </SettingsContaier>
-            {/* <Shader display={cartOverlayToggle ? "on" : "off"} /> */}
 
         </Container>
       );

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import {changeCurrency, closeToggle} from "../redux/currencies/actions";
 
 const Container = styled.div`
     display: ${p => p.display === "on" ? "block" : "none"};
@@ -17,54 +18,56 @@ const Container = styled.div`
 const Currency = styled.button`
     width: 100%;
     height: 33%;
-    background: none;
+    background: ${p => p.selected ? "#EEEEEE" : "none"};
     border: none;
-    /* #EEEEEE selected */
+    cursor: pointer;
 `
 
 class CurrencyToggler extends Component {
 
-    // constructor(props) {
-    //     super(props);
+
+    constructor(props) {
+        super(props);
     
-    //     this.wrapperRef = React.createRef();
-    //     this.handleClickOutside = this.handleClickOutside.bind(this);
-    //   }
+        this.currencyRef = React.createRef();
+        this.handleClickOutside = this.handleClickOutside.bind(this);
+      }
     
-    //   componentDidMount() {
-    //     document.addEventListener("mousedown", this.handleClickOutside);
-    //   }
+      componentDidMount() {
+        document.addEventListener("mousedown", this.handleClickOutside);
+      }
     
-    //   componentWillUnmount() {
-    //     document.removeEventListener("mousedown", this.handleClickOutside);
-    //   }
-  
-    //   handleClickOutside(event) {
-    //     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
-    //       this.props.toggleOutsideClick(this.props.currenciesKey)
-    //     }
-    //   }
+      componentWillUnmount() {
+        document.removeEventListener("mousedown", this.handleClickOutside);
+      }
+
+      handleClickOutside(event) {
+        if (this.currencyRef && !this.currencyRef.current.contains(event.target)) {
+          this.props.closeToggle();
+        }
+      }
 
     render(){
-        const {state,currenciesToggle} = this.props
-        console.log(currenciesToggle)
+        const {currency ,currenciesToggle, changeCurrency} = this.props 
         return(
-            <Container ref={this.wrapperRef} display={currenciesToggle ? "on" : "off"} >
-                <Currency>&#x24; USD</Currency>
-                <Currency style={{background: "#EEEEEE"}}>&#x20AC; EUR</Currency>
-                <Currency>&#xa5; JPY</Currency>
+            <Container ref={this.currencyRef} display={currenciesToggle ? "on" : "off"} >
+                <Currency onClick={() => changeCurrency('USD')} selected={currency === 'USD'}>&#x24; USD</Currency>
+                <Currency onClick={() => changeCurrency('EUR')} selected={currency === 'EUR'} >&#x20AC; EUR</Currency>
+                <Currency onClick={() => changeCurrency('JPY')} selected={currency === 'JPY'}>&#xa5; JPY</Currency>
             </Container>
         )
     }
 }
 
 const mapStateToProps = store => ({
-    currenciesToggle: store.currencies.popupToggle
+    currenciesToggle: store.currencies.popupToggle,
+    currency: store.currencies.currency
 })
 
 
 const mapDispatchToProps = dispatch => ({
-
+    changeCurrency: (newCurrency) => dispatch(changeCurrency(newCurrency)),
+    closeToggle: () => dispatch(closeToggle())
 });
   
 export default connect(mapStateToProps,mapDispatchToProps)(CurrencyToggler);

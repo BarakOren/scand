@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import prod from "../../assets/prod.png";
 import { connect } from "react-redux";
-import { AddToCart, RemoveFromCart } from "../../redux/cart/actions";
+import { AddToCart, RemoveFromCart, changeSizeOrColor } from "../../redux/cart/actions";
 
 const Container = styled.div`
     height: 190px;
@@ -59,11 +58,11 @@ const SizeOption = styled.button`
     text-align: center;
     border: 1px solid #1D1F22;
     background: ${p => p.selected ? "#1D1F22" : "none"};
+    color: ${p => p.selected ? "white" : "#1D1F22"};
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: ${p => p.selected ? "white" : "#1D1F22"};
     
 `
 
@@ -113,26 +112,28 @@ const ItemImage = styled.div`
 
 
 class CartOverlayItem extends Component {
-
+    
+    
     render(){
+        const {item, addToCart, removeFromCart, changeSizeOrColor} = this.props;
+        const { name, price, size, color, images, colors, sizes, quantity} = item;
 
-        const {item, addToCart, removeFromCart} = this.props;
-        const {id, name, price, size, color, images, colors, sizes, quantity} = item;
         return(
-            <Container>
+            <Container >
                 <LeftColumn>
-                    <ItemTitle>Apollo Running Short</ItemTitle>
+                    <ItemTitle>{name}</ItemTitle>
                     <Price>${price}</Price>
                     <Label>Size:</Label>
                     <OptionsContainer>
-                        {sizes.map((mapSize, index) => {
-                            return <SizeOption selected={mapSize === size}>{mapSize}</SizeOption>
+                        {sizes.map((mapSize) => {
+                            return <SizeOption onClick={() => {changeSizeOrColor(item, "size", mapSize); this.forceUpdate()}}  
+                                    key={mapSize} selected={mapSize === size}>{mapSize}</SizeOption>
                         })}
                     </OptionsContainer>
                     <Label>Color:</Label>
                     <OptionsContainer style={{gap: "0 8px"}}>
-                        {colors.map((colorMap, index) => {
-                            return <ColorOption bg={colorMap} selected={colorMap === color}/>
+                        {colors.map((colorMap) => {
+                            return <ColorOption onClick={() => {changeSizeOrColor(item, "color", colorMap); this.forceUpdate()}} key={colorMap} bg={colorMap} selected={colorMap === color}/>
                         })}
                     </OptionsContainer>
                 </LeftColumn>
@@ -151,13 +152,13 @@ class CartOverlayItem extends Component {
 }
 
 const mapStateToProps = store => ({
-    // cart: store.cart.cart,
-    // cartOverlayToggle: store.cart.overlayToggler,
+//     cart: store.cart.cart,
 })
 
 const mapDispatchToProps = dispatch => ({
     addToCart: (item) => dispatch(AddToCart(item)),
     removeFromCart: (item) => dispatch(RemoveFromCart(item)),
+    changeSizeOrColor: (item, changeType, selected) => dispatch(changeSizeOrColor(item, changeType, selected))
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(CartOverlayItem);

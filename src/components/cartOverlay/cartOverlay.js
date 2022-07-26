@@ -3,7 +3,7 @@ import styled from "styled-components";
 import CartOverlayItem from "./cartOverlayItem";
 import {Link} from "react-router-dom";
 import { connect } from "react-redux";
-import {toggleOverlay} from "../../redux/cart/actions"
+import {toggleOverlay, closeOverlay} from "../../redux/cart/actions"
 
 const Container = styled.div`
     display: ${p => p.display === "on" ? "block" : "none"}; 
@@ -101,12 +101,36 @@ const NoItems = styled.p`
 
 class CartOverlay extends Component {
 
+
+    constructor(props) {
+        super(props);
+    
+        this.wrapperRef = React.createRef();
+        this.handleClickOutside = this.handleClickOutside.bind(this);
+      }
+    
+      componentDidMount() {
+        document.addEventListener("mousedown", this.handleClickOutside);
+      }
+    
+      componentWillUnmount() {
+        document.removeEventListener("mousedown", this.handleClickOutside);
+      }
+
+      handleClickOutside(event) {
+        if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+          this.props.closeOverlay();
+        }
+      }
+
     render(){
         const {cart, cartOverlayToggle, toggleCart} = this.props
         const total =  cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity * cartItem.price, 0)
+        const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
+        
         return(
-            <Container display={cartOverlayToggle ? "on" : "off"}>
-                <MyBag>My Bag,<ItemCount> 3 items</ItemCount></MyBag>
+            <Container display={cartOverlayToggle ? "on" : "off"} ref={this.wrapperRef}>
+                <MyBag>My Bag,<ItemCount> {quantity} items</ItemCount></MyBag>
                 
                 {cart.length === 0 && <NoItems>no items, yet...</NoItems>}
 
@@ -134,6 +158,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
     toggleCart: () => dispatch(toggleOverlay()),
+    closeOverlay: () => dispatch(closeOverlay())
 });
   
 

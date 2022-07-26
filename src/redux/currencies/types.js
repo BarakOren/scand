@@ -1,3 +1,5 @@
 export const currenciesTypes = {
     POPUP_TOGGLE: 'POPUP_TOGGLE',
+    CLOSE_TOGGLE: 'CLOSE_TOGGLE',
+    CHANGE_CURRENCY: 'CHANGE_CURRENCY'
   }

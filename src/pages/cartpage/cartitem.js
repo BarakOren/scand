@@ -3,7 +3,7 @@ import styled from "styled-components";
 import prod from "../../assets/prod.png";
 import arrow from "../../assets/whitearrow.png";
 import { connect } from "react-redux";
-import { AddToCart, RemoveFromCart } from "../../redux/cart/actions";
+import { AddToCart, RemoveFromCart, changeSizeOrColor} from "../../redux/cart/actions";
 
 
 const ItemContainer = styled.div`
@@ -61,11 +61,12 @@ const SizeOption = styled.button`
     font-weight: 400;
     text-align: center;
     border: 1px solid #1D1F22;
-    background: none;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    background: ${p => p.selected ? "#1D1F22" : "none"};
+    color: ${p => p.selected ? "white" : "#1D1F22"};
 `
 
 
@@ -74,7 +75,7 @@ const ColorOption = styled.button`
     height: 32px;
     width: 32px;
     background-color: ${p => p.bg};
-    outline: 1px solid #5ECE7B;
+    outline: ${p => p.selected ? "1px solid #5ECE7B" : "none"} ;
     outline-offset: 1px;
     border: none;
 `
@@ -156,43 +157,64 @@ const Arrow = styled.img`
 
 class CartItem extends Component {
 
+    constructor(){
+        super()
+        this.state = {
+            currentImage: 0
+        }
+    }
+
     render(){
 
-        const {item, addToCart, removeFromCart} = this.props;
-        // onClick={() => removeFromCart(item)
-        // onClick={() => addToCart(item)
+        const {item, addToCart, removeFromCart, changeSizeOrColor} = this.props;
+        const { name, price, size, color, images, colors, sizes, quantity} = item;
+        const {currentImage} = this.state;
+        
+        const toggleRight = () => {
+            currentImage > 0 ? 
+            this.setState({ currentImage: currentImage - 1 })
+          : this.setState({ currentImage: images.length - 1 });
+      
+        }
 
-        console.log(item)
+        const toggleLeft = () => {
+            currentImage < images.length - 1 ? 
+            this.setState({ currentImage: currentImage + 1 })
+          : this.setState({ currentImage: 0 });
+        }
+
+
         return(
         <ItemContainer>
             <DetailsContainer>
-                <ItemName>{item.name}</ItemName>
+                <ItemName>{name}</ItemName>
                 <SubName>Running Short</SubName>
-                <Price>${item.price}</Price>
+                <Price>${price}</Price>
                 <Label>Size:</Label>
                 <OptionsContainer>
-                    <SizeOption>S</SizeOption>
-                    <SizeOption>M</SizeOption>
-                    <SizeOption>L</SizeOption>
-                    <SizeOption>XL</SizeOption>
+                        {sizes.map((mapSize) => {
+                            return <SizeOption onClick={() => {changeSizeOrColor(item, "size", mapSize); this.forceUpdate()}}  
+                                    key={mapSize + "page"} selected={mapSize === size}>{mapSize}</SizeOption>
+                        })} 
                 </OptionsContainer>
                 <Label>Color:</Label>
                     <OptionsContainer style={{justifyContent: "flex-start", gap: "0 15px"}}>
-                        <ColorOption bg={"grey"}/>
-                        <ColorOption bg={"grey"}/>
-                        <ColorOption bg={"grey"}/>
+                        {colors.map((colorMap) => {
+                            return <ColorOption onClick={() => {changeSizeOrColor(item, "color", colorMap); this.forceUpdate()}} 
+                            key={colorMap + "page"} bg={colorMap} selected={colorMap === color}/>
+                        })}
                     </OptionsContainer>
                 </DetailsContainer>
 
                 <RightSide>
                     <MiddleCol>
                         <AmountButton onClick={() => addToCart(item)}>+</AmountButton>
-                        <CurrentAmount>{item.quantity || "0"}</CurrentAmount>
+                        <CurrentAmount>{quantity || "0"}</CurrentAmount>
                         <AmountButton onClick={() => removeFromCart(item)}>-</AmountButton>
                     </MiddleCol>
-                    <ItemImage style={{backgroundImage: `url(${prod})`}}>
-                        <ImageArrowButton><Arrow src={arrow} alt="left" /></ImageArrowButton>
-                        <ImageArrowButton left={true}><Arrow left={true} src={arrow} alt="left" /></ImageArrowButton>
+                    <ItemImage style={{backgroundImage: `url(${images[currentImage]})`}}>
+                        <ImageArrowButton><Arrow onClick={() => toggleRight()} src={arrow} alt="right" /></ImageArrowButton>
+                        <ImageArrowButton onClick={() => toggleLeft()} left={true}><Arrow left={true} src={arrow} alt="left" /></ImageArrowButton>
                     </ItemImage>
                 </RightSide>
                
@@ -204,6 +226,7 @@ class CartItem extends Component {
 const mapDispatchToProps = dispatch => ({
     addToCart: (item) => dispatch(AddToCart(item)),
     removeFromCart: (item) => dispatch(RemoveFromCart(item)),
+    changeSizeOrColor: (item, changeType, selected) => dispatch(changeSizeOrColor(item, changeType, selected))
 });
 
 export default connect(null,mapDispatchToProps)(CartItem);
