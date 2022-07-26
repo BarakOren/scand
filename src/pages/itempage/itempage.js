@@ -202,7 +202,9 @@ class ItemPage extends Component {
                 price: data.price,
                 size: this.state.size,
                 color: this.state.color,
-                images: data.images
+                images: data.images,
+                sizes: data.sizes,
+                colors: data.colors
             }
             AddToCart(obj)
         }

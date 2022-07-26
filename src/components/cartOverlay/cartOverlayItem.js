@@ -58,19 +58,21 @@ const SizeOption = styled.button`
     font-weight: 400;
     text-align: center;
     border: 1px solid #1D1F22;
-    background: none;
+    background: ${p => p.selected ? "#1D1F22" : "none"};
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    color: ${p => p.selected ? "white" : "#1D1F22"};
+    
 `
 
 const ColorOption = styled.button`
     cursor: pointer;
     height: 15px;
     width: 15px;
-    background-color: gray;
-    outline: 1px solid #5ECE7B;
+    background-color: ${p => p.bg};
+    outline: ${p => p.selected ? "1px solid #5ECE7B" : "none"} ;
     outline-offset: 1px;
     border: none;
 `
@@ -115,33 +117,33 @@ class CartOverlayItem extends Component {
     render(){
 
         const {item, addToCart, removeFromCart} = this.props;
+        const {id, name, price, size, color, images, colors, sizes, quantity} = item;
         return(
             <Container>
                 <LeftColumn>
                     <ItemTitle>Apollo Running Short</ItemTitle>
-                    <Price>50.00$</Price>
+                    <Price>${price}</Price>
                     <Label>Size:</Label>
                     <OptionsContainer>
-                        <SizeOption>S</SizeOption>
-                        <SizeOption style={{backgroundColor: "#1D1F22", color: "white"}}>M</SizeOption>
-                        <SizeOption>L</SizeOption>
-                        <SizeOption>XL</SizeOption>
+                        {sizes.map((mapSize, index) => {
+                            return <SizeOption selected={mapSize === size}>{mapSize}</SizeOption>
+                        })}
                     </OptionsContainer>
                     <Label>Color:</Label>
                     <OptionsContainer style={{gap: "0 8px"}}>
-                        <ColorOption />
-                        <ColorOption />
-                        <ColorOption />
+                        {colors.map((colorMap, index) => {
+                            return <ColorOption bg={colorMap} selected={colorMap === color}/>
+                        })}
                     </OptionsContainer>
                 </LeftColumn>
 
                 <MiddleCol>
                     <AmountButton onClick={() => addToCart(item)}>+</AmountButton>
-                    <CurrentAmount>{item.quantity || "0"}</CurrentAmount>
+                    <CurrentAmount>{quantity || "0"}</CurrentAmount>
                     <AmountButton onClick={() => removeFromCart(item)}>-</AmountButton>
                 </MiddleCol>
 
-                <ItemImage style={{backgroundImage: `url(${prod})`}} />
+                <ItemImage style={{backgroundImage: `url(${images[0]})`}} />
 
             </Container>
         )

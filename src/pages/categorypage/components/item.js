@@ -85,11 +85,11 @@ const CartIcon = styled.img`
 class Item extends Component {
     
     render(){
-        const {id ,name, price, imageUrl} = this.props.item
+        const {id ,name, price, images} = this.props.item
         const { category } = this.props; 
         return(
             <ItemContainer to={`${category}/${id}`}>
-                <ItemImage style={{backgroundImage: `url(${imageUrl})`}}>
+                <ItemImage style={{backgroundImage: `url(${images[0]})`}}>
                 <AddToCartButton>
                     <CartIcon src={whitecart} alt="add-to-cart-button" />
                 </AddToCartButton>
