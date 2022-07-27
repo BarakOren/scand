@@ -175,8 +175,7 @@ class ItemPage extends Component {
             error: null,
             product: null,
             currentImage: null,
-            size: '',
-            color: ''
+            attributes: {}
         }
     }
 
@@ -195,18 +194,18 @@ class ItemPage extends Component {
 
     render(){
         // const {id} = this.props.match.params
-        const {AddToCart} = this.props;
+        const {AddToCart, currency} = this.props;
         const {loading, error, product, currentImage} = this.state
         // const {attributes, brand, category, description, gallery, id, inStock, name, prices} = product
         const switchImages = (currentImage) => {this.setState({ currentImage })}
-        
-        const handleSizeChange = (e) => {
-            this.setState({size: e.target.value})
+
+        if(!loading){
+            var currentCurrency = product.prices.find(cur => cur.currency.label === currency) 
         }
 
-           
-        const handleColorChange = (e) => {
-            this.setState({color: e.target.value})
+        const handleChange = (e) => {
+            const state = this.state.attributes
+            this.setState({ attributes: Object.assign(state, {[e.target.name]: e.target.value}) })
         }
 
         // const handleSubmit = (e) => {
@@ -246,29 +245,38 @@ class ItemPage extends Component {
                 <Form >
                     {
                         product.attributes.map(attribute => {
-                            console.log(attribute)
-                            // attribute.type = text / color
-                            return <>
+                            return <OptionsContainer>
                             <Label>{attribute.name}</Label>
-                            </>
-                        })
+                            {attribute.items.map(item => {
+                                if(attribute.type !== "swatch")
+                                    return <SizeOption 
+                                    onChange={handleChange}
+                                    type="radio"
+                                    key={item.value}
+                                    required 
+                                    name={attribute.name}
+                                    value={item.value} 
+                                    checked={this.state.attributes[attribute.name] === item.value}
+                                    />
+                                else 
+                                    return <ColorOption 
+                                    onChange={handleChange}
+                                    type="radio"
+                                    key={item.value}
+                                    bg={item.value}
+                                    required 
+                                    name={attribute.name}
+                                    value={item.value} 
+                                    checked={this.state.attributes[attribute.name] === item.value}
+                                    /> 
+                            })}
+                            </OptionsContainer>
+                        })   
                     }
 
-
-                        {/* <Label>Size:</Label>
-                        <OptionsContainer onChange={handleSizeChange}>
-                            {product.sizes.map((size) => {
-                                return <SizeOption 
-                                onChange={handleColorChange}
-                                type="radio"
-                                key={size}
-                                required 
-                                name="size"
-                                value={size} 
-                                checked={this.state.size === size}
-                                ></SizeOption>
-                            })}
-                        </OptionsContainer> */}
+                        <Label style={{marginTop: "30px"}}>Price:</Label>
+                        <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
+                        <Button type="submit">ADD TO CART</Button>
 
                     </Form>
 
@@ -327,6 +335,7 @@ class ItemPage extends Component {
 const mapStateToProps = store => ({
     // cartOverlayToggle: store.cart.overlayToggler,
     // currenciesToggle: store.currencies.popupToggle
+    currency: store.currencies.currency
 })
 
 const mapDispatchToProps = dispatch => ({
