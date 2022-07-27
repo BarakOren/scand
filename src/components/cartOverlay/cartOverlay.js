@@ -118,7 +118,7 @@ class CartOverlay extends Component {
       }
 
       handleClickOutside(event) {
-        if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+        if (this.props.cartOverlayToggle && this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
           this.props.closeOverlay();
         }
       }

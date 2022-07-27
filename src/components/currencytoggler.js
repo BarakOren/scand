@@ -42,7 +42,7 @@ class CurrencyToggler extends Component {
       }
 
       handleClickOutside(event) {
-        if (this.currencyRef && !this.currencyRef.current.contains(event.target)) {
+        if (this.props.currenciesToggle && this.currencyRef && !this.currencyRef.current.contains(event.target)) {
           this.props.closeToggle();
         }
       }
