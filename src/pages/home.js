@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import {fetchCategories} from "../fetchData"
 
 const Page = styled.div`
     width: 100%;
@@ -46,15 +47,39 @@ const A = styled(Link)`
 
 class Home extends Component {
 
+    constructor(){
+        super();
+
+        this.state = {
+            loading: true,
+            categories: [],
+            error: null
+        }
+    }
+
+    componentDidMount(){
+        fetchCategories()
+        .then(fetchedCategories => {
+            this.setState({categories: fetchedCategories.data.categories})
+        })
+        .then(this.setState({loading: false}))
+        .catch((err) => this.setState({ loading: false, error: err.message }))
+    }
+
     render(){
+        const {loading, categories, error} = this.state
         return(
             <Page>
                 <Welcome>Welcome</Welcome>
-                <Nav>
-                    <A to="/women">WOMEN</A>
-                    <A to="/men">MAN</A>
-                    <A to="/kids">KIDS</A>
-                </Nav>
+                {loading && <h1>loading....</h1> }
+                {!loading && 
+                    <Nav>
+                        {categories.map((category) => {
+                            return <A key={category.name + "link"} to={`/${category.name}`}>{category.name}</A>
+                        })}
+                    </Nav>
+                }
+                {error && !loading && <h1>sorry, we got a problem...</h1>}
             </Page>
         )
     }

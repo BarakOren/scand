@@ -8,6 +8,7 @@ import ItemPage from "./pages/itempage/itempage";
 import CartPage from "./pages/cartpage/cartpage";
 import Error from "./pages/error";
 import { connect } from "react-redux";
+import { fetchCategories } from "./fetchData";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -40,6 +41,7 @@ class App extends Component {
   render(){
 
     const { cartOverlayToggle } = this.props;
+
     return (
       <AppContainer >
         <GlobalStyle />

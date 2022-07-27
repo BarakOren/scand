@@ -3,6 +3,9 @@ import styled from "styled-components";
 import whitecart from "../../../assets/whitecart.png";
 import { Link } from "react-router-dom";
 import {AddToCart} from "../../../redux/cart/actions"
+import { connect } from "react-redux";
+
+
 
 const ItemContainer = styled(Link)`
     height: 25vw;
@@ -82,23 +85,43 @@ const CartIcon = styled.img`
     top: 2px;
 `
 
+const OutOfStock = styled.p`
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: Raleway;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    width: 100%;
+    color: #8D8F9A;
+`
+
 class Item extends Component {
     
     render(){
-        const {id ,name, price, images} = this.props.item
-        const { category } = this.props; 
+
+        const {category, gallery, id, inStock, name, prices} = this.props.product;
+        const {currency} = this.props;
+        const currentCurrency = prices.find(cur => cur.currency.label === currency)
         return(
             <ItemContainer to={`${category}/${id}`}>
-                <ItemImage style={{backgroundImage: `url(${images[0]})`}}>
+                <ItemImage style={{backgroundImage: `url(${gallery[0]})`}}>
                 <AddToCartButton>
                     <CartIcon src={whitecart} alt="add-to-cart-button" />
                 </AddToCartButton>
                 </ItemImage>
                 <Title>{name}</Title>
-                <Price>{price}$</Price>
+                <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
+                {!inStock && <OutOfStock>Out Of Stock</OutOfStock>}
             </ItemContainer>
         )
     }
 }
 
-export default Item;
+const mapStateToProps = store => ({
+    currency: store.currencies.currency
+})
+
+export default connect(mapStateToProps)(Item);

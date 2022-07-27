@@ -30,9 +30,9 @@ class ColorOptions extends Component {
         const selectedItem = cart.find((cartItem) => cartItem.id === item.id && cartItem.color === item.color && cartItem.size === item.size)
         return(
             <OptionsContainer >
-                {colors.map((colorMap) => {
-                    return <ColorOption onClick={() => changeSizeOrColor(item, "color", colorMap)} 
-                    key={colorMap} bg={colorMap} selected={colorMap === selectedItem.color}/>
+                {colors.map((colorOption) => {
+                    return <ColorOption onClick={() => changeSizeOrColor(item, "color", colorOption)} 
+                    key={colorOption} bg={colorOption} selected={colorOption === selectedItem.color}/>
                 })}
             </OptionsContainer>
         )

@@ -138,9 +138,9 @@ class Header extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.unlisten = this.props.history.listen((location, action) => {
-            this.setState({ param : "/" + location.pathname.split('/')[1] })
+        this.setState({ param : "/" + location.pathname.split('/')[1] })
         });
       }
 
@@ -152,11 +152,11 @@ class Header extends Component {
         const { cart, toggleCart, popupToggle, cartOverlayToggle, currenciesToggle} = this.props;
 
         function toggleCartFunction(){
-            toggleCart(); if(currenciesToggle === true){popupToggle()}
+            ; 
         }
 
         function toggleCurrenciesFunction(){
-            popupToggle(); if(cartOverlayToggle === true){toggleCart()}
+            ; 
         }
 
         const links = ['women', 'men', 'kids']
@@ -165,23 +165,25 @@ class Header extends Component {
 
       return (
         <Container >
+            
             <Links>
-                {links.map((link, index) => {
-                    return <A current={param === `/${link}`} key={index} to={`/${link}`}>{link.toUpperCase()}</A>
-                })}
+            {links.map((link, index) => {
+                return <A current={param === `/${link}`} key={index} to={`/${link}`}>{link.toUpperCase()}</A>
+            })}
             </Links>
+            
             <A to="/" >
                 <Icon src={icon} alt="icon" />
             </A>
                 
             <SettingsContaier >
-                <CurrencyContainer >
-                    <Currency onClick={toggleCurrenciesFunction}>$</Currency>
-                    <Arrow onClick={toggleCurrenciesFunction} src={arrow} alt="arrow-button" />
+                <CurrencyContainer onClick={popupToggle}>
+                    <Currency>$</Currency>
+                    <Arrow src={arrow} alt="arrow-button" />
                     <CurrencyToggler />
                 </CurrencyContainer>
                 
-                <CartButton onClick={toggleCartFunction} >
+                <CartButton onClick={toggleCart} >
                     <CartIcon src={cartimg} alt="cart-icon" />
                     {cart.length > 0 && <ItemsAmount>{quantity}</ItemsAmount>}
                 </CartButton>

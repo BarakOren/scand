@@ -63,7 +63,7 @@ class CartPage extends Component {
                     return <CartItem key={index} item={item} /> 
                 })}
                 <OrderContainer>
-                    <Text>Tax 21%: <Bold>${tax}</Bold></Text>
+                    <Text>Tax 21%: <Bold>${tax.toFixed(2)}</Bold></Text>
                     <Text>Quantity: <Bold>{quantity}</Bold></Text>
                     <Text>Total: <Bold>${total}</Bold></Text>
                 <Button>Order</Button>

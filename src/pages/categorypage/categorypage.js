@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import {fakedata} from "../../fakedata";
 import { connect } from "react-redux";
 import {popupToggle} from "../../redux/currencies/actions";
+import {fetchProducts} from "../../fetchData"
 
 const Page = styled.div`
     width: 100%;
@@ -47,18 +48,48 @@ const DummieItem = styled.div`
 
 class CategoryPage extends Component {
 
+    constructor(){
+        super()
+
+        this.state = {
+            name: "",
+            products: [],
+            loading: true,
+            error: false,
+        }
+    }
+
+    componentDidMount(){
+        fetchProducts(this.props.match.params.category)
+        .then(fetchedItems => {
+            this.setState({
+                name: fetchedItems.data.category.name,
+                products: fetchedItems.data.category.products,
+                loading: false,
+            })
+        })
+        .catch((err) => this.setState({ loading: false, error: err.message }));
+    }
+
     render(){
         
         const param = this.props.match.params.category
+        const {loading} = this.state
+        const {name, products, error} = this.state
         return(
             <Page>
-                <CategoryTitle>{param.toUpperCase()}</CategoryTitle>
-                <ItemsContainer>
-                    {fakedata[param].map((item, index) => {
-                        return <Item item={item} key={index} category={param}/>
+                {loading && <h1>loading...</h1>}
+                {!loading && 
+                <>
+                    <CategoryTitle>{name}</CategoryTitle>
+                    <ItemsContainer>
+                    {products.map((product) => {
+                        return <Item product={product} key={product.name} >{product.name}</Item>
                     })}
-                    {fakedata[param].length % 3 !== 0 && <DummieItem />}
-                </ItemsContainer>
+                    </ItemsContainer>
+                </>
+                }
+                {error && !loading && <h1>sorry, we got a problem...</h1>}
             </Page>
         )
     }

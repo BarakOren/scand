@@ -37,9 +37,9 @@ class SizeOptions extends Component {
         const selectedItem = cart.find((cartItem) => cartItem.id === item.id && cartItem.color === item.color && cartItem.size === item.size)
         return(
             <OptionsContainer >
-                    {sizes.map((mapSize) => {
-                            return <SizeOption onClick={() => {changeSizeOrColor(item, "size", mapSize); this.forceUpdate()}}  
-                            key={mapSize} selected={mapSize === selectedItem.size}>{mapSize}</SizeOption>
+                    {sizes.map((sizeOption) => {
+                            return <SizeOption onClick={() => {changeSizeOrColor(item, "size", sizeOption); this.forceUpdate()}}  
+                            key={sizeOption} selected={sizeOption === selectedItem.size}>{sizeOption}</SizeOption>
                     })}
             </OptionsContainer>
         )

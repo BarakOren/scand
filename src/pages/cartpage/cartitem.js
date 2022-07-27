@@ -174,7 +174,6 @@ class CartItem extends Component {
             currentImage > 0 ? 
             this.setState({ currentImage: currentImage - 1 })
           : this.setState({ currentImage: images.length - 1 });
-      
         }
 
         const toggleLeft = () => {

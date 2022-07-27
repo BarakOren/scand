@@ -4,6 +4,7 @@ import { fakedata } from "../../fakedata";
 import { withRouter } from 'react-router-dom'
 import { connect } from "react-redux";
 import {AddToCart} from "../../redux/cart/actions";
+import { fetchProductInfo } from "../../fetchData"
 
 const Page = styled.div`
     width: 100%;
@@ -12,6 +13,7 @@ const Page = styled.div`
     justify-content: space-between;
     align-items: flex-start;
     gap: 0 30px;
+    padding-bottom: 30px;
 `
 
 const ImagesContainer = styled.div`
@@ -169,20 +171,33 @@ class ItemPage extends Component {
     constructor() {
         super()
         this.state = {
-          currentImage: null,
-          size: '',
-          color: ''
+            loading: true,
+            error: null,
+            product: null,
+            currentImage: null,
+            size: '',
+            color: ''
         }
+    }
+
+    componentDidMount(){
+        fetchProductInfo(this.props.match.params.id)
+        .then(fetchedItem => {
+            this.setState({
+                product: fetchedItem.data.product,
+                loading: false,
+            })
+        })
+        .catch((err) => this.setState({ loading: false, error: err.message }));
     }
 
 
 
     render(){
-        const {id, category} = this.props.match.params
+        // const {id} = this.props.match.params
         const {AddToCart} = this.props;
-        const {currentImage} = this.state
-        const data = fakedata[category].reduce(item => id === item.id)
-  
+        const {loading, error, product, currentImage} = this.state
+        // const {attributes, brand, category, description, gallery, id, inStock, name, prices} = product
         const switchImages = (currentImage) => {this.setState({ currentImage })}
         
         const handleSizeChange = (e) => {
@@ -194,34 +209,75 @@ class ItemPage extends Component {
             this.setState({color: e.target.value})
         }
 
-        const handleSubmit = (e) => {
-            e.preventDefault();
-            const obj = {
-                id: data.id,
-                name: data.name,
-                price: data.price,
-                size: this.state.size,
-                color: this.state.color,
-                images: data.images,
-                sizes: data.sizes,
-                colors: data.colors
-            }
-            AddToCart(obj)
-        }
+        // const handleSubmit = (e) => {
+        //     e.preventDefault();
+        //     const obj = {
+        //         id: data.id,
+        //         name: data.name,
+        //         price: data.price,
+        //         size: this.state.size,
+        //         color: this.state.color,
+        //         images: data.images,
+        //         sizes: data.sizes,
+        //         colors: data.colors
+        //     }
+        //     AddToCart(obj)
+        // }
 
 
         return(
             <Page>
-                <ImagesContainer>
-                    {data.images.map((image, index) => {
+                {loading && <h1>loading...</h1>}
+                {!loading && 
+                <>
+                 <ImagesContainer>
+                    {product.gallery.map((image, index) => {
                         return <SmallImage key={index} onClick={() => switchImages(image)} style={{backgroundImage: `url(${image})`}} /> 
                     })}
                 </ImagesContainer>
-                <SelectedImage style={{backgroundImage: `url(${currentImage ? currentImage : data.images[0]})`}} />
-                <DetailsContainer>
-                    <ItemName>{data.name}</ItemName>
-                    <SubName>Running Short</SubName>
 
+                <SelectedImage style={{backgroundImage: `url(${currentImage ? currentImage : product.gallery[0]})`}} />
+
+                <DetailsContainer> 
+                    <ItemName>{product.brand}</ItemName>
+                    <SubName>{product.name}</SubName>
+                </DetailsContainer> 
+{/* onSubmit={handleSubmit} */}
+                <Form >
+                    {
+                        product.attributes.map(attribute => {
+                            console.log(attribute)
+                            // attribute.type = text / color
+                            return <>
+                            <Label>{attribute.name}</Label>
+                            </>
+                        })
+                    }
+
+
+                        {/* <Label>Size:</Label>
+                        <OptionsContainer onChange={handleSizeChange}>
+                            {product.sizes.map((size) => {
+                                return <SizeOption 
+                                onChange={handleColorChange}
+                                type="radio"
+                                key={size}
+                                required 
+                                name="size"
+                                value={size} 
+                                checked={this.state.size === size}
+                                ></SizeOption>
+                            })}
+                        </OptionsContainer> */}
+
+                    </Form>
+
+                </>
+                }
+               
+                
+                {/* <DetailsContainer>
+     
                     <Form onSubmit={handleSubmit}>
                         <Label>Size:</Label>
                         <OptionsContainer onChange={handleSizeChange}>
@@ -261,7 +317,7 @@ class ItemPage extends Component {
                     
                     <Description>Find stunning women's cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses and party dresses from all your favorite brands.</Description>
 
-                </DetailsContainer>
+                </DetailsContainer>  */}
 
             </Page>
         )

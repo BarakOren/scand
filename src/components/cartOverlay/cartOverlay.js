@@ -101,7 +101,6 @@ const NoItems = styled.p`
 
 class CartOverlay extends Component {
 
-
     constructor(props) {
         super(props);
     
@@ -118,6 +117,7 @@ class CartOverlay extends Component {
       }
 
       handleClickOutside(event) {
+        // closing window if the user clicked outside of the window.
         if (this.props.cartOverlayToggle && this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
           this.props.closeOverlay();
         }
@@ -130,10 +130,11 @@ class CartOverlay extends Component {
         
         return(
             <Container display={cartOverlayToggle ? "on" : "off"} ref={this.wrapperRef}>
+               
                 <MyBag>My Bag,<ItemCount> {quantity} items</ItemCount></MyBag>
                 
                 {cart.length === 0 && <NoItems>no items, yet...</NoItems>}
-
+                
                 {cart.length > 0 && cart.map((item, index) => {
                     return <CartOverlayItem key={index} item={item}/>
                 })}
@@ -142,10 +143,12 @@ class CartOverlay extends Component {
                     <TotalText>Total:</TotalText>
                     <TotalPrice>${total}</TotalPrice>
                 </TotalContainer>
+                
                 <ButtonContainer>
                     <Button onClick={toggleCart} to="/cart" bg={"white"} color={"#1D1F22"} border={"#1D1F22"}>View bag</Button>
                     <Button onClick={toggleCart} to="/cart" bg={"#5ECE7B"} color={"white"} border={"#5ECE7B"}>CHECK OUT</Button>
                 </ButtonContainer>
+            
             </Container>
         )
     }
