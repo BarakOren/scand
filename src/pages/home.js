@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import {fetchCategories} from "../fetchData"
+import Loader from "../components/loader";
 
 const Page = styled.div`
     width: 100%;
@@ -60,9 +61,11 @@ class Home extends Component {
     componentDidMount(){
         fetchCategories()
         .then(fetchedCategories => {
-            this.setState({categories: fetchedCategories.data.categories})
+            this.setState({
+                categories: fetchedCategories.data.categories,
+                loading: false
+            })
         })
-        .then(this.setState({loading: false}))
         .catch((err) => this.setState({ loading: false, error: err.message }))
     }
 
@@ -71,7 +74,7 @@ class Home extends Component {
         return(
             <Page>
                 <Welcome>Welcome</Welcome>
-                {loading && <h1>loading....</h1> }
+                {loading &&  <Loader />}
                 {!loading && 
                     <Nav>
                         {categories.map((category) => {

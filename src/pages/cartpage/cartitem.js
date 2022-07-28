@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import prod from "../../assets/prod.png";
 import arrow from "../../assets/whitearrow.png";
 import { connect } from "react-redux";
 import { AddToCart, RemoveFromCart, changeSizeOrColor} from "../../redux/cart/actions";

@@ -2,10 +2,10 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import Item from "./components/item";
 import { withRouter } from 'react-router-dom'
-import {fakedata} from "../../fakedata";
 import { connect } from "react-redux";
 import {popupToggle} from "../../redux/currencies/actions";
 import {fetchProducts} from "../../fetchData"
+import Loader from "../../components/loader"
 
 const Page = styled.div`
     width: 100%;
@@ -73,12 +73,12 @@ class CategoryPage extends Component {
 
     render(){
         
-        const param = this.props.match.params.category
+        // const param = this.props.match.params.category
         const {loading} = this.state
         const {name, products, error} = this.state
         return(
             <Page>
-                {loading && <h1>loading...</h1>}
+                {loading &&  <Loader  />}
                 {!loading && 
                 <>
                     <CategoryTitle>{name}</CategoryTitle>

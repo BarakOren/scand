@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import { fakedata } from "../../fakedata";
 import { withRouter } from 'react-router-dom'
 import { connect } from "react-redux";
 import {AddToCart} from "../../redux/cart/actions";
 import { fetchProductInfo } from "../../fetchData"
+import Loader from "../../components/loader";
 
 const Page = styled.div`
     width: 100%;
@@ -193,7 +193,6 @@ class ItemPage extends Component {
 
 
     render(){
-        // const {id} = this.props.match.params
         const {AddToCart, currency} = this.props;
         const {loading, error, product, currentImage} = this.state
         // const {attributes, brand, category, description, gallery, id, inStock, name, prices} = product
@@ -226,7 +225,7 @@ class ItemPage extends Component {
 
         return(
             <Page>
-                {loading && <h1>loading...</h1>}
+                {loading && <Loader  />}
                 {!loading && 
                 <>
                  <ImagesContainer>
