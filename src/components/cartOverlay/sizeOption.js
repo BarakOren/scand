@@ -33,14 +33,16 @@ const SizeOption = styled.button`
 class SizeOptions extends Component {
     
     render(){
-        const {cart, item, sizes, changeSizeOrColor} = this.props;
-        const selectedItem = cart.find((cartItem) => cartItem.id === item.id && cartItem.color === item.color && cartItem.size === item.size)
+        // const {cart, item, sizes, changeSizeOrColor} = this.props;
+        // const selectedItem = cart.find((cartItem) => cartItem.id === item.id && cartItem.color === item.color && cartItem.size === item.size)
+        console.log(this.props);
         return(
             <OptionsContainer >
-                    {sizes.map((sizeOption) => {
+                    
+                    {/* {sizes.map((sizeOption) => {
                             return <SizeOption onClick={() => {changeSizeOrColor(item, "size", sizeOption); this.forceUpdate()}}  
                             key={sizeOption} selected={sizeOption === selectedItem.size}>{sizeOption}</SizeOption>
-                    })}
+                    })} */}
             </OptionsContainer>
         )
     }

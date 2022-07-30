@@ -48,33 +48,12 @@ const A = styled(Link)`
 
 class Home extends Component {
 
-    constructor(){
-        super();
-
-        this.state = {
-            loading: true,
-            categories: [],
-            error: null
-        }
-    }
-
-    componentDidMount(){
-        fetchCategories()
-        .then(fetchedCategories => {
-            this.setState({
-                categories: fetchedCategories.data.categories,
-                loading: false
-            })
-        })
-        .catch((err) => this.setState({ loading: false, error: err.message }))
-    }
-
     render(){
-        const {loading, categories, error} = this.state
+        const {loading, categories, error} = this.props
         return(
             <Page>
                 <Welcome>Welcome</Welcome>
-                {loading &&  <Loader />}
+                {loading && <Loader />}
                 {!loading && 
                     <Nav>
                         {categories.map((category) => {

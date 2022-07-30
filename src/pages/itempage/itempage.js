@@ -10,7 +10,7 @@ const Page = styled.div`
     width: 100%;
     margin-top: 50px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
     gap: 0 30px;
     padding-bottom: 30px;
@@ -40,10 +40,12 @@ const SmallImage = styled.button`
 `
 
 const SelectedImage = styled.div`
-    height: 500px;
-    width: 650px;
+    height: 70vh;
+    width: 60%;
     background-position: center;
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
 `
 
 const DetailsContainer = styled.div`
@@ -51,7 +53,7 @@ const DetailsContainer = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    width: 300px;
+    width: 30%;
     margin-right: 50px;
     @media only screen and (max-width: 1000px) {
         margin-right: unset;
@@ -76,7 +78,7 @@ const SubName = styled.h1`
 const Label = styled.p`
     font-size: 18px;
     font-weight: 700;
-    margin: 6px 0;
+    margin-bottom: 6px;
     color: #1D1F22;
 `
 
@@ -85,8 +87,7 @@ const OptionsContainer = styled.div`
     height: 45px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-   
+    justify-content: flex-start;
 `
 
 const SizeOption = styled.input`
@@ -102,7 +103,7 @@ const SizeOption = styled.input`
     justify-content: center;
     cursor: pointer;
     -webkit-appearance: none;
-    margin: 0;
+    margin: 0 10px 0 0;
 
     &:after {
         content: "${p => p.value}";
@@ -115,18 +116,18 @@ const SizeOption = styled.input`
     }
 `
 
-
 const ColorOption = styled.input`
     cursor: pointer;
     height: 32px;
     width: 32px;
     background-color: ${p => p.bg};
-    outline-offset: 1px;
-    border: none;
+    outline-offset: 2px;
+    border: ${p => p.white ? "1px solid black" : "none"};
     -webkit-appearance: none;
+    margin: 0 10px 0 0;
 
     &:checked {
-        outline: 1px solid #5ECE7B;
+        outline: 2px solid #5ECE7B;
     }
 `
 
@@ -166,6 +167,19 @@ const Form = styled.form`
 `
 
 
+const OutOfStock = styled.p`
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Raleway;
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    color: #8D8F9A;
+`
+
 class ItemPage extends Component {
 
     constructor() {
@@ -198,8 +212,10 @@ class ItemPage extends Component {
         // const {attributes, brand, category, description, gallery, id, inStock, name, prices} = product
         const switchImages = (currentImage) => {this.setState({ currentImage })}
 
+
         if(!loading){
-            var currentCurrency = product.prices.find(cur => cur.currency.label === currency) 
+            var currentCurrency = product.prices.find(cur => cur.currency.label === currency)
+            console.log(product.inStock)
         }
 
         const handleChange = (e) => {
@@ -207,20 +223,16 @@ class ItemPage extends Component {
             this.setState({ attributes: Object.assign(state, {[e.target.name]: e.target.value}) })
         }
 
-        // const handleSubmit = (e) => {
-        //     e.preventDefault();
-        //     const obj = {
-        //         id: data.id,
-        //         name: data.name,
-        //         price: data.price,
-        //         size: this.state.size,
-        //         color: this.state.color,
-        //         images: data.images,
-        //         sizes: data.sizes,
-        //         colors: data.colors
-        //     }
-        //     AddToCart(obj)
-        // }
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            if(!product.inStock) {alert("Sorry! this item is out of stock.")}
+            product.attributes.forEach(att => {
+                Object.assign(att, {selected: this.state.attributes[att.name]})
+            }
+            )
+            // console.log(product)
+            AddToCart(product)
+        }
 
 
         return(
@@ -228,112 +240,68 @@ class ItemPage extends Component {
                 {loading && <Loader  />}
                 {!loading && 
                 <>
-                 <ImagesContainer>
-                    {product.gallery.map((image, index) => {
-                        return <SmallImage key={index} onClick={() => switchImages(image)} style={{backgroundImage: `url(${image})`}} /> 
-                    })}
-                </ImagesContainer>
+                    <ImagesContainer>
+                        {product.gallery.map((image, index) => {
+                            return <SmallImage key={index} onClick={() => switchImages(image)} style={{backgroundImage: `url(${image})`}} /> 
+                        })}
+                    </ImagesContainer>
 
-                <SelectedImage style={{backgroundImage: `url(${currentImage ? currentImage : product.gallery[0]})`}} />
+                    <SelectedImage style={{backgroundImage: `url(${currentImage ? currentImage : product.gallery[0]})`}}>
+                        <OutOfStock>Out Of Stock</OutOfStock>
+                    </SelectedImage>
 
-                <DetailsContainer> 
-                    <ItemName>{product.brand}</ItemName>
-                    <SubName>{product.name}</SubName>
-                </DetailsContainer> 
-{/* onSubmit={handleSubmit} */}
-                <Form >
-                    {
-                        product.attributes.map(attribute => {
-                            return <OptionsContainer>
-                            <Label>{attribute.name}</Label>
-                            {attribute.items.map(item => {
-                                if(attribute.type !== "swatch")
-                                    return <SizeOption 
-                                    onChange={handleChange}
-                                    type="radio"
-                                    key={item.value}
-                                    required 
-                                    name={attribute.name}
-                                    value={item.value} 
-                                    checked={this.state.attributes[attribute.name] === item.value}
-                                    />
-                                else 
-                                    return <ColorOption 
-                                    onChange={handleChange}
-                                    type="radio"
-                                    key={item.value}
-                                    bg={item.value}
-                                    required 
-                                    name={attribute.name}
-                                    value={item.value} 
-                                    checked={this.state.attributes[attribute.name] === item.value}
-                                    /> 
-                            })}
-                            </OptionsContainer>
-                        })   
-                    }
-
-                        <Label style={{marginTop: "30px"}}>Price:</Label>
-                        <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
-                        <Button type="submit">ADD TO CART</Button>
-
+                
+                
+                    <DetailsContainer > 
+                        <ItemName>{product.brand}</ItemName>
+                        <SubName>{product.name}</SubName>
+                        <Form onSubmit={handleSubmit}>
+                        {
+                            product.attributes.map(attribute => {
+                                return <>
+                                <Label>{attribute.name}</Label>
+                                <OptionsContainer>
+                                {attribute.items.map(item => {
+                                    if(attribute.type !== "swatch")
+                                        return <SizeOption 
+                                        onChange={handleChange}
+                                        type="radio"
+                                        key={item.value}
+                                        required 
+                                        name={attribute.name}
+                                        value={item.value} 
+                                        checked={this.state.attributes[attribute.name] === item.value}
+                                        />
+                                    else 
+                                        return <ColorOption 
+                                        onChange={handleChange}
+                                        type="radio"
+                                        key={item.value}
+                                        bg={item.value}
+                                        required 
+                                        name={attribute.name}
+                                        value={item.value} 
+                                        checked={this.state.attributes[attribute.name] === item.value}
+                                        white={item.value === "#FFFFFF"}
+                                        /> 
+                                })}
+                                </OptionsContainer>
+                                </>
+                            }) 
+                        }
+                            <Label style={{marginTop: "30px"}}>Price:</Label>
+                            <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
+                            <Button type="submit">ADD TO CART</Button>
                     </Form>
-
+                </DetailsContainer>
                 </>
                 }
-               
-                
-                {/* <DetailsContainer>
-     
-                    <Form onSubmit={handleSubmit}>
-                        <Label>Size:</Label>
-                        <OptionsContainer onChange={handleSizeChange}>
-                            {data.sizes.map((size) => {
-                                return <SizeOption 
-                                onChange={handleColorChange}
-                                type="radio"
-                                key={size}
-                                required 
-                                name="size"
-                                value={size} 
-                                checked={this.state.size === size}
-                                ></SizeOption>
-                            })}
-                        </OptionsContainer>
-
-                        <Label>Color:</Label>
-                        <OptionsContainer onChange={handleColorChange} style={{justifyContent: "flex-start"}}>
-                            {data.colors.map((color) => {
-                                return <ColorOption 
-                                onChange={handleColorChange}
-                                key={color} 
-                                bg={color}
-                                required
-                                name="color"
-                                type="radio"
-                                value={color} 
-                                checked={this.state.color === color}
-                                />
-                            })}
-                        </OptionsContainer>
-                        <Label style={{marginTop: "30px"}}>Price:</Label>
-                        <Price>${data.price}</Price>
-
-                        <Button type="submit">ADD TO CART</Button>
-                    </Form>
-                    
-                    <Description>Find stunning women's cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses and party dresses from all your favorite brands.</Description>
-
-                </DetailsContainer>  */}
-
             </Page>
         )
     }
 }
 
 const mapStateToProps = store => ({
-    // cartOverlayToggle: store.cart.overlayToggler,
-    // currenciesToggle: store.currencies.popupToggle
     currency: store.currencies.currency
 })
 

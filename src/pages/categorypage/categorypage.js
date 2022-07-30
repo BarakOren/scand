@@ -23,7 +23,7 @@ const ItemsContainer = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: ${p => p.length > 3 ? "space-between" : "flex-start"};
     flex-wrap: wrap;
     gap: 100px;
 
@@ -56,10 +56,15 @@ class CategoryPage extends Component {
             products: [],
             loading: true,
             error: false,
+            param: "/"
         }
     }
 
     componentDidMount(){
+        this.unlisten = this.props.history.listen((location, action) => {
+            this.setState({ param : "/" + location.pathname.split('/')[1] })
+        });
+
         fetchProducts(this.props.match.params.category)
         .then(fetchedItems => {
             this.setState({
@@ -69,6 +74,14 @@ class CategoryPage extends Component {
             })
         })
         .catch((err) => this.setState({ loading: false, error: err.message }));
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.state.param !== nextState.param;
+    }
+
+    componentWillUnmount() {
+        this.unlisten();
     }
 
     render(){
@@ -82,7 +95,7 @@ class CategoryPage extends Component {
                 {!loading && 
                 <>
                     <CategoryTitle>{name}</CategoryTitle>
-                    <ItemsContainer>
+                    <ItemsContainer length={products.length}>
                     {products.map((product) => {
                         return <Item product={product} key={product.name} >{product.name}</Item>
                     })}

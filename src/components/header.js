@@ -142,33 +142,28 @@ class Header extends Component {
         this.unlisten = this.props.history.listen((location, action) => {
         this.setState({ param : "/" + location.pathname.split('/')[1] })
         });
-      }
+    }
 
     componentWillUnmount() {
         this.unlisten();
     }
 
     render(){
-        const { cart, toggleCart, popupToggle, cartOverlayToggle, currenciesToggle} = this.props;
-
-        function toggleCartFunction(){
-            ; 
-        }
-
-        function toggleCurrenciesFunction(){
-            ; 
-        }
+        const {currency, currencies, cart, toggleCart, popupToggle, cartOverlayToggle, currenciesToggle} = this.props;
 
         const links = ['women', 'men', 'kids']
         const param = this.state.param
         const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
-
-      return (
+        const currenctCurrency = currencies.find(curr => curr.label === currency)
+  
+        const {loading, categories, error} = this.props
+        
+        return (
         <Container >
-            
             <Links>
-            {links.map((link, index) => {
-                return <A current={param === `/${link}`} key={index} to={`/${link}`}>{link.toUpperCase()}</A>
+            {categories.map((link, index) => {
+                const {name} = link
+                return <A current={param === `/${name}`} key={index} to={`/${name}`}>{name.toUpperCase()}</A>
             })}
             </Links>
             
@@ -178,7 +173,7 @@ class Header extends Component {
                 
             <SettingsContaier >
                 <CurrencyContainer onClick={popupToggle}>
-                    <Currency>$</Currency>
+                    <Currency>{currenctCurrency.symbol}</Currency>
                     <Arrow src={arrow} alt="arrow-button" />
                     <CurrencyToggler />
                 </CurrencyContainer>
@@ -201,6 +196,8 @@ class Header extends Component {
 const mapStateToProps = store => ({
     cartOverlayToggle: store.cart.overlayToggler,
     currenciesToggle: store.currencies.popupToggle,
+    currency: store.currencies.currency,
+    currencies: store.currencies.currencies,
     cart: store.cart.cart
 })
 

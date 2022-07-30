@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { AddToCart, RemoveFromCart, changeSizeOrColor } from "../../redux/cart/actions";
-import ColorOptions from "./colorOptions";
-import SizeOptions from "./sizeOption";
+// import ColorOptions from "./colorOptions";
+// import SizeOptions from "./sizeOption";
 
 const Container = styled.div`
     height: 190px;
@@ -52,10 +52,10 @@ const OptionsContainer = styled.div`
 `
 
 const SizeOption = styled.button`
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     font-family: Source Sans Pro;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: 400;
     text-align: center;
     border: 1px solid #1D1F22;
@@ -67,7 +67,6 @@ const SizeOption = styled.button`
     cursor: pointer;
     
 `
-
 
 
 const MiddleCol = styled.div`
@@ -107,8 +106,8 @@ const ItemImage = styled.div`
 
 const ColorOption = styled.button`
     cursor: pointer;
-    height: 15px;
-    width: 15px;
+    height: 16px;
+    width: 16px;
     background-color: ${p => p.bg};
     outline: ${p => p.selected ? "1px solid #5ECE7B" : "none"} ;
     outline-offset: 1px;
@@ -120,17 +119,28 @@ class CartOverlayItem extends Component {
     
     render(){
         const {item, addToCart, removeFromCart} = this.props;
-        const { name, price, images, quantity} = item;
-
+        const { name, attributes, gallery, quantity } = item;
         return(
             <Container >
                 <LeftColumn>
                     <ItemTitle>{name}</ItemTitle>
-                    <Price>${price}</Price>
-                    <Label>Size:</Label>
-                    <SizeOptions sizes={item.sizes} item={item}  />
-                    <Label>Color:</Label>
-                    <ColorOptions colors={item.colors} item={item} />
+                    {attributes.map((att) => {
+                        return <> 
+                        <Label>{att.name}</Label>
+                        <OptionsContainer>
+                        { att.type === "text" ? 
+                        att.items.map((item) => {
+                           return <SizeOption selected={item.displayValue === att.selected}>{item.displayValue}</SizeOption>
+                        })
+                        : 
+                        att.items.map((item) => {
+                            return <ColorOption selected={item.value === att.selected} bg={item.value}/>
+                         })
+                        }
+                        </OptionsContainer>
+                        </>
+                    })}
+
                 </LeftColumn>
 
                 <MiddleCol>
@@ -139,7 +149,7 @@ class CartOverlayItem extends Component {
                     <AmountButton onClick={() => removeFromCart(item)}>-</AmountButton>
                 </MiddleCol>
 
-                <ItemImage style={{backgroundImage: `url(${images[0]})`}} />
+                <ItemImage style={{backgroundImage: `url(${gallery[0]})`}} />
 
             </Container>
         )
