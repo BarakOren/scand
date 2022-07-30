@@ -18,7 +18,7 @@ export const RemoveFromCart = item => ({
     payload: item
 })
 
-export const changeSizeOrColor = (item, changeType, selected) => ({
+export const changeSizeOrColor = (item, whatToChange, changeTo) => ({
     type: cartTypes.CHANGE_SIZE_OR_COLOR,
-    payload: {item, changeType, selected}
+    payload: {item, whatToChange, changeTo}
 })

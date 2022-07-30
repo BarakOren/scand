@@ -31,7 +31,7 @@ export const cartReducer = (state = initialState, action) => {
         case cartTypes.CHANGE_SIZE_OR_COLOR: 
             return {
                 ...state,
-                cart: changeSizeOrColorFunc(state.cart, action.payload.item, action.payload.changeType, action.payload.selected)
+                cart: changeSizeOrColorFunc(state.cart, action.payload.item, action.payload.whatToChange, action.payload.changeTo)
             }
         default: 
         return state;

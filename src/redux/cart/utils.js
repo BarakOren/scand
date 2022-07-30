@@ -18,7 +18,6 @@ export const removeFromCart = (cartItems, cartItemsToRemove) => {
     cartItem => cartItem.id === cartItemsToRemove.id && cartItem.size === cartItemsToRemove.size && cartItem.color === cartItemsToRemove.color
   )
 
-
   if(existingCartItem.quantity === 1) {
     return cartItems.filter(cartItem => cartItem.id !== cartItemsToRemove.id)
   }
@@ -29,14 +28,19 @@ export const removeFromCart = (cartItems, cartItemsToRemove) => {
   );
 };
 
-export const changeSizeOrColorFunc = (cart, item, changeType, selected) => {
-  // console.log("cart:", cart, "item:", item, "bla:", bla)
+export const changeSizeOrColorFunc = (cart, item, whatToChange, changeTo) => {
+  // getting the right item
   const selectedItem = cart.find(
     cartItem => cartItem.id === item.id && cartItem.size === item.size && cartItem.color === item.color
   );
-    if(selectedItem[changeType] !== selected){
-      selectedItem[changeType] = selected
-    }
+  
+  // getting the selected attribute  
+  const attribute = selectedItem.attributes.find(attribute => attribute.name === whatToChange)
+  
+  // checking if the the user didnt select the same option.
+  if(attribute.selected !== changeTo){
+    attribute.selected = changeTo
+  }
 
   return [...cart]
 }

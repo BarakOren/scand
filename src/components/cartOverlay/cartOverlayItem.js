@@ -2,8 +2,7 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { AddToCart, RemoveFromCart, changeSizeOrColor } from "../../redux/cart/actions";
-// import ColorOptions from "./colorOptions";
-// import SizeOptions from "./sizeOption";
+import OptionSelector from "./optionselector"
 
 const Container = styled.div`
     height: 190px;
@@ -120,25 +119,16 @@ class CartOverlayItem extends Component {
     render(){
         const {item, addToCart, removeFromCart} = this.props;
         const { name, attributes, gallery, quantity } = item;
+
         return(
             <Container >
                 <LeftColumn>
                     <ItemTitle>{name}</ItemTitle>
                     {attributes.map((att) => {
-                        return <> 
+                        return <div key={att.name}> 
                         <Label>{att.name}</Label>
-                        <OptionsContainer>
-                        { att.type === "text" ? 
-                        att.items.map((item) => {
-                           return <SizeOption selected={item.displayValue === att.selected}>{item.displayValue}</SizeOption>
-                        })
-                        : 
-                        att.items.map((item) => {
-                            return <ColorOption selected={item.value === att.selected} bg={item.value}/>
-                         })
-                        }
-                        </OptionsContainer>
-                        </>
+                        <OptionSelector item={item} att={att} />
+                        </div>
                     })}
 
                 </LeftColumn>
@@ -157,12 +147,13 @@ class CartOverlayItem extends Component {
 }
 
 const mapStateToProps = store => ({
-//     cart: store.cart.cart,
+    // cart: store.cart.cart,
 })
 
 const mapDispatchToProps = dispatch => ({
     addToCart: (item) => dispatch(AddToCart(item)),
     removeFromCart: (item) => dispatch(RemoveFromCart(item)),
+    changeSizeOrColor: (item, changeType, selected) => dispatch(changeSizeOrColor(item, changeType, selected))
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(CartOverlayItem);

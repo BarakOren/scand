@@ -215,7 +215,6 @@ class ItemPage extends Component {
 
         if(!loading){
             var currentCurrency = product.prices.find(cur => cur.currency.label === currency)
-            console.log(product.inStock)
         }
 
         const handleChange = (e) => {

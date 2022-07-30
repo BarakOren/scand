@@ -56,15 +56,10 @@ class CategoryPage extends Component {
             products: [],
             loading: true,
             error: false,
-            param: "/"
         }
     }
 
-    componentDidMount(){
-        this.unlisten = this.props.history.listen((location, action) => {
-            this.setState({ param : "/" + location.pathname.split('/')[1] })
-        });
-
+    getItems = () => {
         fetchProducts(this.props.match.params.category)
         .then(fetchedItems => {
             this.setState({
@@ -76,13 +71,16 @@ class CategoryPage extends Component {
         .catch((err) => this.setState({ loading: false, error: err.message }));
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.state.param !== nextState.param;
+    componentDidMount(){
+        this.getItems()
     }
 
-    componentWillUnmount() {
-        this.unlisten();
-    }
+    componentDidUpdate(prevProps) {
+        if(this.props.location.pathname !== prevProps.location.pathname){
+            this.getItems()
+        }
+    } 
+
 
     render(){
         
