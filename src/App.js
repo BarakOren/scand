@@ -52,9 +52,9 @@ class App extends Component {
       fetchCategories()
       .then(fetchedCategories => {
           this.setState({
-              categories: fetchedCategories.data.categories,
-              loading: false
-          })
+            categories: fetchedCategories.data.categories,
+            loading: false
+        })
       })
       .catch((err) => this.setState({ loading: false, error: err.message }))
   }

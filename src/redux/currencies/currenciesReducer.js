@@ -2,7 +2,7 @@ import { currenciesTypes } from "./types";
 
 const initialState = {
     popupToggle: false,
-    currency: 'USD',
+    currency: {label: 'USD', symbol: '$'},
     currencies: [
         {label: 'USD', symbol: '$'},
         {label: 'GBP', symbol: '£'},
@@ -27,7 +27,7 @@ export const currenciesReducer = (state = initialState, action) => {
         case currenciesTypes.CHANGE_CURRENCY: 
             return {
                 ...state,
-                currency: action.payload.label
+                currency: action.payload
             }
         default: 
         return state;

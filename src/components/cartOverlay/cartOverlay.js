@@ -125,11 +125,10 @@ class CartOverlay extends Component {
 
     render(){
         // 
-        const {cart, cartOverlayToggle, toggleCart, currency, currencies} = this.props
-        const total =  cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity * cartItem.prices.find(price => price.currency.label === currency).amount, 0)
-        const currenctCurrency = currencies.find(curr => curr.label === currency)
+        const {cart, cartOverlayToggle, toggleCart, currency} = this.props
+        const total =  cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity * cartItem.prices.find(price => price.currency.label === currency.label).amount, 0)
         const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
-
+        
         return(
             <Container display={cartOverlayToggle ? "on" : "off"} ref={this.wrapperRef}>
                 <MyBag>My Bag,<ItemCount> {quantity} items</ItemCount></MyBag>
@@ -142,7 +141,7 @@ class CartOverlay extends Component {
 
                 <TotalContainer>
                     <TotalText>Total:</TotalText>
-                    <TotalPrice>{currenctCurrency.symbol}{total.toFixed(2)}</TotalPrice>
+                    <TotalPrice>{currency.symbol}{total.toFixed(2)}</TotalPrice>
                 </TotalContainer>
                 
                 <ButtonContainer>
@@ -159,7 +158,6 @@ const mapStateToProps = store => ({
     cart: store.cart.cart,
     cartOverlayToggle: store.cart.overlayToggler,
     currency: store.currencies.currency,
-    currencies: store.currencies.currencies
 })
 
 const mapDispatchToProps = dispatch => ({

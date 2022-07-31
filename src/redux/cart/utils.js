@@ -1,54 +1,63 @@
 export const addToCartUtil = (cartItems, cartItemToAdd) => {
-  cartItemToAdd.attributes.forEach((att => console.log(att.selected)))
 
-  // cartItems.forEach((el => console.log(JSON.stringify(el.attributes))))
-  // console.log(JSON.stringify(cartItemToAdd.attributes))
-  // const existed = cartItems.find((el => JSON.stringify(el.attributes) === JSON.stringify(cartItemToAdd.attributes) && el.id === cartItemToAdd.id)) 
-  
-  // if(existed) return [{ ...existed, quantity: existed.quantity + 1 }]
+  const existingItem = cartItems.find(
+    item => item.id === cartItemToAdd.id && JSON.stringify(item.attributes) === JSON.stringify(cartItemToAdd.attributes)
+  );
 
-  //  const existingCartItem = cartItems.find(
-  //   cartItem => cartItem.id === cartItemToAdd.id
-  // );
-  
-  //   if (existingCartItem) {
-  //       return cartItems.map(cartItem =>
-  //         cartItem.id === cartItemToAdd.id && JSON.stringify(cartItem.attributes) === JSON.stringify(cartItemToAdd.attributes) ? 
-  //         { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
-  //       );
-  //     }
+  if (existingItem) {
+    return cartItems.map(cartItem =>
+      cartItem.id === cartItemToAdd.id && JSON.stringify(cartItem.attributes) === JSON.stringify(cartItemToAdd.attributes)
+        ? { ...cartItem, quantity: cartItem.quantity + 1 }
+        : cartItem
+    );
+  }
   
     return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
 };
 
-export const removeFromCart = (cartItems, cartItemsToRemove) => {
-  const existingCartItem = cartItems.find(
-    cartItem => cartItem.id === cartItemsToRemove.id && cartItem.size === cartItemsToRemove.size && cartItem.color === cartItemsToRemove.color
+export const removeFromCart = (cartItems, ItemToRemove) => {
+  const existingItem = cartItems.find(
+    item => item.id === ItemToRemove.id && JSON.stringify(item.attributes) === JSON.stringify(ItemToRemove.attributes)
   )
 
-  if(existingCartItem.quantity === 1) {
-    return cartItems.filter(cartItem => cartItem.id !== cartItemsToRemove.id)
+  if(existingItem.quantity === 1) {
+    return cartItems.filter(item => JSON.stringify(item.attributes) !== JSON.stringify(ItemToRemove.attributes)) 
   }
-
+  
   return cartItems.map(
-    cartItem => cartItem.id === cartItemsToRemove.id ?
-    { ...cartItem, quantity: cartItem.quantity - 1} : cartItem
+    item => item.id === ItemToRemove.id && JSON.stringify(item.attributes) === JSON.stringify(ItemToRemove.attributes) ?
+    { ...item, quantity: item.quantity - 1} : item
   );
 };
 
 export const changeSizeOrColorFunc = (cart, item, whatToChange, changeTo) => {
   // getting the right item
-  const selectedItem = cart.find(
-    cartItem => cartItem.id === item.id && cartItem.size === item.size && cartItem.color === item.color
-  );
+    const selectedItem = cart.find(
+      cartItem => cartItem.id === item.id && JSON.stringify(cartItem.attributes) === JSON.stringify(item.attributes)
+    );
+
+  // check if there is another shoe.
+    const selectedShoe = cart.find(
+      cartItem => cartItem.id === item.id
+    );
+  // if there is another shoe, check if it has the same value as the new selected value aka changeTo
+      const attributeee = selectedShoe.attributes.find(attribute => attribute.name === whatToChange)
+      if(attributeee.selected === changeTo){
+          
+      }
+      
+  // if so, remove the one this the least quantity. and add the amount to the other one.
+
+  // console.log(selectedItem, whatToChange, changeTo)
   
   // getting the selected attribute  
   const attribute = selectedItem.attributes.find(attribute => attribute.name === whatToChange)
-  
+
+
   // checking if the the user didnt select the same option.
-  if(attribute.selected !== changeTo){
-    attribute.selected = changeTo
-  }
+  // if(attribute.selected !== changeTo){
+  //   attribute.selected = changeTo
+  // }
 
   return [...cart]
 }

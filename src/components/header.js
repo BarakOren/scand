@@ -118,17 +118,6 @@ const Arrow = styled.img`
     width: auto;
 `
 
-const Shader = styled.div`
-  display: ${p => p.display === "on" ? "block" : "none"};
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -5;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgb(0,0,0, 0.22);
-`
-
 class Header extends Component {
 
     constructor(props){
@@ -149,15 +138,10 @@ class Header extends Component {
     }
 
     render(){
-        const {currency, currencies, cart, toggleCart, popupToggle, cartOverlayToggle, currenciesToggle} = this.props;
-
-        const links = ['women', 'men', 'kids']
+        const {currency, cart, toggleCart, popupToggle, categories } = this.props;
         const param = this.state.param
         const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
-        const currenctCurrency = currencies.find(curr => curr.label === currency)
   
-        const {loading, categories, error} = this.props
-        
         return (
         <Container >
             <Links>
@@ -173,7 +157,7 @@ class Header extends Component {
                 
             <SettingsContaier >
                 <CurrencyContainer onClick={popupToggle}>
-                    <Currency>{currenctCurrency.symbol}</Currency>
+                    <Currency>{currency.symbol}</Currency>
                     <Arrow src={arrow} alt="arrow-button" />
                     <CurrencyToggler />
                 </CurrencyContainer>
@@ -197,7 +181,6 @@ const mapStateToProps = store => ({
     cartOverlayToggle: store.cart.overlayToggler,
     currenciesToggle: store.currencies.popupToggle,
     currency: store.currencies.currency,
-    currencies: store.currencies.currencies,
     cart: store.cart.cart
 })
 

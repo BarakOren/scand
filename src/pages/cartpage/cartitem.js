@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import arrow from "../../assets/whitearrow.png";
 import { connect } from "react-redux";
-import { AddToCart, RemoveFromCart, changeSizeOrColor} from "../../redux/cart/actions";
+import { AddToCart, RemoveFromCart } from "../../redux/cart/actions";
 import OptionSelector from "./optionselector.js"
 
 const ItemContainer = styled.div`
@@ -43,40 +43,6 @@ const Label = styled.p`
     font-weight: 700;
     margin: 10px 0 6px 0;
     text-align: left;
-`
-
-const OptionsContainer = styled.div`
-    width: 100%;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-`
-
-const SizeOption = styled.button`
-    width: 63px;
-    height: 45px;
-    font-family: Source Sans Pro;
-    font-size: 14px;
-    font-weight: 400;
-    text-align: center;
-    border: 1px solid #1D1F22;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background: ${p => p.selected ? "#1D1F22" : "none"};
-    color: ${p => p.selected ? "white" : "#1D1F22"};
-`
-
-const ColorOption = styled.button`
-    cursor: pointer;
-    height: 32px;
-    width: 32px;
-    background-color: ${p => p.bg};
-    outline: ${p => p.selected ? "1px solid #5ECE7B" : "none"} ;
-    outline-offset: 1px;
-    border: none;
 `
 
 const Price = styled.p`
@@ -145,13 +111,16 @@ const ImageArrowButton = styled.button`
     align-items: center;
     justify-content: center;
     cursor: pointer;
+
+    &:disabled {
+        opacity: 0.35;
+    }
 `
 
 const Arrow = styled.img`
     width: 60%;
     height: auto;
     transform: ${p => p.left ? "" : "rotate(180deg)"};
-
 `
 
 class CartItem extends Component {
@@ -165,7 +134,7 @@ class CartItem extends Component {
 
     render(){
 
-        const {item, addToCart, removeFromCart, currency} = this.props;
+        const { item, addToCart, removeFromCart, currency } = this.props;
         const { name, prices, gallery, quantity } = item;
         const {currentImage} = this.state;
         
@@ -181,19 +150,18 @@ class CartItem extends Component {
           : this.setState({ currentImage: 0 });
         }
 
-        const currentCurrency = prices.find(cur => cur.currency.label === currency)
-    
+        const currentCurrency = prices.find(cur => cur.currency.label === currency.label)
+
         return(
         <ItemContainer>
             <DetailsContainer>
                 <ItemName>{name}</ItemName>
                 <SubName>Running Short</SubName>
                 <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
-                
                 {item.attributes.map((att) => {
                     return <div key={att.name}> 
-                    <Label>{att.name}</Label>
-                    <OptionSelector item={item} att={att} />
+                        <Label>{att.name}</Label>
+                        <OptionSelector item={item} att={att} />
                     </div>
                 })}
                 </DetailsContainer>
@@ -205,8 +173,8 @@ class CartItem extends Component {
                         <AmountButton onClick={() => removeFromCart(item)}>-</AmountButton>
                     </MiddleCol>
                     <ItemImage style={{backgroundImage: `url(${gallery[currentImage]})`}}>
-                        <ImageArrowButton onClick={() => toggleRight()}><Arrow  src={arrow} alt="right" /></ImageArrowButton>
-                        <ImageArrowButton onClick={() => toggleLeft()} left={true}><Arrow left={true} src={arrow} alt="left" /></ImageArrowButton>
+                        <ImageArrowButton disabled={gallery.length === 1} onClick={() => toggleRight()}><Arrow  src={arrow} alt="right" /></ImageArrowButton>
+                        <ImageArrowButton disabled={gallery.length === 1} onClick={() => toggleLeft()} left={true}><Arrow left={true} src={arrow} alt="left" /></ImageArrowButton>
                     </ItemImage>
                 </RightSide>
                

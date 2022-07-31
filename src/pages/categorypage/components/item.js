@@ -2,10 +2,7 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import whitecart from "../../../assets/whitecart.png";
 import { Link } from "react-router-dom";
-import {AddToCart} from "../../../redux/cart/actions"
 import { connect } from "react-redux";
-
-
 
 const ItemContainer = styled(Link)`
     height: 25vw;
@@ -104,7 +101,7 @@ class Item extends Component {
 
         const {category, gallery, id, inStock, name, prices} = this.props.product;
         const {currency} = this.props;
-        const currentCurrency = prices.find(cur => cur.currency.label === currency)
+        const currentCurrency = prices.find(cur => cur.currency.label === currency.label)
         return(
             <ItemContainer to={`${category}/${id}`}>
                 <ItemImage style={{backgroundImage: `url(${gallery[0]})`}}>

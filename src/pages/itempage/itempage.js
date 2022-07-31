@@ -209,12 +209,11 @@ class ItemPage extends Component {
     render(){
         const {AddToCart, currency} = this.props;
         const {loading, error, product, currentImage} = this.state
-        // const {attributes, brand, category, description, gallery, id, inStock, name, prices} = product
         const switchImages = (currentImage) => {this.setState({ currentImage })}
 
 
         if(!loading){
-            var currentCurrency = product.prices.find(cur => cur.currency.label === currency)
+            var currentCurrency = product.prices.find(cur => cur.currency.label === currency.label)
         }
 
         const handleChange = (e) => {
@@ -225,15 +224,16 @@ class ItemPage extends Component {
         const handleSubmit = (e) => {
             e.preventDefault();
             if(!product.inStock) {alert("Sorry! this item is out of stock.")}
-            product.attributes.forEach(att => {
+            const productClone = structuredClone(product);
+            productClone.attributes.forEach(att => {
                 Object.assign(att, {selected: this.state.attributes[att.name]})
             })
-            AddToCart(product)
+            AddToCart(productClone)
         }
-
 
         return(
             <Page>
+                {error && <h1>sorry, we had a problem...</h1>}
                 {loading && <Loader  />}
                 {!loading && 
                 <>
@@ -247,8 +247,6 @@ class ItemPage extends Component {
                         {!product.inStock && <OutOfStock>Out Of Stock</OutOfStock>}
                     </SelectedImage>
 
-                
-                
                     <DetailsContainer > 
                         <ItemName>{product.brand}</ItemName>
                         <SubName>{product.name}</SubName>

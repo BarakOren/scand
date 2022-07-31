@@ -46,7 +46,7 @@ class OptionSelector extends Component {
         const {cart, item, att, changeSizeOrColor} = this.props
         // getting attribute from redux 
         const selectedAtt = cart.find(
-            cartItem => cartItem.id === item.id && cartItem.size === item.size && cartItem.color === item.color
+            cartItem => cartItem.id === item.id && JSON.stringify(cartItem.attributes) === JSON.stringify(item.attributes)
         ).attributes.find(attritbute => attritbute.name === att.name)
 
         return(

@@ -49,12 +49,12 @@ const NoItems = styled.h1`
 
 class CartPage extends Component {
 
-
     render(){
-        const {cart} = this.props;
+        const {cart, currency} = this.props;
         const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
-        // const total =  cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity * cartItem.price, 0)
-        // const tax = (21 / 100) * total
+        const total =  cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity * cartItem.prices.find(cur => cur.currency.label === currency.label).amount, 0)
+        const tax = (21 / 100) * total
+        
         return(
             <Page>
                 <Title>Cart</Title>
@@ -62,12 +62,12 @@ class CartPage extends Component {
                 {cart.map((item, index) => {
                     return <CartItem key={index} item={item} /> 
                 })}
-                {/* <OrderContainer>
+                <OrderContainer>
                     <Text>Tax 21%: <Bold>${tax.toFixed(2)}</Bold></Text>
                     <Text>Quantity: <Bold>{quantity}</Bold></Text>
-                    <Text>Total: <Bold>${total}</Bold></Text>
+                    <Text>Total: <Bold>${total.toFixed(2)}</Bold></Text>
                 <Button>Order</Button>
-                </OrderContainer> */}
+                </OrderContainer>
             </Page>
         )
     }
@@ -75,11 +75,8 @@ class CartPage extends Component {
 
 const mapStateToProps = store => ({
     cart: store.cart.cart,
+    currency: store.currencies.currency,
+    currencies: store.currencies.currencies,
 })
 
-const mapDispatchToProps = dispatch => ({
-    // toggleCart: () => dispatch(toggleOverlay()),
-});
-  
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
+export default connect(mapStateToProps)(CartPage);

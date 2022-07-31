@@ -41,32 +41,6 @@ const Label = styled.p`
     margin: 7px 0 1px 0;
 `
 
-const OptionsContainer = styled.div`
-    width: 100%;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0 5px;
-`
-
-const SizeOption = styled.button`
-    width: 30px;
-    height: 30px;
-    font-family: Source Sans Pro;
-    font-size: 10px;
-    font-weight: 400;
-    text-align: center;
-    border: 1px solid #1D1F22;
-    background: ${p => p.selected ? "#1D1F22" : "none"};
-    color: ${p => p.selected ? "white" : "#1D1F22"};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    
-`
-
 
 const MiddleCol = styled.div`
     height: 100%;
@@ -102,35 +76,25 @@ const ItemImage = styled.div`
     background-size: cover;
 `
 
-
-const ColorOption = styled.button`
-    cursor: pointer;
-    height: 16px;
-    width: 16px;
-    background-color: ${p => p.bg};
-    outline: ${p => p.selected ? "1px solid #5ECE7B" : "none"} ;
-    outline-offset: 1px;
-    border: none;
-`
-
-
 class CartOverlayItem extends Component {
     
     render(){
-        const {item, addToCart, removeFromCart} = this.props;
+        const { item, addToCart, removeFromCart, currency } = this.props;
         const { name, attributes, gallery, quantity } = item;
-
+        const currencyCurrency = item.prices.find(cur => cur.currency.label === currency.label)
+        
         return(
             <Container >
                 <LeftColumn>
                     <ItemTitle>{name}</ItemTitle>
+                    <Price>{currencyCurrency.currency.symbol}{currencyCurrency.amount}</Price>
+                    
                     {attributes.map((att) => {
                         return <div key={att.name}> 
                         <Label>{att.name}</Label>
                         <OptionSelector item={item} att={att} />
                         </div>
                     })}
-
                 </LeftColumn>
 
                 <MiddleCol>
@@ -147,7 +111,7 @@ class CartOverlayItem extends Component {
 }
 
 const mapStateToProps = store => ({
-    // cart: store.cart.cart,
+    currency: store.currencies.currency
 })
 
 const mapDispatchToProps = dispatch => ({
