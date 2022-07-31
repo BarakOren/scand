@@ -53,8 +53,8 @@ class CartPage extends Component {
     render(){
         const {cart} = this.props;
         const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
-        const total =  cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity * cartItem.price, 0)
-        const tax = (21 / 100) * total
+        // const total =  cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity * cartItem.price, 0)
+        // const tax = (21 / 100) * total
         return(
             <Page>
                 <Title>Cart</Title>
@@ -62,12 +62,12 @@ class CartPage extends Component {
                 {cart.map((item, index) => {
                     return <CartItem key={index} item={item} /> 
                 })}
-                <OrderContainer>
+                {/* <OrderContainer>
                     <Text>Tax 21%: <Bold>${tax.toFixed(2)}</Bold></Text>
                     <Text>Quantity: <Bold>{quantity}</Bold></Text>
                     <Text>Total: <Bold>${total}</Bold></Text>
                 <Button>Order</Button>
-                </OrderContainer>
+                </OrderContainer> */}
             </Page>
         )
     }

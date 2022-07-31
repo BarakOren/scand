@@ -1,14 +1,22 @@
 export const addToCartUtil = (cartItems, cartItemToAdd) => {
-    const existingCartItem = cartItems.find(
-      cartItem => cartItem.id === cartItemToAdd.id && cartItem.size === cartItemToAdd.size && cartItem.color === cartItemToAdd.color
-    );
+  cartItemToAdd.attributes.forEach((att => console.log(att.selected)))
+
+  // cartItems.forEach((el => console.log(JSON.stringify(el.attributes))))
+  // console.log(JSON.stringify(cartItemToAdd.attributes))
+  // const existed = cartItems.find((el => JSON.stringify(el.attributes) === JSON.stringify(cartItemToAdd.attributes) && el.id === cartItemToAdd.id)) 
   
-    if (existingCartItem) {
-        return cartItems.map(cartItem =>
-          cartItem.id === cartItemToAdd.id ? 
-          { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
-        );
-      }
+  // if(existed) return [{ ...existed, quantity: existed.quantity + 1 }]
+
+  //  const existingCartItem = cartItems.find(
+  //   cartItem => cartItem.id === cartItemToAdd.id
+  // );
+  
+  //   if (existingCartItem) {
+  //       return cartItems.map(cartItem =>
+  //         cartItem.id === cartItemToAdd.id && JSON.stringify(cartItem.attributes) === JSON.stringify(cartItemToAdd.attributes) ? 
+  //         { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+  //       );
+  //     }
   
     return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
 };

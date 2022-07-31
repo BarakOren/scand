@@ -3,7 +3,7 @@ import styled from "styled-components";
 import arrow from "../../assets/whitearrow.png";
 import { connect } from "react-redux";
 import { AddToCart, RemoveFromCart, changeSizeOrColor} from "../../redux/cart/actions";
-
+import OptionSelector from "./optionselector.js"
 
 const ItemContainer = styled.div`
     padding: 24px 0;
@@ -42,6 +42,7 @@ const Label = styled.p`
     font-size: 18px;
     font-weight: 700;
     margin: 10px 0 6px 0;
+    text-align: left;
 `
 
 const OptionsContainer = styled.div`
@@ -67,7 +68,6 @@ const SizeOption = styled.button`
     background: ${p => p.selected ? "#1D1F22" : "none"};
     color: ${p => p.selected ? "white" : "#1D1F22"};
 `
-
 
 const ColorOption = styled.button`
     cursor: pointer;
@@ -165,43 +165,37 @@ class CartItem extends Component {
 
     render(){
 
-        const {item, addToCart, removeFromCart, changeSizeOrColor} = this.props;
-        const { name, price, size, color, images, colors, sizes, quantity} = item;
+        const {item, addToCart, removeFromCart, currency} = this.props;
+        const { name, prices, gallery, quantity } = item;
         const {currentImage} = this.state;
         
         const toggleRight = () => {
             currentImage > 0 ? 
             this.setState({ currentImage: currentImage - 1 })
-          : this.setState({ currentImage: images.length - 1 });
+          : this.setState({ currentImage: gallery.length - 1 });
         }
 
         const toggleLeft = () => {
-            currentImage < images.length - 1 ? 
+            currentImage < gallery.length - 1 ? 
             this.setState({ currentImage: currentImage + 1 })
           : this.setState({ currentImage: 0 });
         }
 
-
+        const currentCurrency = prices.find(cur => cur.currency.label === currency)
+    
         return(
         <ItemContainer>
             <DetailsContainer>
                 <ItemName>{name}</ItemName>
                 <SubName>Running Short</SubName>
-                <Price>${price}</Price>
-                <Label>Size:</Label>
-                <OptionsContainer>
-                        {sizes.map((mapSize) => {
-                            return <SizeOption onClick={() => {changeSizeOrColor(item, "size", mapSize); this.forceUpdate()}}  
-                                    key={mapSize + "page"} selected={mapSize === size}>{mapSize}</SizeOption>
-                        })} 
-                </OptionsContainer>
-                <Label>Color:</Label>
-                    <OptionsContainer style={{justifyContent: "flex-start", gap: "0 15px"}}>
-                        {colors.map((colorMap) => {
-                            return <ColorOption onClick={() => {changeSizeOrColor(item, "color", colorMap); this.forceUpdate()}} 
-                            key={colorMap + "page"} bg={colorMap} selected={colorMap === color}/>
-                        })}
-                    </OptionsContainer>
+                <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
+                
+                {item.attributes.map((att) => {
+                    return <div key={att.name}> 
+                    <Label>{att.name}</Label>
+                    <OptionSelector item={item} att={att} />
+                    </div>
+                })}
                 </DetailsContainer>
 
                 <RightSide>
@@ -210,8 +204,8 @@ class CartItem extends Component {
                         <CurrentAmount>{quantity || "0"}</CurrentAmount>
                         <AmountButton onClick={() => removeFromCart(item)}>-</AmountButton>
                     </MiddleCol>
-                    <ItemImage style={{backgroundImage: `url(${images[currentImage]})`}}>
-                        <ImageArrowButton><Arrow onClick={() => toggleRight()} src={arrow} alt="right" /></ImageArrowButton>
+                    <ItemImage style={{backgroundImage: `url(${gallery[currentImage]})`}}>
+                        <ImageArrowButton onClick={() => toggleRight()}><Arrow  src={arrow} alt="right" /></ImageArrowButton>
                         <ImageArrowButton onClick={() => toggleLeft()} left={true}><Arrow left={true} src={arrow} alt="left" /></ImageArrowButton>
                     </ItemImage>
                 </RightSide>
@@ -221,12 +215,15 @@ class CartItem extends Component {
     }
 }
 
+const mapStateToProps = store => ({
+    currency: store.currencies.currency
+})
+
 const mapDispatchToProps = dispatch => ({
     addToCart: (item) => dispatch(AddToCart(item)),
     removeFromCart: (item) => dispatch(RemoveFromCart(item)),
-    changeSizeOrColor: (item, changeType, selected) => dispatch(changeSizeOrColor(item, changeType, selected))
 });
 
-export default connect(null,mapDispatchToProps)(CartItem);
+export default connect(mapStateToProps ,mapDispatchToProps)(CartItem);
 
 

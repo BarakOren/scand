@@ -227,9 +227,7 @@ class ItemPage extends Component {
             if(!product.inStock) {alert("Sorry! this item is out of stock.")}
             product.attributes.forEach(att => {
                 Object.assign(att, {selected: this.state.attributes[att.name]})
-            }
-            )
-            // console.log(product)
+            })
             AddToCart(product)
         }
 
@@ -246,7 +244,7 @@ class ItemPage extends Component {
                     </ImagesContainer>
 
                     <SelectedImage style={{backgroundImage: `url(${currentImage ? currentImage : product.gallery[0]})`}}>
-                        <OutOfStock>Out Of Stock</OutOfStock>
+                        {!product.inStock && <OutOfStock>Out Of Stock</OutOfStock>}
                     </SelectedImage>
 
                 
@@ -292,6 +290,10 @@ class ItemPage extends Component {
                             <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
                             <Button type="submit">ADD TO CART</Button>
                     </Form>
+                    <Description
+                    dangerouslySetInnerHTML={{ __html: product.description}}
+                    />    
+                    
                 </DetailsContainer>
                 </>
                 }
