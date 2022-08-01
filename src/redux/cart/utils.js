@@ -30,34 +30,34 @@ export const removeFromCart = (cartItems, ItemToRemove) => {
   );
 };
 
-export const changeSizeOrColorFunc = (cart, item, whatToChange, changeTo) => {
-  // getting the right item
-    const selectedItem = cart.find(
-      cartItem => cartItem.id === item.id && JSON.stringify(cartItem.attributes) === JSON.stringify(item.attributes)
-    );
+// export const changeSizeOrColorFunc = (cart, item, whatToChange, changeTo) => {
+//   // getting the right item
+//     const selectedItem = cart.find(
+//       cartItem => cartItem.id === item.id && JSON.stringify(cartItem.attributes) === JSON.stringify(item.attributes)
+//     );
 
-  // check if there is another shoe.
-    const selectedShoe = cart.find(
-      cartItem => cartItem.id === item.id
-    );
-  // if there is another shoe, check if it has the same value as the new selected value aka changeTo
-      const attributeee = selectedShoe.attributes.find(attribute => attribute.name === whatToChange)
-      if(attributeee.selected === changeTo){
+//   // check if there is another shoe.
+//     const selectedShoe = cart.find(
+//       cartItem => cartItem.id === item.id
+//     );
+//   // if there is another shoe, check if it has the same value as the new selected value aka changeTo
+//       const attributeee = selectedShoe.attributes.find(attribute => attribute.name === whatToChange)
+//       if(attributeee.selected === changeTo){
           
-      }
+//       }
       
-  // if so, remove the one this the least quantity. and add the amount to the other one.
+//   // if so, remove the one this the least quantity. and add the amount to the other one.
 
-  // console.log(selectedItem, whatToChange, changeTo)
+//   // console.log(selectedItem, whatToChange, changeTo)
   
-  // getting the selected attribute  
-  const attribute = selectedItem.attributes.find(attribute => attribute.name === whatToChange)
+//   // getting the selected attribute  
+//   const attribute = selectedItem.attributes.find(attribute => attribute.name === whatToChange)
 
 
-  // checking if the the user didnt select the same option.
-  // if(attribute.selected !== changeTo){
-  //   attribute.selected = changeTo
-  // }
+//   // checking if the the user didnt select the same option.
+//   // if(attribute.selected !== changeTo){
+//   //   attribute.selected = changeTo
+//   // }
 
-  return [...cart]
-}
+//   return [...cart]
+// }
