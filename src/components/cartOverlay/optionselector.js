@@ -5,7 +5,6 @@ import { changeSizeOrColor } from "../../redux/cart/actions";
 
 const OptionsContainer = styled.div`
     width: 100%;
-    height: 30px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -14,10 +13,10 @@ const OptionsContainer = styled.div`
 
 
 const SizeOption = styled.button`
-    width: 30px;
-    height: 30px;
+    width: ${p => p.size ? "26px" : "30px"};
+    height: ${p => p.size ? "26px" : "30px"};
     font-family: Source Sans Pro;
-    font-size: 10px;
+    font-size: ${p => p.size ? "8px" : "10px"};
     font-weight: 400;
     text-align: center;
     border: 1px solid #1D1F22;
@@ -36,14 +35,14 @@ const ColorOption = styled.button`
     width: 15px;
     background-color: ${p => p.bg};
     outline: ${p => p.selected ? "1px solid #5ECE7B" : "none"} ;
+    border: ${p => p.white ? "1px solid black" : "none"};
     outline-offset: 1px;
-    border: none;
 `
 
 class OptionSelector extends Component {
 
     render(){
-        const {cart, item, att, changeSizeOrColor} = this.props
+        const {cart, item, att, size, changeSizeOrColor} = this.props
         // getting attribute from redux 
         const selectedAtt = cart.find(
             cartItem => cartItem.id === item.id && JSON.stringify(cartItem.attributes) === JSON.stringify(item.attributes)
@@ -52,10 +51,11 @@ class OptionSelector extends Component {
         return(
             <OptionsContainer>
                 {att.items.map((attItem) => {
+                    console.log(attItem.value === "#FFFFFF")
                     return att.type === "text" ? 
-                    <SizeOption onClick={() => changeSizeOrColor(item, att.name, attItem.value)} key={attItem.value} selected={attItem.value === selectedAtt.selected}>{attItem.value}</SizeOption>
+                    <SizeOption onClick={() => changeSizeOrColor(item, att.name, attItem.value)} key={attItem.value} size={size} selected={attItem.value === selectedAtt.selected}>{attItem.value}</SizeOption>
                     :
-                    <ColorOption onClick={() => changeSizeOrColor(item, att.name, attItem.value)} key={attItem.value} bg={attItem.value} selected={attItem.value === this.props.att.selected}/>
+                    <ColorOption onClick={() => changeSizeOrColor(item, att.name, attItem.value)} key={attItem.value} white={attItem.value === "#FFFFFF"}  bg={attItem.value} selected={attItem.value === this.props.att.selected}/>
                 })}
             </OptionsContainer>
         )

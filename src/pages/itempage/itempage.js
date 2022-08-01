@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import {AddToCart} from "../../redux/cart/actions";
 import { fetchProductInfo } from "../../fetchData"
 import Loader from "../../components/loader";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const Page = styled.div`
     width: 100%;
@@ -215,6 +217,7 @@ class ItemPage extends Component {
         if(!loading){
             var currentCurrency = product.prices.find(cur => cur.currency.label === currency.label)
         }
+        
 
         const handleChange = (e) => {
             const state = this.state.attributes
@@ -223,13 +226,18 @@ class ItemPage extends Component {
 
         const handleSubmit = (e) => {
             e.preventDefault();
+            const test = uuidv4();
             if(!product.inStock) {alert("Sorry! this item is out of stock.")}
             const productClone = structuredClone(product);
             productClone.attributes.forEach(att => {
                 Object.assign(att, {selected: this.state.attributes[att.name]})
             })
+            Object.assign(productClone, {uid: test})
             AddToCart(productClone)
         }
+
+        
+        
 
         return(
             <Page>

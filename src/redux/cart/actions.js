@@ -13,6 +13,12 @@ export const AddToCart = item => ({
     payload: item
 })
 
+export const addFromCart = item => ({
+    type: cartTypes.ADD_FROM_CART,
+    payload: item
+})
+
+
 export const RemoveFromCart = item => ({
     type: cartTypes.REMOVE_FROM_CART,
     payload: item

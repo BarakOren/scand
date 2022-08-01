@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { AddToCart, RemoveFromCart, changeSizeOrColor } from "../../redux/cart/actions";
+import { addFromCart, RemoveFromCart, changeSizeOrColor } from "../../redux/cart/actions";
 import OptionSelector from "./optionselector"
 
 const Container = styled.div`
@@ -15,7 +15,11 @@ const Container = styled.div`
 
 const LeftColumn = styled.div`
     width: 136px;
-    height: 100%;
+    min-height: 190px;
+    /* display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between; */
 `
 
 const ItemTitle = styled.h1`
@@ -23,24 +27,23 @@ const ItemTitle = styled.h1`
     font-weight: 300;
     width: 100%;
     text-align: left;
-    margin: 3px 0;
+    margin: 0px 0 3px 0;
 `
 
 const Price = styled.p`
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     text-align: left;
     width: 100%;
-    margin: 3px 0 19px 0;
+    margin: 3px 0 0px 0;
 `
 
 const Label = styled.p`
-    font-size: 14px;
+    font-size: ${p => p.size ? "10px" : "14px"};
     font-weight: 400;
     text-align: left;
-    margin: 7px 0 1px 0;
+    margin: ${p => p.size ? "10px 0 1px 0" : "19px 0 3px 0"};
 `
-
 
 const MiddleCol = styled.div`
     height: 100%;
@@ -73,32 +76,32 @@ const ItemImage = styled.div`
     height: 100%;
     width: 136px;
     background-position: center;
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
 `
 
 class CartOverlayItem extends Component {
     
     render(){
-        const { item, addToCart, removeFromCart, currency } = this.props;
-        const { name, attributes, gallery, quantity } = item;
+        const { item, addFromCart, removeFromCart, currency } = this.props;
+        const { name, brand, attributes, gallery, quantity } = item;
         const currencyCurrency = item.prices.find(cur => cur.currency.label === currency.label)
         
         return(
             <Container >
                 <LeftColumn>
-                    <ItemTitle>{name}</ItemTitle>
+                    <ItemTitle>{name} - {brand}</ItemTitle>
                     <Price>{currencyCurrency.currency.symbol}{currencyCurrency.amount}</Price>
-                    
                     {attributes.map((att) => {
                         return <div key={att.name}> 
-                        <Label>{att.name}</Label>
-                        <OptionSelector item={item} att={att} />
+                        <Label size={attributes.length > 2}>{att.name}</Label>
+                        <OptionSelector size={attributes.length > 2} item={item} att={att} />
                         </div>
                     })}
                 </LeftColumn>
 
                 <MiddleCol>
-                    <AmountButton onClick={() => addToCart(item)}>+</AmountButton>
+                    <AmountButton onClick={() => addFromCart(item)}>+</AmountButton>
                     <CurrentAmount>{quantity || "0"}</CurrentAmount>
                     <AmountButton onClick={() => removeFromCart(item)}>-</AmountButton>
                 </MiddleCol>
@@ -115,7 +118,7 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    addToCart: (item) => dispatch(AddToCart(item)),
+    addFromCart: (item) => dispatch(addFromCart(item)),
     removeFromCart: (item) => dispatch(RemoveFromCart(item)),
     changeSizeOrColor: (item, changeType, selected) => dispatch(changeSizeOrColor(item, changeType, selected))
 });

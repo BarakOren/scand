@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import arrow from "../../assets/whitearrow.png";
 import { connect } from "react-redux";
-import { AddToCart, RemoveFromCart } from "../../redux/cart/actions";
+import { addFromCart, RemoveFromCart } from "../../redux/cart/actions";
 import OptionSelector from "./optionselector.js"
 
 const ItemContainer = styled.div`
@@ -113,7 +113,7 @@ const ImageArrowButton = styled.button`
     cursor: pointer;
 
     &:disabled {
-        opacity: 0.35;
+        display: none;
     }
 `
 
@@ -134,9 +134,9 @@ class CartItem extends Component {
 
     render(){
 
-        const { item, addToCart, removeFromCart, currency } = this.props;
+        const { item, addFromCart, removeFromCart, currency } = this.props;
         const { name, prices, gallery, quantity } = item;
-        const {currentImage} = this.state;
+        const { currentImage } = this.state;
         
         const toggleRight = () => {
             currentImage > 0 ? 
@@ -168,7 +168,7 @@ class CartItem extends Component {
 
                 <RightSide>
                     <MiddleCol>
-                        <AmountButton onClick={() => addToCart(item)}>+</AmountButton>
+                        <AmountButton onClick={() => addFromCart(item)}>+</AmountButton>
                         <CurrentAmount>{quantity || "0"}</CurrentAmount>
                         <AmountButton onClick={() => removeFromCart(item)}>-</AmountButton>
                     </MiddleCol>
@@ -188,7 +188,7 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    addToCart: (item) => dispatch(AddToCart(item)),
+    addFromCart: (item) => dispatch(addFromCart(item)),
     removeFromCart: (item) => dispatch(RemoveFromCart(item)),
 });
 

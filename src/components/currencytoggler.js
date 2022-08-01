@@ -55,7 +55,7 @@ class CurrencyToggler extends Component {
             <Container ref={this.currencyRef} display={currenciesToggle ? "on" : "off"} >
                 {currencies.map((curr) => {
                   return <Currency key={curr.label}
-                  onClick={() => changeCurrency(curr)} selected={currency === curr.label}
+                  onClick={() => changeCurrency(curr)} selected={currency.label === curr.label}
                   >{curr.symbol} {curr.label}</Currency>
                   })
                 }

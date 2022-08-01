@@ -31,6 +31,7 @@ const ItemImage = styled.div`
     background-size: cover;
     margin-bottom: 1vw;
     position: relative;
+    opacity: ${p => p.disabled ? "0.5" : "1"};
 `
 
 const Title = styled.p`
@@ -42,6 +43,7 @@ const Title = styled.p`
     @media only screen and (max-width: 1050px) {
         margin: 5px 0;
     }
+    opacity: ${p => p.disabled ? "0.5" : "1"};
 `
 
 const Price = styled.p`
@@ -53,9 +55,11 @@ const Price = styled.p`
     @media only screen and (max-width: 1050px) {
         margin: 5px 0;
     }
+    opacity: ${p => p.disabled ? "0.5" : "1"};
 `
 
 const AddToCartButton = styled.button`  
+    display: ${p => p.disabled ? "none" : "default"};
     opacity: 0;
     width: 3.5vw;
     height: 3.5vw;
@@ -103,14 +107,14 @@ class Item extends Component {
         const {currency} = this.props;
         const currentCurrency = prices.find(cur => cur.currency.label === currency.label)
         return(
-            <ItemContainer to={`${category}/${id}`}>
-                <ItemImage style={{backgroundImage: `url(${gallery[0]})`}}>
-                <AddToCartButton>
+            <ItemContainer  to={`${category}/${id}`}>
+                <ItemImage disabled={!inStock} style={{backgroundImage: `url(${gallery[0]})`}}>
+                <AddToCartButton disabled={!inStock}>
                     <CartIcon src={whitecart} alt="add-to-cart-button" />
                 </AddToCartButton>
                 </ItemImage>
-                <Title>{name}</Title>
-                <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
+                <Title disabled={!inStock}>{name}</Title>
+                <Price disabled={!inStock}>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
                 {!inStock && <OutOfStock>Out Of Stock</OutOfStock>}
             </ItemContainer>
         )
