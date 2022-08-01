@@ -15,8 +15,6 @@ export const fetchCategories = () => {
     return categories;
 }
 
-
-
 export const fetchProducts = props => {
   const productsS = `
         {
