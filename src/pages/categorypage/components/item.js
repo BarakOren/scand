@@ -1,10 +1,13 @@
 import React, {Component} from "react";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import whitecart from "../../../assets/whitecart.png";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import {addToCartFromCategoryPage} from "../../../redux/cart/actions";
+import whitearrow from "../../../assets/whitearrow.png"
 
-const ItemContainer = styled(Link)`
+const ItemContainer = styled.li`
+    list-style-type: none;
     height: 25vw;
     width: 20vw;
     padding: 16px;
@@ -58,8 +61,38 @@ const Price = styled.p`
     opacity: ${p => p.disabled ? "0.5" : "1"};
 `
 
+
 const AddToCartButton = styled.button`  
     display: ${p => p.disabled ? "none" : "default"};
+    opacity: 0;
+    width: 3.5vw;
+    height: 3.5vw;
+    border: none;
+    background: #5ECE7B;
+    border-radius: 50%;
+    position: absolute;
+    right: 5vw;
+    bottom: 0;
+    transform: translateY(50%);
+    cursor: pointer;
+    transition: .4s all;
+
+    ${ItemContainer}:hover & {
+        opacity: 1;
+    }
+`
+
+
+const CartIcon = styled.img`
+    width: 1.7vw;
+    height: auto;
+    position: relative;
+    right: 1px;
+    top: 2px;
+`
+
+const Direct = styled(Link)`
+    text-decoration: none;
     opacity: 0;
     width: 3.5vw;
     height: 3.5vw;
@@ -72,18 +105,21 @@ const AddToCartButton = styled.button`
     transform: translateY(50%);
     cursor: pointer;
     transition: .4s all;
+    font-weight: 900;
+    font-size: 2vw;
 
     ${ItemContainer}:hover & {
         opacity: 1;
     }
 `
 
-const CartIcon = styled.img`
-    width: 1.7vw;
+const ArrowIcon = styled.img`
+    width: 1vw;
     height: auto;
     position: relative;
-    right: 1px;
-    top: 2px;
+    left: 1px;
+    top: 47%;
+    transform: translateY(-50%) rotate(180deg);
 `
 
 const OutOfStock = styled.p`
@@ -99,19 +135,24 @@ const OutOfStock = styled.p`
     color: #8D8F9A;
 `
 
+
 class Item extends Component {
     
     render(){
 
         const {category, gallery, id, inStock, name, prices} = this.props.product;
-        const {currency} = this.props;
-        const currentCurrency = prices.find(cur => cur.currency.label === currency.label)
+        const {currency, addToCartFromCategoryPage} = this.props;
+        const currentCurrency = prices.find(cur => cur.currency.label === currency.label);
+
         return(
-            <ItemContainer  to={`${category}/${id}`}>
+            <ItemContainer>
                 <ItemImage disabled={!inStock} style={{backgroundImage: `url(${gallery[0]})`}}>
-                <AddToCartButton disabled={!inStock}>
+                <AddToCartButton onClick={() => {addToCartFromCategoryPage(this.props.product)}} disabled={!inStock}>
                     <CartIcon src={whitecart} alt="add-to-cart-button" />
                 </AddToCartButton>
+                <Direct to={`${category}/${id}`}>
+                    <ArrowIcon src={whitearrow} alt="direct-to-item" />    
+                </Direct>
                 </ItemImage>
                 <Title disabled={!inStock}>{name}</Title>
                 <Price disabled={!inStock}>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
@@ -125,4 +166,8 @@ const mapStateToProps = store => ({
     currency: store.currencies.currency
 })
 
-export default connect(mapStateToProps)(Item);
+const mapDispatchToProps = dispatch => ({
+    addToCartFromCategoryPage: (item) => dispatch(addToCartFromCategoryPage(item))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Item);

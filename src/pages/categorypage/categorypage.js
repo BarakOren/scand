@@ -19,13 +19,15 @@ const CategoryTitle = styled.h1`
     text-align: left;
 `
 
-const ItemsContainer = styled.div`
+const ItemsContainer = styled.ul`
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: ${p => p.length > 3 ? "space-between" : "flex-start"};
     flex-wrap: wrap;
-    gap: 100px;
+    gap: 3vw;
+    padding: 0;
+    list-style-type: none;
 
   @media only screen and (max-width: 1000px) {
         justify-content: space-evenly;

@@ -23,6 +23,15 @@ export const fetchProducts = props => {
               products {
               id
               name
+              attributes {
+                name
+                type
+                items {
+                  displayValue
+                  value
+                  id
+                }
+              }
               inStock
               gallery
               category

@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export const addToCartUtil = (cartItems, cartItemToAdd) => {
 
   const existingItem = cartItems.find(
@@ -22,11 +24,41 @@ export const addFromCart = (cartItems, cartItemToAdd) => {
   );
 }
 
+export const addToCartFromCategoryPage = (cartItems, cartItemToAdd) => {
+
+  cartItemToAdd.attributes.forEach((att) => {
+    Object.assign(att, {selected: att.items[0].value})
+  })
+
+  const existingItem = cartItems.find(
+    item => item.id === cartItemToAdd.id && JSON.stringify(item.attributes) === JSON.stringify(cartItemToAdd.attributes) 
+  );
+
+  if (existingItem) {
+    const uid = uuidv4();
+    Object.assign(existingItem, {uid: uid})
+    return cartItems.map(cartItem =>
+      cartItem.id === cartItemToAdd.id
+        ? { ...cartItem, quantity: cartItem.quantity + 1 }
+        : cartItem
+    );
+  }
+
+  const uid = uuidv4();
+  Object.assign(cartItemToAdd, {uid: uid})
+  
+    return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
+
+  return [...cartItems]
+}
+
+
+
 export const removeFromCart = (cartItems, ItemToRemove) => {
   const existingItem = cartItems.find(
     // item => item.id === ItemToRemove.id && JSON.stringify(item.attributes) === JSON.stringify(ItemToRemove.attributes)
     item => item.uid === ItemToRemove.uid
-    )
+  )
 
   if(existingItem.quantity === 1) {
     // return cartItems.filter(item => JSON.stringify(item.attributes) !== JSON.stringify(ItemToRemove.attributes))
@@ -39,6 +71,9 @@ export const removeFromCart = (cartItems, ItemToRemove) => {
     { ...item, quantity: item.quantity - 1} : item
   );
 };
+
+
+
 
 export const changeSizeOrColorFunc = (cart, item, whatToChange, changeTo) => {
 

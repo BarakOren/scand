@@ -152,6 +152,10 @@ const Button = styled.button`
     font-weight: 600;
     cursor: pointer;
     margin-top: 30px;
+    &:disabled {
+        background: black;
+        opacity: 0.3;
+    }
 `
 
 const Description = styled.p`
@@ -213,12 +217,8 @@ class ItemPage extends Component {
         const {loading, error, product, currentImage} = this.state
         const switchImages = (currentImage) => {this.setState({ currentImage })}
 
-
-        if(!loading){
-            var currentCurrency = product.prices.find(cur => cur.currency.label === currency.label)
-        }
+        const currentCurrency = product ? product.prices.find(cur => cur.currency.label === currency.label) : undefined
         
-
         const handleChange = (e) => {
             const state = this.state.attributes
             this.setState({ attributes: Object.assign(state, {[e.target.name]: e.target.value}) })
@@ -226,18 +226,15 @@ class ItemPage extends Component {
 
         const handleSubmit = (e) => {
             e.preventDefault();
-            const test = uuidv4();
-            if(!product.inStock) {alert("Sorry! this item is out of stock.")}
+            const uid = uuidv4();
             const productClone = structuredClone(product);
             productClone.attributes.forEach(att => {
                 Object.assign(att, {selected: this.state.attributes[att.name]})
             })
-            Object.assign(productClone, {uid: test})
+            Object.assign(productClone, {uid: uid})
             AddToCart(productClone)
         }
 
-        
-        
 
         return(
             <Page>
@@ -294,7 +291,7 @@ class ItemPage extends Component {
                         }
                             <Label style={{marginTop: "30px"}}>Price:</Label>
                             <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
-                            <Button type="submit">ADD TO CART</Button>
+                            <Button type="submit" disabled={!product.inStock}>{product.inStock ? "ADD TO CART" : "OUT OF STOCK"}</Button>
                     </Form>
                     <Description
                     dangerouslySetInnerHTML={{ __html: product.description}}

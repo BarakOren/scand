@@ -18,6 +18,11 @@ export const addFromCart = item => ({
     payload: item
 })
 
+export const addToCartFromCategoryPage = item => ({
+    type: cartTypes.ADD_TO_CART_FROM_CATEGORY_PAGE,
+    payload: item
+})
+
 
 export const RemoveFromCart = item => ({
     type: cartTypes.REMOVE_FROM_CART,

@@ -51,7 +51,6 @@ class OptionSelector extends Component {
         return(
             <OptionsContainer>
                 {att.items.map((attItem) => {
-                    console.log(attItem.value === "#FFFFFF")
                     return att.type === "text" ? 
                     <SizeOption onClick={() => changeSizeOrColor(item, att.name, attItem.value)} key={attItem.value} size={size} selected={attItem.value === selectedAtt.selected}>{attItem.value}</SizeOption>
                     :

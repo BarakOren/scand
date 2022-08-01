@@ -1,5 +1,5 @@
 import { cartTypes } from "./types";
-import {addToCartUtil, removeFromCart, changeSizeOrColorFunc, addFromCart} from "./utils";
+import {addToCartUtil, removeFromCart, changeSizeOrColorFunc, addFromCart, addToCartFromCategoryPage} from "./utils";
 
 const initialState = {
     overlayToggler: false,
@@ -27,6 +27,11 @@ export const cartReducer = (state = initialState, action) => {
             return {
                 ...state,
                 cart: addFromCart(state.cart, action.payload)
+            }
+        case cartTypes.ADD_TO_CART_FROM_CATEGORY_PAGE: 
+            return {
+                ...state, 
+                cart: addToCartFromCategoryPage(state.cart, action.payload)
             }
         case cartTypes.REMOVE_FROM_CART:
             return {
