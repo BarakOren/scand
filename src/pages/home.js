@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import {fetchCategories} from "../fetchData"
+// import {fetchCategories} from "../fetchData"
 import Loader from "../components/loader";
 
 const Page = styled.div`

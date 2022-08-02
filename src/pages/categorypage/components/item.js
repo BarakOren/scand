@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import styled, {keyframes} from "styled-components";
+import styled from "styled-components";
 import whitecart from "../../../assets/whitecart.png";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -8,9 +8,8 @@ import whitearrow from "../../../assets/whitearrow.png"
 
 const ItemContainer = styled.li`
     list-style-type: none;
-    height: 25vw;
-    width: 20vw;
-    padding: 16px;
+    height: 300px;
+    width: 50%;
     transition: .2s all;
     position: relative;
     text-decoration: none;

@@ -1,4 +1,5 @@
-export const fetchCategories = () => {
+
+export const fetchCategories = async () => {
     const categoriesS = `
     {
       categories {
@@ -6,19 +7,20 @@ export const fetchCategories = () => {
       }
     }`;
   
-    const categories = fetch(`http://localhost:4000/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: categoriesS }),
-    }).then((res) => res.json());
-  
-    return categories;
-}
+      const categories = await fetch(`http://localhost:4000/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: categoriesS }),
+      }).then((res) => res.json());
+
+      return categories;
+    } 
+    
 
 export const fetchProducts = props => {
   const productsS = `
         {
-          category(input: { title: "${props || "all"}" }){
+          category(input: { title: "${props}" }){
             name
               products {
               id
@@ -63,10 +65,11 @@ export const fetchProductInfo = (id) => {
           product(id: "${id}") {
             id
             name
-            inStock
             description
+            brand
             category
             gallery
+            inStock
             attributes {
               name
               type
@@ -76,7 +79,6 @@ export const fetchProductInfo = (id) => {
                 id
               }
             }
-            brand
             prices {
               currency {
                 label

@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { withRouter } from 'react-router-dom'
 import { connect } from "react-redux";
 import {AddToCart} from "../../redux/cart/actions";
-import { fetchProductInfo } from "../../fetchData"
+// import { fetchProductInfo } from "../../fetchData"
 import Loader from "../../components/loader";
 import { v4 as uuidv4 } from 'uuid';
-
+import { getProductInfo } from "../../apollo";
 
 const Page = styled.div`
     width: 100%;
@@ -199,15 +199,24 @@ class ItemPage extends Component {
         }
     }
 
-    componentDidMount(){
-        fetchProductInfo(this.props.match.params.id)
-        .then(fetchedItem => {
-            this.setState({
-                product: fetchedItem.data.product,
-                loading: false,
-            })
-        })
-        .catch((err) => this.setState({ loading: false, error: err.message }));
+    async componentDidMount(){
+        try{
+            const res = await getProductInfo(this.props.match.params.id);
+            this.setState({product: res.product, loading: false})
+        }
+        catch (error) {
+            console.log(error.message)
+            this.setState({loading: false, error: true})
+          }
+    
+        // fetchProductInfo(this.props.match.params.id)
+        // .then(fetchedItem => {
+        //     this.setState({
+        //         product: fetchedItem.data.product,
+        //         loading: false,
+        //     })
+        // })
+        // .catch((err) => this.setState({ loading: false, error: err.message }));
     }
 
 

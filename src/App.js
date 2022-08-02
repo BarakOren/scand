@@ -8,7 +8,8 @@ import ItemPage from "./pages/itempage/itempage";
 import CartPage from "./pages/cartpage/cartpage";
 import Error from "./pages/error";
 import { connect } from "react-redux";
-import { fetchCategories } from "./fetchData";
+// import { fetchCategories } from "./fetchData";
+import { getCategories } from "./apollo"
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -48,22 +49,36 @@ class App extends Component {
     }
   }
 
-  componentDidMount(){
-      fetchCategories()
-      .then(fetchedCategories => {
-          this.setState({
-            categories: fetchedCategories.data.categories,
-            loading: false
-        })
-      })
-      .catch((err) => this.setState({ loading: false, error: err.message }))
+    async componentDidMount(){
+      try {
+        const res = await getCategories();
+        this.setState({categories: res.categories, loading: false})
+      }
+      catch (error) {
+        console.log(error.message)
+        this.setState({loading: false, error: true})
+      }
+
+    // getCategories().then(res => this.setState({
+    //         categories: res.categories,
+    //         loading: false
+    //     })
+    // ).catch((err) => this.setState({ loading: false, error: err.message }))
+
+
+      // fetchCategories()
+      // .then(fetchedCategories => {
+      //     this.setState({
+      //       categories: fetchedCategories.data.categories,
+      //       loading: false
+      //   })
+      // })
+      // .catch((err) => this.setState({ loading: false, error: err.message }))
   }
 
   render(){
-
     const { cartOverlayToggle } = this.props;
     const {loading, categories, error} = this.state
-    
     return (
       <AppContainer >
         <GlobalStyle />
