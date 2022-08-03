@@ -21,12 +21,10 @@ const CategoryTitle = styled.h1`
 `
 
 const ItemsContainer = styled.ul`
-    display: inline-grid;
-    grid-template-columns: repeat(3, 25%);
-    /* grid-gap: 11.9%; */
-    grid-gap: 100px;
-    /* justify-items: center; */
     width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10vw;
     padding: 0;
     list-style-type: none;
 `

@@ -8,8 +8,8 @@ import whitearrow from "../../../assets/whitearrow.png"
 
 const ItemContainer = styled.li`
     list-style-type: none;
-    height: 300px;
-    width: 50%;
+    height: 32vw;
+    width: 100%;
     transition: .2s all;
     position: relative;
     text-decoration: none;
