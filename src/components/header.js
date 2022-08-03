@@ -27,7 +27,7 @@ const Container = styled.nav`
     background-color: white;
 `
 
-const Links = styled.div`
+const LinksContainer = styled.div`
     width: 234px;
     height: 100%;
     display: flex;
@@ -143,13 +143,13 @@ class Header extends Component {
         const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
   
         return (
-        <Container >
-            <Links>
-            {categories.map((link, index) => {
+        <Container>
+            <LinksContainer>
+            {categories.map((link) => {
                 const {name} = link
-                return <A current={param === `/${name}`} key={index} to={`/${name}`}>{name.toUpperCase()}</A>
+                return <A current={param === `/${name}`} key={name} to={`/${name}`}>{name.toUpperCase()}</A>
             })}
-            </Links>
+            </LinksContainer>
             
             <A to="/" >
                 <Icon src={icon} alt="icon" />

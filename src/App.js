@@ -26,7 +26,7 @@ const AppContainer = styled.div`
   padding: 0 5%;
 `
 
-const Shader = styled.div`
+const CartOverlayShader = styled.div`
   display: ${p => p.display === "on" ? "block" : "none"};
   position: fixed;
   top: 0;
@@ -94,7 +94,7 @@ class App extends Component {
           </Switch>
           </>
         </Router>
-          <Shader display={cartOverlayToggle ? "on" : "off"} />
+          <CartOverlayShader display={cartOverlayToggle ? "on" : "off"} />
         
       </AppContainer>
     );

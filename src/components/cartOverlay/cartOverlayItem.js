@@ -88,7 +88,7 @@ class CartOverlayItem extends Component {
         const currencyCurrency = item.prices.find(cur => cur.currency.label === currency.label)
         
         return(
-            <Container >
+            <Container>
                 <LeftColumn>
                     <ItemTitle>{name} - {brand}</ItemTitle>
                     <Price>{currencyCurrency.currency.symbol}{currencyCurrency.amount}</Price>

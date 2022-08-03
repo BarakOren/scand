@@ -17,23 +17,21 @@ const Container = styled.div`
     top: 80px;
     z-index: 2;
     overflow-y: scroll;
+
     ::-webkit-scrollbar {
-    width: 10px;
+        width: 10px;
     }
 
-    /* Track */
     ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+        background: #f1f1f1;
     }
 
-    /* Handle */
     ::-webkit-scrollbar-thumb {
-    background: #888;
+        background: #888;
     }
 
-    /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+        background: #555;
     }
 `
 
@@ -55,7 +53,7 @@ const TotalContainer = styled.div`
     height: 70px;
     display: flex;
     justify-content: space-between;
-    align-items:center;
+    align-items: center;
 `
 
 const TotalText = styled.p`
@@ -97,8 +95,6 @@ const NoItems = styled.p`
     font-size: 1.2em;
 `
 
-
-
 class CartOverlay extends Component {
 
     constructor(props) {
@@ -135,8 +131,8 @@ class CartOverlay extends Component {
                 
                 {cart.length === 0 && <NoItems>no items, yet...</NoItems>}
                 
-                {cart.length > 0 && cart.map((item, index) => {
-                    return <CartOverlayItem key={index} item={item}/>
+                {cart.length > 0 && cart.map((item) => {
+                    return <CartOverlayItem key={item.name} item={item}/>
                 })}
 
                 <TotalContainer>
