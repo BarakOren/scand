@@ -7,6 +7,7 @@ import {AddToCart} from "../../redux/cart/actions";
 import Loader from "../../components/loader";
 import { v4 as uuidv4 } from 'uuid';
 import { getProductInfo } from "../../apollo";
+import {Redirect} from "react-router-dom";
 
 const Page = styled.div`
     width: 100%;
@@ -200,23 +201,18 @@ class ItemPage extends Component {
     }
 
     async componentDidMount(){
+        console.log(this.props);
         try{
             const res = await getProductInfo(this.props.match.params.id);
+            if(res.product === null){
+                this.props.history.push("/can-not-get-this-product")
+            }
             this.setState({product: res.product, loading: false})
         }
         catch (error) {
             console.log(error.message)
-            this.setState({loading: false, error: true})
+            this.setState({ error: true, loading: false })
           }
-    
-        // fetchProductInfo(this.props.match.params.id)
-        // .then(fetchedItem => {
-        //     this.setState({
-        //         product: fetchedItem.data.product,
-        //         loading: false,
-        //     })
-        // })
-        // .catch((err) => this.setState({ loading: false, error: err.message }));
     }
 
 
@@ -224,10 +220,10 @@ class ItemPage extends Component {
     render(){
         const {AddToCart, currency} = this.props;
         const {loading, error, product, currentImage} = this.state
-        const switchImages = (currentImage) => {this.setState({ currentImage })}
-
         const currentCurrency = product ? product.prices.find(cur => cur.currency.label === currency.label) : undefined
         
+        const switchImages = (currentImage) => {this.setState({ currentImage })}
+
         const handleChange = (e) => {
             const state = this.state.attributes
             this.setState({ attributes: Object.assign(state, {[e.target.name]: e.target.value}) })
@@ -249,7 +245,7 @@ class ItemPage extends Component {
             <Page>
                 {error && <h1>sorry, we had a problem...</h1>}
                 {loading && <Loader  />}
-                {!loading && 
+                {!loading &&
                 <>
                     <ImagesContainer>
                         {product.gallery.map((image, index) => {

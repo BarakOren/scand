@@ -48,19 +48,8 @@ class CategoryPage extends Component {
         }
     }
 
-    // getItems = () => {
-    //     fetchProducts(this.props.match.params.category)
-    //     .then(fetchedItems => {
-    //         this.setState({
-    //             name: fetchedItems.data.category.name,
-    //             products: fetchedItems.data.category.products,
-    //             loading: false,
-    //         })
-    //     })
-    //     .catch((err) => this.setState({ loading: false, error: err.message }));
-    // }
 
-    getItems2 = async () => {
+    getItems = async () => {
         try {
             const res = await getProducts(this.props.match.params.category);
             this.setState({name: res.category.name ,products: res.category.products, loading: false})
@@ -72,14 +61,14 @@ class CategoryPage extends Component {
     }
 
     async componentDidMount(){
-        // this.getItems()
-        this.getItems2()
+        this.getItems()
     }
 
     componentDidUpdate(prevProps) {
         if(this.props.location.pathname !== prevProps.location.pathname){
             this.setState({loading: true, error: false})
-            this.getItems2()
+            this.getItems()
+            // wtf is bind
         }
     } 
 
@@ -88,7 +77,6 @@ class CategoryPage extends Component {
         // const param = this.props.match.params.category
         const {loading} = this.state
         const {name, products, error} = this.state
-        console.log(products[0]);
         return(
             <Page>
                 {loading &&  <Loader  />}

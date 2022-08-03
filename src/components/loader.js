@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import styled, {keyframes} from "styled-components";
 
-const rotate = keyframes`
+export const rotate = keyframes`
   0% {
     transform: rotate(0deg);
   }
@@ -26,7 +26,6 @@ const Span = styled.span`
 `
 
 class Loader extends Component {
-
 
     render(){
         return <Span />

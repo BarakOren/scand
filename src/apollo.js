@@ -6,31 +6,20 @@ const client = new ApolloClient({
 });
 
 export const getCategories = () => {
-    const req = client.query({
+    return client.query({
         query: gql`
         {
             categories {
               name
             }
-          }`
+          }
+          `
       })
-    .then(res => {return res.data});
-    return req
-
-    // const req = await client.query({
-    //     query: gql`
-    //     {
-    //         categories {
-    //           name
-    //         }
-    //       }`
-    //   })
-    // const {data} = await req;
-    // return data;
+    .then(res => { return res.data});
 }
 
 export const getProducts = (props) => {
-    const req = client.query({
+    return client.query({
         query: gql`
         {
             category(input: { title: "${props}" }){
@@ -38,6 +27,10 @@ export const getProducts = (props) => {
                 products {
                 id
                 name
+                inStock
+                gallery
+                category
+                brand
                 attributes {
                   name
                   type
@@ -47,30 +40,25 @@ export const getProducts = (props) => {
                     id
                   }
                 }
-                inStock
-                gallery
-                category
-                brand
                 prices {
+                  amount
                   currency {
                     label
                     symbol
                   }
-                  amount
                 }
               }
             }
           }`
       })
     .then(res => {return res.data});
-    return req
 }
   
 export const getProductInfo = (id) => {
-    const req = client.query({
-        query: gql`
+    return client.query({
+      query: gql`
         {
-            product(id: "${id}") {
+          product(id: "${id}") {
               id
               name
               description
@@ -88,15 +76,27 @@ export const getProductInfo = (id) => {
                 }
               }
               prices {
+                amount
                 currency {
                   label
                   symbol
                 }
-                amount
               }
             }
           }`
       })
     .then(res => {return res.data});
-    return req
+}
+
+export const getCurrencies = () => {
+    return client.query({
+      query: gql`
+          {
+            currencies {
+              label
+              symbol
+            }
+          }`
+    })
+    .then(res => {return res.data})
 }

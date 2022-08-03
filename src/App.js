@@ -58,27 +58,12 @@ class App extends Component {
         console.log(error.message)
         this.setState({loading: false, error: true})
       }
-
-    // getCategories().then(res => this.setState({
-    //         categories: res.categories,
-    //         loading: false
-    //     })
-    // ).catch((err) => this.setState({ loading: false, error: err.message }))
-
-
-      // fetchCategories()
-      // .then(fetchedCategories => {
-      //     this.setState({
-      //       categories: fetchedCategories.data.categories,
-      //       loading: false
-      //   })
-      // })
-      // .catch((err) => this.setState({ loading: false, error: err.message }))
   }
 
   render(){
     const { cartOverlayToggle } = this.props;
-    const {loading, categories, error} = this.state
+    const { loading, categories, error } = this.state
+
     return (
       <AppContainer >
         <GlobalStyle />
@@ -89,7 +74,7 @@ class App extends Component {
             <Route exact path="/"><Home error={error} loading={loading} categories={categories}/></Route>
             <Route exact path="/cart"><CartPage /></Route>
             <Route exact path="/:category" component={(props) => <CategoryPage {...props} />}/>
-            <Route exact path="/:category/:id"><ItemPage /></Route>
+            <Route exact path="/:category/:id" component={(props) => <ItemPage {...props} />}></Route>
             <Route exact path="*"><Error /></Route>
           </Switch>
           </>

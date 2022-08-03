@@ -7,6 +7,7 @@ import {addToCartFromCategoryPage} from "../../../redux/cart/actions";
 import whitearrow from "../../../assets/whitearrow.png"
 
 const ItemContainer = styled.li`
+    padding: 15px;
     list-style-type: none;
     height: 32vw;
     width: 100%;

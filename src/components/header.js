@@ -48,8 +48,8 @@ const A = styled(Link)`
     color: black;
     text-decoration: none;
     padding: 0 15px;
-    color: ${p => p.current ? "#5ECE7B" : "black"};
-    border-bottom: ${p => p.current && "1px solid #5ECE7B"}}   
+    color: ${p => p.current === 'selected'  ? "#5ECE7B" : "black"};
+    border-bottom: ${p => p.current === 'selected' && "1px solid #5ECE7B"}}   
 `
 
 const Icon = styled.img`
@@ -147,7 +147,7 @@ class Header extends Component {
             <LinksContainer>
             {categories.map((link) => {
                 const {name} = link
-                return <A current={param === `/${name}`} key={name} to={`/${name}`}>{name.toUpperCase()}</A>
+                return <A current={param === `/${name}` ? 'selected' : ''} key={name} to={`/${name}`}>{name.toUpperCase()}</A>
             })}
             </LinksContainer>
             

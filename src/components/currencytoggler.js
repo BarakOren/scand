@@ -1,7 +1,9 @@
 import React, {Component} from "react";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import { connect } from "react-redux";
-import {changeCurrency, closeToggle} from "../redux/currencies/actions";
+import {changeCurrency, closeToggle, setCurrencies} from "../redux/currencies/actions";
+import {getCurrencies} from "../apollo"
+import { rotate } from "./loader";
 
 const Container = styled.div`
     display: ${p => p.display === "on" ? "block" : "none"};
@@ -24,18 +26,40 @@ const Currency = styled.button`
     cursor: pointer;
 `
 
-class CurrencyToggler extends Component {
+const MiniLoader = styled.span`
+    display: inline-block;
+    transform: translate(50%,-50%);
+    width: 15px;
+    height: 15px;
+    border: 3px solid black;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    box-sizing: border-box;
+    animation: ${rotate} 1s linear infinite;
+`
 
+class CurrencyToggler extends Component {
 
     constructor(props) {
         super(props);
-    
+        this.state = {
+          error: null,
+          loading: true
+        }
         this.currencyRef = React.createRef();
         this.handleClickOutside = this.handleClickOutside.bind(this);
       }
     
-      componentDidMount() {
+      async componentDidMount() {
         document.addEventListener("mousedown", this.handleClickOutside);
+        try {
+          const res = await getCurrencies();
+          this.props.setCurrencies(res.currencies)
+          this.setState({loading: false});
+        } catch (error) {
+          console.log(error.message);
+          this.setState({error: true, loading: false})
+        }
       }
     
       componentWillUnmount() {
@@ -50,10 +74,14 @@ class CurrencyToggler extends Component {
       }
 
     render(){
-        const {currency ,currenciesToggle, changeCurrency, currencies} = this.props
+        const {currency, setCurrencies ,currenciesToggle, changeCurrency, currencies} = this.props
+        const {loading, error} = this.state;
+        
+        
         return(
             <Container ref={this.currencyRef} display={currenciesToggle ? "on" : "off"} >
-                {currencies.map((curr) => {
+                {loading && <MiniLoader />}
+                {!loading && !error && currencies.map((curr) => {
                   return <Currency key={curr.label}
                   onClick={() => changeCurrency(curr)} selected={currency.label === curr.label}
                   >{curr.symbol} {curr.label}</Currency>
@@ -73,7 +101,8 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
     changeCurrency: (newCurrency) => dispatch(changeCurrency(newCurrency)),
-    closeToggle: () => dispatch(closeToggle())
+    closeToggle: () => dispatch(closeToggle()),
+    setCurrencies: (data) => dispatch(setCurrencies(data))
 });
   
 export default connect(mapStateToProps,mapDispatchToProps)(CurrencyToggler);
