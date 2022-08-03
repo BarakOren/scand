@@ -20,8 +20,7 @@ const ItemContainer = styled.li`
     }
 
     @media only screen and (max-width: 1000px) {
-        height: 33vw;
-        width: 28vw;
+        height: 50vw;
     }
 
 `
@@ -139,7 +138,7 @@ class Item extends Component {
     
     render(){
 
-        const {category, gallery, id, inStock, name, prices} = this.props.product;
+        const {category, gallery, id, inStock, name, brand, prices} = this.props.product;
         const {currency, addToCartFromCategoryPage} = this.props;
         const currentCurrency = prices.find(cur => cur.currency.label === currency.label);
 
@@ -153,7 +152,7 @@ class Item extends Component {
                     <ArrowIcon src={whitearrow} alt="direct-to-item" />    
                 </Direct>
                 </ItemImage>
-                <Title disabled={!inStock}>{name}</Title>
+                <Title disabled={!inStock}>{name} {brand}</Title>
                 <Price disabled={!inStock}>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
                 {!inStock && <OutOfStock>Out Of Stock</OutOfStock>}
             </ItemContainer>

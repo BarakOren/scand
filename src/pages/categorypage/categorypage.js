@@ -27,6 +27,11 @@ const ItemsContainer = styled.ul`
     grid-gap: 10vw;
     padding: 0;
     list-style-type: none;
+
+    
+    @media only screen and (max-width: 900px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
 `
 
 
@@ -83,6 +88,7 @@ class CategoryPage extends Component {
         // const param = this.props.match.params.category
         const {loading} = this.state
         const {name, products, error} = this.state
+        console.log(products[0]);
         return(
             <Page>
                 {loading &&  <Loader  />}
