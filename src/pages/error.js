@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const Page = styled.div`
     width: 100%;
+    margin-top: 50px;
     height: 50vh;
     display: flex;
     flex-direction: column;
@@ -13,7 +14,7 @@ const Page = styled.div`
 
 const Text = styled.h1`
     font-size: 3em;
-    margin: 0;
+    margin: 0 0 20px 0;
 `
 
 
@@ -23,9 +24,10 @@ const A = styled(Link)`
     color: black;
     text-decoration: none;
     transition: .3s all;
+    color: #5ECE7B;
+    text-decoration: underline;
 
     &:hover {
-        color: #5ECE7B;
         text-shadow: 0 0 10px #5ECE7B;
     }
 `
@@ -36,7 +38,7 @@ class Error extends Component {
         return(
             <Page>
                 <Text>Sorry.. Wrong Page.</Text>
-                <Text>Lets go home.</Text>
+                <Text>Lets go home: </Text>
                 <A to="/">Home.</A>
             </Page>
         )

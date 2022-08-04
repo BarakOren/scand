@@ -12,16 +12,17 @@ const ItemContainer = styled.div`
     width: 100%;
     height: 300px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
 `
 
 const DetailsContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
     width: 300px;
+    height: 100%;
 `
 
 const ItemName = styled.h1`

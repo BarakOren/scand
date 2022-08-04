@@ -8,7 +8,6 @@ import ItemPage from "./pages/itempage/itempage";
 import CartPage from "./pages/cartpage/cartpage";
 import Error from "./pages/error";
 import { connect } from "react-redux";
-// import { fetchCategories } from "./fetchData";
 import { getCategories } from "./apollo"
 
 const GlobalStyle = createGlobalStyle`
@@ -73,9 +72,9 @@ class App extends Component {
           <Switch>
             <Route exact path="/"><Home error={error} loading={loading} categories={categories}/></Route>
             <Route exact path="/cart"><CartPage /></Route>
-            <Route exact path="/:category" component={(props) => <CategoryPage {...props} />}/>
-            <Route exact path="/:category/:id" component={(props) => <ItemPage {...props} />}></Route>
-            <Route exact path="*"><Error /></Route>
+            <Route exact path="/category/:category" component={(props) => <CategoryPage {...props} />}/>
+            <Route exact path="/category/:category/item/:id" component={(props) => <ItemPage {...props} />}></Route>
+            <Route ><Error /></Route>
           </Switch>
           </>
         </Router>

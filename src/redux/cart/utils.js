@@ -26,30 +26,29 @@ export const addFromCart = (cartItems, cartItemToAdd) => {
 
 export const addToCartFromCategoryPage = (cartItems, cartItemToAdd) => {
 
-  cartItemToAdd.attributes.forEach((att) => {
-    Object.assign(att, {selected: att.items[0].value})
+  const AddedDefaultValues = cartItemToAdd.attributes.map((att) => {
+    return  {...att, selected: att.items[0].value}
   })
 
+  const ItemWithDefaultAttributes = {...cartItemToAdd, attributes: AddedDefaultValues}
+
   const existingItem = cartItems.find(
-    item => item.id === cartItemToAdd.id && JSON.stringify(item.attributes) === JSON.stringify(cartItemToAdd.attributes) 
+    item => item.id === ItemWithDefaultAttributes.id && JSON.stringify(item.attributes) === JSON.stringify(ItemWithDefaultAttributes.attributes) 
   );
 
   if (existingItem) {
-    const uid = uuidv4();
-    Object.assign(existingItem, {uid: uid})
+    const ItemWithUid = {...existingItem, uid: uuidv4()}
     return cartItems.map(cartItem =>
-      cartItem.id === cartItemToAdd.id
+      cartItem.id === ItemWithUid.id
         ? { ...cartItem, quantity: cartItem.quantity + 1 }
         : cartItem
     );
   }
 
-  const uid = uuidv4();
-  Object.assign(cartItemToAdd, {uid: uid})
+  const ItemWithUid = {...ItemWithDefaultAttributes, uid: uuidv4()}
   
-    return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
+  return [...cartItems, { ...ItemWithUid, quantity: 1 }];
 
-  return [...cartItems]
 }
 
 

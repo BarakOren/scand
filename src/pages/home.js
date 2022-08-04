@@ -57,7 +57,7 @@ class Home extends Component {
                 {!loading && 
                     <Nav>
                         {categories.map((category) => {
-                            return <A key={category.name + "link"} to={`/${category.name}`}>{category.name}</A>
+                            return <A key={category.name + "link"} to={`/category/${category.name}`}>{category.name}</A>
                         })}
                     </Nav>
                 }

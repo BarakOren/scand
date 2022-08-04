@@ -149,7 +149,7 @@ class Item extends Component {
                 <AddToCartButton onClick={() => {addToCartFromCategoryPage(this.props.product)}} disabled={!inStock}>
                     <CartIcon src={whitecart} alt="add-to-cart-button" />
                 </AddToCartButton>
-                <Direct to={`${category}/${id}`}>
+                <Direct to={`/category/${category}/item/${id}`}>
                     <ArrowIcon src={whitearrow} alt="direct-to-item" />    
                 </Direct>
                 </ItemImage>

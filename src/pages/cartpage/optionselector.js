@@ -14,8 +14,8 @@ const OptionsContainer = styled.div`
 
 
 const SizeOption = styled.button`
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 40px;
     font-family: Source Sans Pro;
     font-size: 10px;
     font-weight: 400;

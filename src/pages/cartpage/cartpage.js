@@ -16,7 +16,7 @@ const Title = styled.h1`
 `
 
 const OrderContainer = styled.div`
-    width: 20%;
+    width: 30%;
 `
 
 const Text = styled.p`
@@ -54,7 +54,6 @@ class CartPage extends Component {
         const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
         const total =  cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity * cartItem.prices.find(cur => cur.currency.label === currency.label).amount, 0)
         const tax = (21 / 100) * total
-        
         return(
             <Page>
                 <Title>Cart</Title>
@@ -63,9 +62,9 @@ class CartPage extends Component {
                     return <CartItem key={index} item={item} /> 
                 })}
                 <OrderContainer>
-                    <Text>Tax 21%: <Bold>${tax.toFixed(2)}</Bold></Text>
+                    <Text>Tax 21%: <Bold>{currency.symbol}{tax.toFixed(2)}</Bold></Text>
                     <Text>Quantity: <Bold>{quantity}</Bold></Text>
-                    <Text>Total: <Bold>${total.toFixed(2)}</Bold></Text>
+                    <Text>Total: <Bold>{currency.symbol}{total.toFixed(2)}</Bold></Text>
                 <Button>Order</Button>
                 </OrderContainer>
             </Page>

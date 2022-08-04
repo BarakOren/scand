@@ -201,11 +201,10 @@ class ItemPage extends Component {
     }
 
     async componentDidMount(){
-        console.log(this.props);
         try{
             const res = await getProductInfo(this.props.match.params.id);
             if(res.product === null){
-                this.props.history.push("/can-not-get-this-product")
+                this.props.history.push("/error/can-not-get-this-product")
             }
             this.setState({product: res.product, loading: false})
         }
@@ -231,15 +230,12 @@ class ItemPage extends Component {
 
         const handleSubmit = (e) => {
             e.preventDefault();
-            const uid = uuidv4();
-            const productClone = structuredClone(product);
-            productClone.attributes.forEach(att => {
-                Object.assign(att, {selected: this.state.attributes[att.name]})
+            const attributes = product.attributes.map(att => {
+                return {...att, selected: this.state.attributes[att.name]}
             })
-            Object.assign(productClone, {uid: uid})
+            const productClone = {...product, attributes: attributes, uid: uuidv4()}
             AddToCart(productClone)
         }
-
 
         return(
             <Page>
