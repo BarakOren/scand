@@ -8,7 +8,7 @@ export const addToCartUtil = (cartItems, cartItemToAdd) => {
 
   if (existingItem) {
     return cartItems.map(cartItem =>
-      cartItem.id === cartItemToAdd.id
+      cartItem.id === cartItemToAdd.id && JSON.stringify(cartItem.attributes) === JSON.stringify(cartItemToAdd.attributes)
         ? { ...cartItem, quantity: cartItem.quantity + 1 }
         : cartItem
     );

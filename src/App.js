@@ -74,7 +74,7 @@ class App extends Component {
             <Route exact path="/cart"><CartPage /></Route>
             <Route exact path="/category/:category" component={(props) => <CategoryPage {...props} />}/>
             <Route exact path="/category/:category/item/:id" component={(props) => <ItemPage {...props} />}></Route>
-            <Route ><Error /></Route>
+            {/* <Route ><Error /></Route> */}
           </Switch>
           </>
         </Router>

@@ -3,11 +3,9 @@ import styled from "styled-components";
 import { withRouter } from 'react-router-dom'
 import { connect } from "react-redux";
 import {AddToCart} from "../../redux/cart/actions";
-// import { fetchProductInfo } from "../../fetchData"
 import Loader from "../../components/loader";
 import { v4 as uuidv4 } from 'uuid';
 import { getProductInfo } from "../../apollo";
-import {Redirect} from "react-router-dom";
 
 const Page = styled.div`
     width: 100%;
@@ -187,6 +185,13 @@ const OutOfStock = styled.p`
     color: #8D8F9A;
 `
 
+const Error = styled.h1`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`
+
 class ItemPage extends Component {
 
     constructor() {
@@ -200,21 +205,23 @@ class ItemPage extends Component {
         }
     }
 
+       
+
     async componentDidMount(){
         try{
+            console.log("start")
             const res = await getProductInfo(this.props.match.params.id);
             if(res.product === null){
-                this.props.history.push("/error/can-not-get-this-product")
+                this.setState({ error: "Sorry, We cant get the item right now..", loading: false })
+                return;
             }
-            this.setState({product: res.product, loading: false})
+            this.setState({loading: false, product: res.product })
         }
         catch (error) {
             console.log(error.message)
-            this.setState({ error: true, loading: false })
+            this.setState({ error: "Sorry, We cant get the item right now..", loading: false })
           }
     }
-
-
 
     render(){
         const {AddToCart, currency} = this.props;
@@ -225,7 +232,7 @@ class ItemPage extends Component {
 
         const handleChange = (e) => {
             const state = this.state.attributes
-            this.setState({ attributes: Object.assign(state, {[e.target.name]: e.target.value}) })
+            this.setState({ attributes: {...state, [e.target.name]: e.target.value } })
         }
 
         const handleSubmit = (e) => {
@@ -239,13 +246,13 @@ class ItemPage extends Component {
 
         return(
             <Page>
-                {error && <h1>sorry, we had a problem...</h1>}
+                {error && !loading && <Error>{error}</Error>}
                 {loading && <Loader  />}
-                {!loading &&
+                {!loading && !error &&
                 <>
                     <ImagesContainer>
-                        {product.gallery.map((image, index) => {
-                            return <SmallImage key={index} onClick={() => switchImages(image)} style={{backgroundImage: `url(${image})`}} /> 
+                        {product.gallery.map((image) => {
+                            return <SmallImage key={image} onClick={() => switchImages(image)} style={{backgroundImage: `url(${image})`}} /> 
                         })}
                     </ImagesContainer>
 
@@ -258,8 +265,8 @@ class ItemPage extends Component {
                         <SubName>{product.name}</SubName>
                         <Form onSubmit={handleSubmit}>
                         {
-                            product.attributes.map(attribute => {
-                                return <>
+                            product.attributes.map((attribute,index) => {
+                                return <div key={index}>
                                 <Label>{attribute.name}</Label>
                                 <OptionsContainer>
                                 {attribute.items.map(item => {
@@ -287,7 +294,7 @@ class ItemPage extends Component {
                                         /> 
                                 })}
                                 </OptionsContainer>
-                                </>
+                                </div>
                             }) 
                         }
                             <Label style={{marginTop: "30px"}}>Price:</Label>

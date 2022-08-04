@@ -93,9 +93,9 @@ class CartOverlayItem extends Component {
                     <ItemTitle>{name} - {brand}</ItemTitle>
                     <Price>{currencyCurrency.currency.symbol}{currencyCurrency.amount}</Price>
                     {attributes.map((att) => {
-                        return <div key={att.name}> 
-                        <Label size={attributes.length > 2}>{att.name}</Label>
-                        <OptionSelector size={attributes.length > 2} item={item} att={att} />
+                        return <div key={att.name + "cart"}> 
+                        <Label size={attributes.length > 2 ? "small" : ""}>{att.name}</Label>
+                        <OptionSelector size={attributes.length > 2 ? "small" : ""} item={item} att={att} />
                         </div>
                     })}
                 </LeftColumn>

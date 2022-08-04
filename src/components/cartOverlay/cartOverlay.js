@@ -131,8 +131,8 @@ class CartOverlay extends Component {
                 
                 {cart.length === 0 && <NoItems>no items, yet...</NoItems>}
                 
-                {cart.length > 0 && cart.map((item) => {
-                    return <CartOverlayItem key={item.name} item={item}/>
+                {cart.length > 0 && cart.map((item, index) => {
+                    return <CartOverlayItem key={`${item.name}cart${index}`} item={item}/>
                 })}
 
                 <TotalContainer>

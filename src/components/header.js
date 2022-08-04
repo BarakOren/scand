@@ -123,15 +123,19 @@ class Header extends Component {
     constructor(props){
         super(props);
         this.state = {
-            param: this.props.location.pathname
+            param: this.props.location.pathname,
         }
     }
 
     componentDidMount() {
+        // getting pathname on first loading
+        if(this.state.param === window.location.pathname){
+            this.setState({ param : "/" + window.location.pathname.split('/')[2] })
+        }
+        
         this.unlisten = this.props.history.listen((location, action) => {
-            if(location.pathname !== "/"){
-                this.setState({ param : "/" + location.pathname .split('/')[2] })
-            }
+            // listening to url changes
+                this.setState({ param : "/" + location.pathname.split('/')[2] })
         });
     }
 
@@ -143,7 +147,7 @@ class Header extends Component {
         const {currency, cart, toggleCart, popupToggle, categories } = this.props;
         const param = this.state.param
         const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
-  
+
         return (
         <Container>
             <LinksContainer>

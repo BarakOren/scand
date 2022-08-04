@@ -13,10 +13,10 @@ const OptionsContainer = styled.div`
 
 
 const SizeOption = styled.button`
-    width: ${p => p.size ? "26px" : "30px"};
-    height: ${p => p.size ? "26px" : "30px"};
+    width: ${p => p.size === "small" ? "26px" : "30px"};
+    height: ${p => p.size === "small" ? "26px" : "30px"};
     font-family: Source Sans Pro;
-    font-size: ${p => p.size ? "8px" : "10px"};
+    font-size: ${p => p.size === "small" ? "8px" : "10px"};
     font-weight: 400;
     text-align: center;
     border: 1px solid #1D1F22;

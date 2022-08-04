@@ -20,6 +20,13 @@ const CategoryTitle = styled.h1`
     text-align: left;
 `
 
+const Error = styled.h1`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`
+
 const ItemsContainer = styled.ul`
     width: 100%;
     display: grid;
@@ -56,7 +63,7 @@ class CategoryPage extends Component {
           }
           catch (error) {
             console.log(error.message)
-            this.setState({loading: false, error: true})
+            this.setState({loading: false, error: "Sorry, Can not get items right now.."})
           }
     }
 
@@ -75,23 +82,21 @@ class CategoryPage extends Component {
     render(){
         
         // const param = this.props.match.params.category
-        const {loading} = this.state
-        const {name, products, error} = this.state
+        const {loading, error, name, products } = this.state
         return(
             <Page>
-                {loading &&  <Loader  />}
-                {!loading && 
+                {loading &&  <Loader />}
+                {!loading && error && <Error>{error}</Error>}
+                {!loading && !error && 
                 <>
                     <CategoryTitle>{name}</CategoryTitle>
                     <ItemsContainer length={products.length}>
-                    {products.map((product) => {
-                        return <Item product={product} key={product.name} >{product.name}</Item>
-                    })}
+                        {products.map((product) => {
+                            return <Item product={product} key={product.name} >{product.name}</Item>
+                        })}
                     </ItemsContainer>
                 </>
                 }
-                
-                {error && !loading && <h1>sorry, we got a problem...</h1>}
             </Page>
         )
     }
