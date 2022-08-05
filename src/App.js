@@ -48,7 +48,7 @@ class App extends Component {
     }
   }
 
-    async componentDidMount(){
+  async componentDidMount(){
       try {
         const res = await getCategories();
         this.setState({categories: res.categories, loading: false})

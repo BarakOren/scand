@@ -15,6 +15,9 @@ const Page = styled.div`
 
 const Welcome = styled.h1`
     font-size: 5em;
+    @media only screen and (max-width: 600px) {
+        font-size: 4em;
+    }
 `
 
 const Nav = styled.nav`
@@ -24,6 +27,16 @@ const Nav = styled.nav`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
+    @media only screen and (max-width: 900px) {
+        width: 80%;
+    }
+
+    @media only screen and (max-width: 400px) {
+        flex-direction: column;
+        gap: 20px 0;
+        height: unset;
+    }
 `
 
 const A = styled(Link)`
@@ -34,7 +47,7 @@ const A = styled(Link)`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 81px;
+    width: 33%;
     color: black;
     text-decoration: none;
     transition: .3s all;
@@ -43,7 +56,17 @@ const A = styled(Link)`
         color: #5ECE7B;
         text-shadow: 0 0 10px #5ECE7B;
     }
-    /* selected: #5ECE7B */
+    @media only screen and (max-width: 700px) {
+        font-size: 2.5em;
+    }
+    @media only screen and (max-width: 600px) {
+        font-size: 2em;
+    }
+    @media only screen and (max-width: 400px) {
+        width: 100%;
+        font-size: 2.5em;
+    }
+   
 `
 
 class Home extends Component {
