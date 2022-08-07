@@ -17,6 +17,10 @@ const Welcome = styled.h1`
     font-size: 5em;
     @media only screen and (max-width: 600px) {
         font-size: 4em;
+        margin-top: 100px;
+    }
+    @media only screen and (max-width: 400px) {
+        font-size: 2.5em;
     }
 `
 
@@ -64,7 +68,7 @@ const A = styled(Link)`
     }
     @media only screen and (max-width: 400px) {
         width: 100%;
-        font-size: 2.5em;
+        font-size: 2em;
     }
    
 `

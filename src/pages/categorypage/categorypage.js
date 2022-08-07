@@ -81,7 +81,6 @@ class CategoryPage extends Component {
 
     render(){
         
-        // const param = this.props.match.params.category
         const {loading, error, name, products } = this.state
         return(
             <Page>

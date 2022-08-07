@@ -33,6 +33,11 @@ const Container = styled.div`
     ::-webkit-scrollbar-thumb:hover {
         background: #555;
     }
+
+    @media only screen and (max-width: 600px) {
+        width: 70%;
+        right: 0;
+    }
 `
 
 const MyBag = styled.h2`

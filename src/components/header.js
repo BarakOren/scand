@@ -34,6 +34,10 @@ const LinksContainer = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    @media only screen and (max-width: 600px) {
+       width: auto;
+    }
+
 `
 
 const A = styled(Link)`
@@ -50,11 +54,20 @@ const A = styled(Link)`
     padding: 0 15px;
     color: ${p => p.current === 'selected'  ? "#5ECE7B" : "black"};
     border-bottom: ${p => p.current === 'selected' && "1px solid #5ECE7B"}; 
+    @media only screen and (max-width: 600px) {
+        padding: 0 5px;
+        width: 50px;
+    }
+
 `
 
 const Icon = styled.img`
     width: 28px;
     height: 28px;
+    @media only screen and (max-width: 600px) {
+        width: 22px;
+        height: 22px;
+    }
 `
 
 const SettingsContaier = styled.div`
@@ -64,6 +77,12 @@ const SettingsContaier = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @media only screen and (max-width: 600px) {
+        padding: 0;   
+    }
+    
+ 
 `
 
 const CartButton = styled.button`
@@ -79,6 +98,7 @@ const CartButton = styled.button`
 const CartIcon = styled.img`
     width: 20px;
     height: 20px;
+    
 `
 
 const ItemsAmount = styled.p`
@@ -111,11 +131,15 @@ const Currency = styled.button`
     background: none;
     font-size: 20px;
     cursor: pointer;
+    @media only screen and (max-width: 600px) {
+        font-size: 18px;
+    }
 `
 
 const Arrow = styled.img`
     height: 4px;
     width: auto;
+    transform: ${p => p.toggle ? "rotate(180deg)" : ""};
 `
 
 class Header extends Component {
@@ -144,7 +168,7 @@ class Header extends Component {
     }
 
     render(){
-        const {currency, cart, toggleCart, popupToggle, categories } = this.props;
+        const {currency, cart, toggleCart, popupToggle, categories, currenciesToggle } = this.props;
         const param = this.state.param
         const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
 
@@ -157,14 +181,14 @@ class Header extends Component {
             })}
             </LinksContainer>
             
-            <A to="/" >
+            <A to="/" home={"home"}>
                 <Icon src={icon} alt="icon" />
             </A>
                 
             <SettingsContaier >
                 <CurrencyContainer onClick={popupToggle}>
                     <Currency>{currency.symbol}</Currency>
-                    <Arrow src={arrow} alt="arrow-button" />
+                    <Arrow src={arrow} toggle={currenciesToggle ? "open" : ""} alt="arrow-button" />
                     <CurrencyToggler />
                 </CurrencyContainer>
                 

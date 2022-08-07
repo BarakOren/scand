@@ -209,7 +209,6 @@ class ItemPage extends Component {
 
     async componentDidMount(){
         try{
-            console.log("start")
             const res = await getProductInfo(this.props.match.params.id);
             if(res.product === null){
                 this.setState({ error: "Sorry, We cant get the item right now..", loading: false })
