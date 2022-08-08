@@ -9,12 +9,14 @@ import whitearrow from "../../../assets/whitearrow.png"
 const ItemContainer = styled.li`
     padding: 15px;
     list-style-type: none;
-    height: 32vw;
+    height: 100%;
     width: 100%;
     transition: .2s all;
     position: relative;
     text-decoration: none;
     color: black;
+    aspect-ratio: 1;
+    border: 1px solid black;
 
     &:hover{ 
         box-shadow: 0px 4px 35px 0px #A8ACB030;
@@ -28,7 +30,7 @@ const ItemContainer = styled.li`
 
 const ItemImage = styled.div`
     width: 100%;
-    height: 80%;
+    height: 75%;
     background-position: center;
     background-size: cover;
     margin-bottom: 1vw;

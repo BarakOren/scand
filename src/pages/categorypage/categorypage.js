@@ -4,7 +4,6 @@ import Item from "./components/item";
 import { withRouter } from 'react-router-dom'
 import { connect } from "react-redux";
 import {popupToggle} from "../../redux/currencies/actions";
-// import {fetchProducts} from "../../fetchData"
 import Loader from "../../components/loader"
 import { getProducts } from "../../apollo";
 
@@ -15,8 +14,9 @@ const Page = styled.div`
 
 const CategoryTitle = styled.h1`
     font-size: 42px;
-    font-weight: 200;
+    font-weight: 400;
     width: 100%;
+    margin: 80px 0;
     text-align: left;
 `
 

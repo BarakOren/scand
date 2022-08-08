@@ -21,8 +21,8 @@ const GlobalStyle = createGlobalStyle`
 
 const AppContainer = styled.div`
   text-align: center;
-  width: 90%;
-  padding: 0 5%;
+  width: 85%;
+  padding: 0 7.5%;
 `
 
 const CartOverlayShader = styled.div`
