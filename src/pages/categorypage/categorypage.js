@@ -18,6 +18,12 @@ const CategoryTitle = styled.h1`
     width: 100%;
     margin: 80px 0;
     text-align: left;
+    @media only screen and (max-width: 1000px) {
+        margin: 50px 0;
+    }
+      @media only screen and (max-width: 760) {
+        margin: 30px 0;
+    }
 `
 
 const Error = styled.h1`
@@ -28,16 +34,35 @@ const Error = styled.h1`
 `
 
 const ItemsContainer = styled.ul`
-    width: 100%;
+    width: 97%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10vw;
+    grid-auto-rows: 250px;
+    grid-gap: 60px 10vw;
     padding: 0;
     list-style-type: none;
 
-    
+    @media only screen and (max-width: 1000px) {
+        grid-auto-rows: 220px;
+    }
+
     @media only screen and (max-width: 900px) {
         grid-template-columns: repeat(2, 1fr);
+        grid-gap: 60px 30%;
+        grid-auto-rows: 260px;
+    }
+
+    @media only screen and (max-width: 760px) {
+        grid-auto-rows: 220px;
+    }
+
+    @media only screen and (max-width: 600px) {
+        grid-auto-rows: 190px;
+        grid-gap: 60px 20%;
+    }
+
+    @media only screen and (max-width: 400px) {
+        grid-gap: 60px 10%;
     }
 `
 
