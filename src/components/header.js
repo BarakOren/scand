@@ -48,10 +48,9 @@ const A = styled(Link)`
     align-items: center;
     justify-content: center;
     width: 81px;
-    color: black;
     text-decoration: none;
     padding: 0 15px;
-    color: ${p => p.current === 'selected'  ? "#5ECE7B" : "black"};
+    color: ${p => p.current === 'selected'  ? "#5ECE7B" : "#1D1F22"};
     border-bottom: ${p => p.current === 'selected' && "1px solid #5ECE7B"}; 
     @media only screen and (max-width: 600px) {
         padding: 0 5px;
@@ -105,7 +104,7 @@ const ItemsAmount = styled.p`
     font-size: 10px;
     width: 15px;
     height: 15px;
-    background: black;
+    background: #1D1F22;
     color: white;
     border-radius: 50%; 
     position: absolute;

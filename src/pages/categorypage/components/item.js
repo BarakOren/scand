@@ -22,7 +22,7 @@ const ItemContainer = styled(Link)`
     transition: .2s all;
     position: relative;
     text-decoration: none;
-    color: black;
+    color: #1D1F22;
     font-size: 20px;
 
     

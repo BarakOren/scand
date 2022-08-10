@@ -33,6 +33,7 @@ const CartOverlayShader = styled.div`
   z-index: 1;
   width: 100vw;
   height: 100vh;
+  color: #1D1F22;
   background-color: rgba(57, 55, 72, 0.22);
 `
 

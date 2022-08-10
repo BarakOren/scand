@@ -21,7 +21,7 @@ const Text = styled.h1`
 const A = styled(Link)`
     font-size: 3em;
     height: 100%;
-    color: black;
+    color: #1D1F22;
     text-decoration: none;
     transition: .3s all;
     color: #5ECE7B;

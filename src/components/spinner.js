@@ -17,7 +17,7 @@ const Span = styled.span`
     transform: translate(50%,-50%);
     width: 48px;
     height: 48px;
-    border: 5px solid black;
+    border: 5px solid #1D1F22;
     border-bottom-color: transparent;
     border-radius: 50%;
     box-sizing: border-box;

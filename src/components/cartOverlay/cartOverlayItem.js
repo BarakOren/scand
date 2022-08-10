@@ -41,10 +41,10 @@ const Price = styled.p`
 `
 
 const Label = styled.p`
-    font-size: ${p => p.size ? "10px" : "14px"};
+    font-size: ${p => p.size ? "12px" : "14px"};
     font-weight: 400;
     text-align: left;
-    margin: ${p => p.size ? "10px 0 1px 0" : "19px 0 3px 0"};
+    margin: ${p => p.size ? "10px 0 1px 0" : "16px 0 6px 0"};
 `
 
 const MiddleCol = styled.div`
@@ -96,7 +96,7 @@ class CartOverlayItem extends Component {
                     <Price>{currencyCurrency.currency.symbol}{currencyCurrency.amount}</Price>
                     {attributes.map((att) => {
                         return <div key={att.name + "cart"}> 
-                        <Label size={attributes.length > 2 ? "small" : ""}>{att.name}</Label>
+                        <Label size={attributes.length > 2 ? "small" : ""}>{att.name}:</Label>
                         <OptionSelector size={attributes.length > 2 ? "small" : ""} item={item} att={att} />
                         </div>
                     })}

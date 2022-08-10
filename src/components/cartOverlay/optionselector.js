@@ -38,7 +38,7 @@ const ColorOption = styled.button`
     width: 15px;
     background-color: ${p => p.bg};
     outline: ${p => p.selected ? "1px solid #5ECE7B" : "none"} ;
-    border: ${p => p.white ? "1px solid black" : "none"};
+    border: ${p => p.white ? "1px solid #1D1F22" : "none"};
     outline-offset: 1px;
 `
 

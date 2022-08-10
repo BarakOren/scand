@@ -31,7 +31,7 @@ const MiniSpinner = styled.span`
     transform: translate(50%,-50%);
     width: 15px;
     height: 15px;
-    border: 3px solid black;
+    border: 3px solid #1D1F22;
     border-bottom-color: transparent;
     border-radius: 50%;
     box-sizing: border-box;

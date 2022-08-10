@@ -51,7 +51,7 @@ const A = styled(Link)`
     align-items: center;
     justify-content: center;
     width: 33%;
-    color: black;
+    color: #1D1F22;
     text-decoration: none;
     transition: .3s all;
 

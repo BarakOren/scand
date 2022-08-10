@@ -125,7 +125,7 @@ const ColorOption = styled.input`
     width: 32px;
     background-color: ${p => p.bg};
     outline-offset: 2px;
-    border: ${p => p.white ? "1px solid black" : "none"};
+    border: ${p => p.white ? "1px solid #1D1F22" : "none"};
     -webkit-appearance: none;
     margin: 0 10px 0 0;
 
@@ -154,7 +154,7 @@ const Button = styled.button`
     cursor: pointer;
     margin-top: 30px;
     &:disabled {
-        background: black;
+        background: #1D1F22;
         opacity: 0.3;
     }
 `
@@ -269,7 +269,7 @@ class ItemPage extends Component {
                         {
                             product.attributes.map((attribute,index) => {
                                 return <div key={index}>
-                                <Label>{attribute.name}</Label>
+                                <Label>{attribute.name}:</Label>
                                 <OptionsContainer>
                                 {attribute.items.map(item => {
                                     if(attribute.type !== "swatch")

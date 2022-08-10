@@ -5,7 +5,6 @@ import { changeSizeOrColor } from "../../redux/cart/actions";
 
 const OptionsContainer = styled.div`
     width: 100%;
-    height: 30px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -14,10 +13,10 @@ const OptionsContainer = styled.div`
 
 
 const SizeOption = styled.button`
-    width: 45px;
-    height: 40px;
+    width: ${p => p.size >= 3 ? "43px" : "63px"};
+    height: ${p => p.size >= 3 ? "30px" : "45px"};
     font-family: Source Sans Pro;
-    font-size: 10px;
+    font-size: ${p => p.size >= 3 ? "13px" : "16px"};
     font-weight: 400;
     text-align: center;
     border: 1px solid #1D1F22;
@@ -27,13 +26,22 @@ const SizeOption = styled.button`
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    @media only screen and (max-width: 700px) {
+        width: ${p => p.size >= 3 ? "43px" : "50px"};
+        height: ${p => p.size >= 3 ? "30px" : "35px"};
+        font-size: ${p => p.size >= 3 ? "11px" : "14px"};
+    }  
+    @media only screen and (max-width: 700px) {
+        width: ${p => p.size >= 3 ? "43px" : "35px"};
+        height: ${p => p.size >= 3 ? "30px" : "25px"};
+    }  
+  
 `
-
 
 const ColorOption = styled.button`
     cursor: pointer;
-    height: 15px;
-    width: 15px;
+    height: 30px;
+    width: 30px;
     background-color: ${p => p.bg};
     outline: ${p => p.selected ? "1px solid #5ECE7B" : "none"} ;
     outline-offset: 1px;
@@ -43,7 +51,7 @@ const ColorOption = styled.button`
 class OptionSelector extends Component {
 
     render(){
-        const {cart, item, att, changeSizeOrColor} = this.props
+        const {cart, item, att, changeSizeOrColor, length} = this.props
         // getting attribute from redux 
         const selectedAtt = cart.find(
             cartItem => cartItem.id === item.id && JSON.stringify(cartItem.attributes) === JSON.stringify(item.attributes)
@@ -53,7 +61,7 @@ class OptionSelector extends Component {
             <OptionsContainer>
                 {att.items.map((attItem) => {
                     return att.type === "text" ? 
-                    <SizeOption onClick={() => changeSizeOrColor(item, att.name, attItem.value)} key={attItem.value} selected={attItem.value === selectedAtt.selected}>{attItem.value}</SizeOption>
+                    <SizeOption onClick={() => changeSizeOrColor(item, att.name, attItem.value)} size={length} key={attItem.value} selected={attItem.value === selectedAtt.selected}>{attItem.value}</SizeOption>
                     :
                     <ColorOption onClick={() => changeSizeOrColor(item, att.name, attItem.value)} key={attItem.value} bg={attItem.value} selected={attItem.value === this.props.att.selected} white={attItem.value === "#FFFFFF"}/>
                 })}
