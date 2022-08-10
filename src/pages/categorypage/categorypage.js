@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import Item from "./components/item";
-import { withRouter } from 'react-router-dom'
 import { connect } from "react-redux";
 import {popupToggle} from "../../redux/currencies/actions";
-import Loader from "../../components/loader"
+import Spinner from "../../components/spinner"
 import { getProducts } from "../../apollo";
 
 const Page = styled.div`
@@ -37,27 +36,35 @@ const ItemsContainer = styled.ul`
     width: 97%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 250px;
+    grid-auto-rows: 430px;
     grid-gap: 60px 10vw;
     padding: 0;
     list-style-type: none;
 
+    @media only screen and (max-width: 1500px) {
+        grid-auto-rows: 350px;
+    }
+
+    @media only screen and (max-width: 1200px) {
+        grid-auto-rows: 300px;
+    }
+
     @media only screen and (max-width: 1000px) {
-        grid-auto-rows: 220px;
+        grid-auto-rows: 250px;
     }
 
     @media only screen and (max-width: 900px) {
         grid-template-columns: repeat(2, 1fr);
         grid-gap: 60px 30%;
-        grid-auto-rows: 260px;
+        grid-auto-rows: 300px;
     }
 
     @media only screen and (max-width: 760px) {
-        grid-auto-rows: 220px;
+        grid-auto-rows: 280px;
     }
 
     @media only screen and (max-width: 600px) {
-        grid-auto-rows: 190px;
+        grid-auto-rows: 210px;
         grid-gap: 60px 20%;
     }
 
@@ -69,9 +76,8 @@ const ItemsContainer = styled.ul`
 
 class CategoryPage extends Component {
 
-    constructor(){
-        super()
-
+    constructor(props){
+        super(props);
         this.state = {
             name: "",
             products: [],
@@ -80,7 +86,6 @@ class CategoryPage extends Component {
         }
     }
 
-
     getItems = async () => {
         try {
             const res = await getProducts(this.props.match.params.category);
@@ -88,7 +93,7 @@ class CategoryPage extends Component {
           }
           catch (error) {
             console.log(error.message)
-            this.setState({loading: false, error: "Sorry, Can not get items right now.."})
+            this.setState({loading: false, error: "Sorry, no such category"})
           }
     }
 
@@ -100,7 +105,6 @@ class CategoryPage extends Component {
         if(this.props.location.pathname !== prevProps.location.pathname){
             this.setState({loading: true, error: false})
             this.getItems()
-            // wtf is bind
         }
     } 
 
@@ -109,7 +113,7 @@ class CategoryPage extends Component {
         const {loading, error, name, products } = this.state
         return(
             <Page>
-                {loading &&  <Loader />}
+                {loading &&  <Spinner />}
                 {!loading && error && <Error>{error}</Error>}
                 {!loading && !error && 
                 <>
@@ -134,5 +138,4 @@ const mapDispatchToProps = dispatch => ({
     popupToggle: () => dispatch(popupToggle())
 })
 
-const CategoryWithRouter = withRouter(CategoryPage);
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryWithRouter);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryPage);

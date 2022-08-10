@@ -11,10 +11,9 @@ import { toggleOverlay } from "../redux/cart/actions";
 import { popupToggle } from "../redux/currencies/actions";
 import { withRouter } from 'react-router-dom';
 
-
 const Container = styled.nav`
     width: 100%;
-    padding: 0 6%;
+    padding: 0 10%;
     height: 80px;
     display: flex;
     align-items: center;
@@ -84,9 +83,7 @@ const SettingsContaier = styled.div`
 
     @media only screen and (max-width: 600px) {
         padding: 0;   
-    }
-    
- 
+    }    
 `
 
 const CartButton = styled.button`
@@ -102,7 +99,6 @@ const CartButton = styled.button`
 const CartIcon = styled.img`
     width: 20px;
     height: 20px;
-    
 `
 
 const ItemsAmount = styled.p`
@@ -185,11 +181,11 @@ class Header extends Component {
             })}
             </LinksContainer>
             
-            <A to="/" home={"home"}>
+            <A to="/">
                 <Icon src={icon} alt="icon" />
             </A>
                 
-            <SettingsContaier >
+            <SettingsContaier>
                 <CurrencyContainer onClick={popupToggle}>
                     <Currency>{currency.symbol}</Currency>
                     <Arrow src={arrow} toggle={currenciesToggle ? "open" : ""} alt="arrow-button" />
@@ -204,7 +200,6 @@ class Header extends Component {
                 <CartOverlay />
 
             </SettingsContaier>
-
         </Container>
       );
     }
@@ -223,6 +218,5 @@ const mapDispatchToProps = dispatch => ({
     popupToggle: () => dispatch(popupToggle())
 });
   
-
 const HeaderWithRouter = withRouter(Header);
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderWithRouter);

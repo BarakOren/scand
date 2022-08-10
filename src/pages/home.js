@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 // import {fetchCategories} from "../fetchData"
-import Loader from "../components/loader";
+import Spinner from "../components/spinner";
 
 const Page = styled.div`
     width: 100%;
@@ -74,7 +74,7 @@ class Home extends Component {
         return(
             <Page>
                 <Welcome>Welcome</Welcome>
-                {loading && <Loader />}
+                {loading && <Spinner />}
                 {!loading && 
                     <Nav>
                         {categories.map((category) => {

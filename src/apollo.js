@@ -12,17 +12,17 @@ export const getCategories = () => {
             categories {
               name
             }
-          }
+        }
           `
       })
-    .then(res => { return res.data});
+    .then(res => { return res.data });
 }
 
-export const getProducts = (props) => {
+export const getProducts = (category) => {
     return client.query({
         query: gql`
         {
-            category(input: { title: "${props}" }){
+            category(input: { title: "${category}" }){
               name
                 products {
                 id

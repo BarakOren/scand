@@ -16,26 +16,28 @@ const Container = styled.div`
 const LeftColumn = styled.div`
     width: 136px;
     min-height: 190px;
-    /* display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between; */
 `
 
 const ItemTitle = styled.h1`
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 300;
     width: 100%;
     text-align: left;
     margin: 0px 0 3px 0;
+    @media only screen and (max-width: 1400px) {
+        font-size: 16px;
+    }
 `
 
 const Price = styled.p`
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     text-align: left;
     width: 100%;
     margin: 3px 0 0px 0;
+    @media only screen and (max-width: 1400px) {
+        font-size: 16px;
+    }
 `
 
 const Label = styled.p`

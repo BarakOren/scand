@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, createRef} from "react";
 import styled from "styled-components";
 import CartOverlayItem from "./cartOverlayItem";
 import {Link} from "react-router-dom";
@@ -9,7 +9,7 @@ const Container = styled.div`
     display: ${p => p.display === "on" ? "block" : "none"}; 
     min-height: 30vh;
     max-height: 70vh;
-    width: 325px;
+    width: 400px;
     padding: 32px 16px;
     background-color: white;
     position: absolute;
@@ -32,6 +32,10 @@ const Container = styled.div`
 
     ::-webkit-scrollbar-thumb:hover {
         background: #555;
+    }
+
+    @media only screen and (max-width: 1400px) {
+        width: 325px;
     }
 
     @media only screen and (max-width: 600px) {
@@ -105,7 +109,7 @@ class CartOverlay extends Component {
     constructor(props) {
         super(props);
     
-        this.wrapperRef = React.createRef();
+        this.wrapperRef = createRef();
         this.handleClickOutside = this.handleClickOutside.bind(this);
       }
     
@@ -125,10 +129,9 @@ class CartOverlay extends Component {
       }
 
     render(){
-        // 
         const {cart, cartOverlayToggle, toggleCart, currency} = this.props
-        const total =  cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity * cartItem.prices.find(price => price.currency.label === currency.label).amount, 0)
-        const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
+        const total = cart.reduce((totalQuantity, cartItem) => totalQuantity + cartItem.quantity * cartItem.prices.find(price => price.currency.label === currency.label).amount, 0)
+        const quantity = cart.reduce((totalQuantity, cartItem) => totalQuantity + cartItem.quantity, 0)
         
         return(
             <Container display={cartOverlayToggle ? "on" : "off"} ref={this.wrapperRef}>

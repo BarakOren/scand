@@ -11,23 +11,26 @@ const OptionsContainer = styled.div`
     gap: 0 5px;
 `
 
-
 const SizeOption = styled.button`
-    width: ${p => p.size === "small" ? "26px" : "30px"};
-    height: ${p => p.size === "small" ? "26px" : "30px"};
     font-family: Source Sans Pro;
-    font-size: ${p => p.size === "small" ? "8px" : "10px"};
     font-weight: 400;
+    cursor: pointer;
     text-align: center;
-    border: 1px solid #1D1F22;
-    background: ${p => p.selected ? "#1D1F22" : "none"};
-    color: ${p => p.selected ? "white" : "#1D1F22"};
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    color: ${p => p.selected ? "white" : "#1D1F22"};
+    border: 1px solid #1D1F22;
+    width: ${p => p.size === "small" ? "28px" : "32px"};
+    height: ${p => p.size === "small" ? "28px" : "32px"};
+    font-size: ${p => p.size === "small" ? "10px" : "12px"};
+    background: ${p => p.selected ? "#1D1F22" : "none"};
+    @media only screen and (max-width: 1400px) {
+        width: ${p => p.size === "small" ? "26px" : "30px"};
+        height: ${p => p.size === "small" ? "26px" : "30px"};
+        font-size: ${p => p.size === "small" ? "8px" : "10px"};
+    }
 `
-
 
 const ColorOption = styled.button`
     cursor: pointer;

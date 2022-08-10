@@ -4,7 +4,6 @@ import whitecart from "../../../assets/whitecart.png";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import {addToCartFromCategoryPage} from "../../../redux/cart/actions";
-import whitearrow from "../../../assets/whitearrow.png"
 
 const Container = styled.li`
     width: 100%;
@@ -24,8 +23,23 @@ const ItemContainer = styled(Link)`
     position: relative;
     text-decoration: none;
     color: black;
+    font-size: 20px;
+
+    
+    @media only screen and (max-width: 1500px) {
+        font-size: 18px;
+    }
+
+    /* @media only screen and (max-width: 1200px) {
+        font-size: 18px;
+    } */
 
     @media only screen and (max-width: 1000px) {
+        font-size: 14px;
+    }
+
+    @media only screen and (max-width: 900px) {
+        font-size: 16px;
     }
 
 `
@@ -41,21 +55,19 @@ const ItemImage = styled.div`
 `
 
 const Title = styled.p`
-    font-size: 14px;
     width: 100%;
     text-align: left;
     font-weight: 300;
     margin: 20px 0 6px 0;
     opacity: ${p => p.disabled ? "0.5" : "1"};
 
-
     @media only screen and (max-width: 600px) {
+        margin: 10px 0 2px 0;
         font-size: 12px;
     }
 `
 
 const Price = styled.p`
-    font-size: 14px;
     font-weight: 500;
     text-align: left;
     margin: 6px 0;
@@ -68,22 +80,23 @@ const Price = styled.p`
     }
 
     @media only screen and (max-width: 600px) {
-        font-size: 14px;
+        margin: 2px 0;
+        font-size: 12px;
     }
 `
 
 
 const AddToCartButton = styled.button`  
     display: ${p => p.disabled ? "none" : "default"};
-    opacity: 0.1;
-    width: 34px;
-    height: 34px;
+    opacity: 1;
+    width: 38px;
+    height: 38px;
     border: none;
     background: #5ECE7B;
     border-radius: 50%;
     position: absolute;
-    top: 180px;
-    right: 10px;
+    top: 312px;
+    right: 20px;
     cursor: pointer;
     transition: .4s opacity;
     z-index: 1;
@@ -91,46 +104,50 @@ const AddToCartButton = styled.button`
     ${Container}:hover & {
         opacity: 1;
     }
-/* 
+
+    @media only screen and (max-width: 1500px) {
+        top: 252px;
+    }
+
+    @media only screen and (max-width: 1200px) {
+        top: 215px;
+    }
+ 
     @media only screen and (max-width: 1000px){
-        top: 155px;
+        top: 178px; 
     }
 
     @media only screen and (max-width: 900px){
-        top: 185px;
-        right: 0;
+        top: 214px;
     }
 
     @media only screen and (max-width: 760px) {
-        top: 156px;
+        width: 32px;
+        height: 32px;
+        top: 202px;
     }
 
     @media only screen and (max-width: 600px) {
-        width: 30px;
-        height: 30px;
-        top: 137px;
+        top: 152px;
     }
 
     @media only screen and (max-width: 400px) {
+        right: 15px;
         width: 24px;
         height: 24px;
-        top: 140px;
-    } */
-
-
-    
-    
+        top: 155px;
+    } 
 `
 
 const CartIcon = styled.img`
-    width: 16px;
+    width: 18px;
     height: auto;
     position: relative;
     right: 1px;
     top: 2px;
 
-     @media only screen and (max-width: 1000px){
-        width: 14px;
+    @media only screen and (max-width: 760px) {
+        width: 16px;
     }
 
     @media only screen and (max-width: 400px) {
@@ -139,57 +156,34 @@ const CartIcon = styled.img`
     } 
 `
 
-const Direct = styled(Link)`
-    text-decoration: none;
-    opacity: 0;
-    width: 3.5vw;
-    height: 3.5vw;
-    border: none;
-    background: #5ECE7B;
-    border-radius: 50%;
-    position: absolute;
-    right: 1vw;
-    bottom: 0;
-    transform: translateY(50%);
-    cursor: pointer;
-    transition: .4s all;
-    font-weight: 900;
-    font-size: 2vw;
-
-    ${ItemContainer}:hover & {
-        opacity: 1;
-    }
-`
-
-const ArrowIcon = styled.img`
-    width: 1vw;
-    height: auto;
-    position: relative;
-    left: 1px;
-    top: 47%;
-    transform: translateY(-50%) rotate(180deg);
-`
-
 const OutOfStock = styled.p`
     position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 35%;
+    right: 0;
     font-family: Raleway;
-    font-size: 24px;
+    margin: 0;
+    font-size: 30px;
     font-weight: 400;
-    letter-spacing: 0px;
     width: 100%;
     color: #8D8F9A;
     text-shadow: 0 0 3px white;
+    z-index: 1;
     
+    @media only screen and (max-width: 1200px) {
+        font-size: 26px;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        font-size: 22px;
+    }
+
     @media only screen and (max-width: 600px) {
-        top: 20%;
+        font-size: 20px;
     }
 
     @media only screen and (max-width: 500px) {
-        top: 30%;
-        font-size: 16px;
+        top: 35%;
+        font-size: 14px;
     }
 `
 
@@ -212,8 +206,8 @@ class Item extends Component {
                 </ItemImage>
                 <Title disabled={!inStock}>{name} {brand}</Title>
                 <Price disabled={!inStock}>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
-                {!inStock && <OutOfStock>Out Of Stock</OutOfStock>}
             </ItemContainer>
+            {!inStock && <OutOfStock>Out Of Stock</OutOfStock>}
             </Container>
         )
     }

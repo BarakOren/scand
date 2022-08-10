@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export const addToCartUtil = (cartItems, cartItemToAdd) => {
-
+export const addToCartFunc = (cartItems, cartItemToAdd) => {
+  //looking for item with the same id and attributes
   const existingItem = cartItems.find(
     item => item.id === cartItemToAdd.id && JSON.stringify(item.attributes) === JSON.stringify(cartItemToAdd.attributes) 
   );
@@ -14,7 +14,7 @@ export const addToCartUtil = (cartItems, cartItemToAdd) => {
     );
   }
   
-    return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
+  return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
 };
 
 export const addFromCart = (cartItems, cartItemToAdd) => {
@@ -25,7 +25,7 @@ export const addFromCart = (cartItems, cartItemToAdd) => {
 }
 
 export const addToCartFromCategoryPage = (cartItems, cartItemToAdd) => {
-
+  //adding item with first attributes as default
   const AddedDefaultValues = cartItemToAdd.attributes.map((att) => {
     return  {...att, selected: att.items[0].value}
   })
@@ -52,7 +52,6 @@ export const addToCartFromCategoryPage = (cartItems, cartItemToAdd) => {
 }
 
 
-
 export const removeFromCart = (cartItems, ItemToRemove) => {
   const existingItem = cartItems.find(
     // item => item.id === ItemToRemove.id && JSON.stringify(item.attributes) === JSON.stringify(ItemToRemove.attributes)
@@ -71,12 +70,9 @@ export const removeFromCart = (cartItems, ItemToRemove) => {
   );
 };
 
+export const changeSizeOrColorFunc = (cart, item, attributeToChange, changeTo) => {
 
-
-
-export const changeSizeOrColorFunc = (cart, item, whatToChange, changeTo) => {
-
-  const attribute = item.attributes.find(attribute => attribute.name === whatToChange)
+  const attribute = item.attributes.find(attribute => attribute.name === attributeToChange)
   
   // checking if the the user didnt select the same attribute. if so lets change to attribute selection
   if(attribute.selected !== changeTo){

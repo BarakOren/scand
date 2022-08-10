@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { withRouter } from 'react-router-dom'
 import { connect } from "react-redux";
 import {AddToCart} from "../../redux/cart/actions";
-import Loader from "../../components/loader";
+import Spinner from "../../components/spinner";
 import { v4 as uuidv4 } from 'uuid';
 import { getProductInfo } from "../../apollo";
+
 
 const Page = styled.div`
     width: 100%;
@@ -54,6 +55,7 @@ const DetailsContainer = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    text-align: left;
     width: 30%;
     margin-right: 50px;
     @media only screen and (max-width: 1000px) {
@@ -161,16 +163,13 @@ const Description = styled.p`
     font-family: Roboto;
     font-size: 16px;
     font-weight: 400;
-    text-align: left;
     margin-top: 30px;
-    line-height: 26px;
+    line-height: 30px;
 `
 
 const Form = styled.form`
     width: 100%;
-    text-align: left;
 `
-
 
 const OutOfStock = styled.p`
     margin: 0;
@@ -194,8 +193,8 @@ const Error = styled.h1`
 
 class ItemPage extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             loading: true,
             error: null,
@@ -203,9 +202,10 @@ class ItemPage extends Component {
             currentImage: null,
             attributes: {}
         }
-    }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    } 
 
-       
 
     async componentDidMount(){
         try{
@@ -222,36 +222,39 @@ class ItemPage extends Component {
           }
     }
 
+
+    switchImages = (currentImage) => { this.setState({ currentImage }) }
+
+    handleChange = (e) => {
+        // using form, so handleChange runs only when you change attribute.
+        // no need to check if the user is selecting the same attribute again.
+        const state = this.state.attributes
+        this.setState({ attributes: {...state, [e.target.name]: e.target.value } })
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const attributes = this.state.product.attributes.map(att => {
+            return {...att, selected: this.state.attributes[att.name]}
+        })
+        const productClone = {...this.state.product, attributes: attributes, uid: uuidv4()}
+        this.props.AddToCart(productClone)
+    }
+
     render(){
-        const {AddToCart, currency} = this.props;
+        const {currency} = this.props;
         const {loading, error, product, currentImage} = this.state
         const currentCurrency = product ? product.prices.find(cur => cur.currency.label === currency.label) : undefined
-        
-        const switchImages = (currentImage) => {this.setState({ currentImage })}
-
-        const handleChange = (e) => {
-            const state = this.state.attributes
-            this.setState({ attributes: {...state, [e.target.name]: e.target.value } })
-        }
-
-        const handleSubmit = (e) => {
-            e.preventDefault();
-            const attributes = product.attributes.map(att => {
-                return {...att, selected: this.state.attributes[att.name]}
-            })
-            const productClone = {...product, attributes: attributes, uid: uuidv4()}
-            AddToCart(productClone)
-        }
 
         return(
             <Page>
                 {error && !loading && <Error>{error}</Error>}
-                {loading && <Loader  />}
+                {loading && <Spinner  />}
                 {!loading && !error &&
                 <>
                     <ImagesContainer>
                         {product.gallery.map((image) => {
-                            return <SmallImage key={image} onClick={() => switchImages(image)} style={{backgroundImage: `url(${image})`}} /> 
+                            return <SmallImage key={image} onClick={() => this.switchImages(image)} style={{backgroundImage: `url(${image})`}} /> 
                         })}
                     </ImagesContainer>
 
@@ -259,10 +262,10 @@ class ItemPage extends Component {
                         {!product.inStock && <OutOfStock>Out Of Stock</OutOfStock>}
                     </SelectedImage>
 
-                    <DetailsContainer > 
+                    <DetailsContainer> 
                         <ItemName>{product.brand}</ItemName>
                         <SubName>{product.name}</SubName>
-                        <Form onSubmit={handleSubmit}>
+                        <Form onSubmit={this.handleSubmit}>
                         {
                             product.attributes.map((attribute,index) => {
                                 return <div key={index}>
@@ -271,7 +274,7 @@ class ItemPage extends Component {
                                 {attribute.items.map(item => {
                                     if(attribute.type !== "swatch")
                                         return <SizeOption 
-                                        onChange={handleChange}
+                                        onChange={this.handleChange}
                                         type="radio"
                                         key={item.value}
                                         required 
@@ -281,7 +284,7 @@ class ItemPage extends Component {
                                         />
                                     else 
                                         return <ColorOption 
-                                        onChange={handleChange}
+                                        onChange={this.handleChange}
                                         type="radio"
                                         key={item.value}
                                         bg={item.value}

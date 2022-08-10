@@ -1,14 +1,14 @@
 import React, {Component} from "react";
 import styled, {createGlobalStyle} from "styled-components";
-import Header from "./components/header";
+import { connect } from "react-redux";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { getCategories } from "./apollo"
 import CategoryPage from "./pages/categorypage/categorypage";
+import Header from "./components/header";
 import Home from "./pages/home";
 import ItemPage from "./pages/itempage/itempage";
 import CartPage from "./pages/cartpage/cartpage";
 import Error from "./pages/error";
-import { connect } from "react-redux";
-import { getCategories } from "./apollo"
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -67,19 +67,18 @@ class App extends Component {
       <AppContainer >
         <GlobalStyle />
         <Router>
-          <>
-          <Header loading={loading} categories={categories}/>
-          <Switch>
-            <Route exact path="/"><Home error={error} loading={loading} categories={categories}/></Route>
-            <Route exact path="/cart"><CartPage /></Route>
-            <Route exact path="/category/:category" component={(props) => <CategoryPage {...props} />}/>
-            <Route exact path="/category/:category/item/:id" component={(props) => <ItemPage {...props} />}></Route>
-            {/* <Route ><Error /></Route> */}
-          </Switch>
-          </>
+            <>
+            <Header loading={loading} categories={categories}/>
+            <Switch>
+              <Route exact path="/"><Home error={error} loading={loading} categories={categories}/></Route>
+              <Route exact path="/cart"><CartPage /></Route>
+              <Route exact path="/category/:category" component={(props) => <CategoryPage {...props} />}/>
+              <Route exact path="/category/:category/item/:id" component={(props) => <ItemPage {...props} />}></Route>
+              <Route ><Error /></Route>
+            </Switch>
+            </>
         </Router>
-          <CartOverlayShader display={cartOverlayToggle ? "on" : "off"} />
-        
+        <CartOverlayShader display={cartOverlayToggle ? "on" : "off"} />
       </AppContainer>
     );
   }

@@ -10,7 +10,6 @@ export const rotate = keyframes`
 `
 
 const Span = styled.span`
-    // display: ${p => p.display ? "inline-block" : "none"};
     display: inline-block;
     position: absolute;
     top: 50%;
@@ -25,7 +24,7 @@ const Span = styled.span`
     animation: ${rotate} 1s linear infinite;
 `
 
-class Loader extends Component {
+class Spinner extends Component {
 
     render(){
         return <Span />
@@ -33,4 +32,4 @@ class Loader extends Component {
 
 }
 
-export default Loader;
+export default Spinner;

@@ -23,7 +23,6 @@ export const addToCartFromCategoryPage = item => ({
     payload: item
 })
 
-
 export const RemoveFromCart = item => ({
     type: cartTypes.REMOVE_FROM_CART,
     payload: item

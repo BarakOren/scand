@@ -1,9 +1,9 @@
-import React, {Component} from "react";
-import styled, {keyframes} from "styled-components";
+import React, {Component, createRef} from "react";
+import styled from "styled-components";
 import { connect } from "react-redux";
 import {changeCurrency, closeToggle, setCurrencies} from "../redux/currencies/actions";
 import {getCurrencies} from "../apollo"
-import { rotate } from "./loader";
+import { rotate } from "./spinner";
 
 const Container = styled.div`
     display: ${p => p.display === "on" ? "block" : "none"};
@@ -26,7 +26,7 @@ const Currency = styled.button`
     cursor: pointer;
 `
 
-const MiniLoader = styled.span`
+const MiniSpinner = styled.span`
     display: inline-block;
     transform: translate(50%,-50%);
     width: 15px;
@@ -46,7 +46,7 @@ class CurrencyToggler extends Component {
           error: null,
           loading: true
         }
-        this.currencyRef = React.createRef();
+        this.currencyRef = createRef();
         this.handleClickOutside = this.handleClickOutside.bind(this);
       }
     
@@ -74,19 +74,16 @@ class CurrencyToggler extends Component {
       }
 
     render(){
-        const {currency, setCurrencies ,currenciesToggle, changeCurrency, currencies} = this.props
+        const {currency ,currenciesToggle, changeCurrency, currencies} = this.props
         const {loading, error} = this.state;
-        
         
         return(
             <Container ref={this.currencyRef} display={currenciesToggle ? "on" : "off"} >
-                {loading && <MiniLoader />}
+                {loading && <MiniSpinner />}
                 {!loading && !error && currencies.map((curr) => {
-                  return <Currency key={curr.label}
-                  onClick={() => changeCurrency(curr)} selected={currency.label === curr.label}
-                  >{curr.symbol} {curr.label}</Currency>
-                  })
-                }
+                  return <Currency key={curr.label} selected={currency.label === curr.label}
+                  onClick={() => changeCurrency(curr)}>{curr.symbol} {curr.label}</Currency>
+                })}
             </Container>
         )
     }
