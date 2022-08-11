@@ -9,6 +9,9 @@ const OptionsContainer = styled.div`
     align-items: center;
     justify-content: flex-start;
     gap: 0 5px;
+    @media only screen and (max-width: 420px) {
+        justify-content: center;
+    }
 `
 
 
@@ -33,7 +36,7 @@ const SizeOption = styled.button`
     }  
     @media only screen and (max-width: 700px) {
         width: ${p => p.size >= 3 ? "43px" : "35px"};
-        height: ${p => p.size >= 3 ? "30px" : "25px"};
+        height: ${p => p.size >= 3 ? "30px" : "29px"};
     }  
   
 `
@@ -46,6 +49,10 @@ const ColorOption = styled.button`
     outline: ${p => p.selected ? "1px solid #5ECE7B" : "none"} ;
     outline-offset: 1px;
     border: ${p => p.white ? "1px solid black" : "none"};
+    @media only screen and (max-width: 420px) {
+        height: 24px;
+        width: 24px;
+    }  
 `
 
 class OptionSelector extends Component {

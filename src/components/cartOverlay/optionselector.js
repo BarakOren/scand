@@ -30,6 +30,12 @@ const SizeOption = styled.button`
         height: ${p => p.size === "small" ? "26px" : "30px"};
         font-size: ${p => p.size === "small" ? "8px" : "10px"};
     }
+    @media only screen and (max-width: 420px) {
+        font-size: 10px;
+        width: ${p => p.size === "small" ? "20px" : "22px"};
+        height: ${p => p.size === "small" ? "20px" : "22px"};
+        font-size: ${p => p.size === "small" ? "6px" : "10px"};
+    }
 `
 
 const ColorOption = styled.button`

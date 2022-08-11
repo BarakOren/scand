@@ -1,9 +1,9 @@
 import React, {Component, createRef} from "react";
-import styled from "styled-components";
-import CartOverlayItem from "./cartOverlayItem";
 import {Link} from "react-router-dom";
 import { connect } from "react-redux";
 import {toggleOverlay, closeOverlay} from "../../redux/cart/actions"
+import styled from "styled-components";
+import CartOverlayItem from "./cartOverlayItem";
 
 const Container = styled.div`
     display: ${p => p.display === "on" ? "block" : "none"}; 

@@ -4,6 +4,7 @@ import arrow from "../../assets/whitearrow.png";
 import { connect } from "react-redux";
 import { addFromCart, RemoveFromCart } from "../../redux/cart/actions";
 import OptionSelector from "./optionselector.js"
+import {Link} from "react-router-dom"
 
 const ItemContainer = styled.div`
     padding: 24px 0;
@@ -14,14 +15,16 @@ const ItemContainer = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    @media only screen and (max-width: 420px) {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        height: unset;
+    }
 
 `
 
 const DetailsContainer = styled.div`
-    /* display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start; */
     text-align: left;
     width: 300px;
     height: 100%;
@@ -31,25 +34,35 @@ const DetailsContainer = styled.div`
     @media only screen and (max-width: 500px) {
         width: 220px;
     }  
+    @media only screen and (max-width: 420px) {
+        text-align: unset;
+    }
 `
 
-const ItemName = styled.h1`
-    font-size: 20px;
+const ItemName = styled(Link)`
+    font-size: 22px;
     font-weight: 600;
     text-align: left;
     margin: 0;
+    text-decoration: none;
+    color: inherit; 
+    @media only screen and (max-width: 420px) {
+        font-size: 22px;
+        text-align: unset;
+    }
 `   
 
 const SubName = styled.h1`
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 400;
     margin: 16px 0 0 0;
 ` 
 
 const Price = styled.p`
     margin: 20px 0;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
+ 
 `
 
 const Label = styled.p`
@@ -58,6 +71,10 @@ const Label = styled.p`
     margin: 0;
     /* margin: 0 0 10px 0; */
     margin: ${p => p.size >= 3 ? "8px 0 4px 0" : "10px 0 7px 0"};
+    @media only screen and (max-width: 420px) {
+        font-size: 14px;
+        text-align: center;
+    }
 `
 
 const RightSide = styled.div`
@@ -81,6 +98,11 @@ const RightSide = styled.div`
     @media only screen and (max-width: 700px) {
         width: 60%;
     }
+
+    @media only screen and (max-width: 420px) {
+        flex-direction: column;
+        width: 100%;
+    }
 `
 
 const MiddleCol = styled.div`
@@ -89,6 +111,10 @@ const MiddleCol = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    @media only screen and (max-width: 420px) {
+        flex-direction: row;
+        width: 90%;
+    }
 `
 
 const AmountButton = styled.button`
@@ -125,6 +151,10 @@ const ItemImage = styled.div`
     background-position: center;
     background-size: cover;
     position: relative;
+    @media only screen and (max-width: 420px) {
+        width: 90%;
+        height: 300px;
+    }
 `
 
 const ImageArrowButton = styled.button`
@@ -179,15 +209,15 @@ class CartItem extends Component {
 
     render(){
         const { item, addFromCart, removeFromCart, currency } = this.props;
-        const { name, prices, gallery, quantity } = item;
+        const { name, prices, gallery, quantity, brand, category, id } = item;
         const { currentImage } = this.state;
         const currentCurrency = prices.find(cur => cur.currency.label === currency.label)
 
         return(
         <ItemContainer>
             <DetailsContainer>
-                <ItemName>{name}</ItemName>
-                <SubName>Running Short</SubName>
+                <ItemName to={`/category/${category}/${id}`}>{name}</ItemName>
+                <SubName>{brand}</SubName>
                 <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
                 {item.attributes.map((att) => {
                     return <div key={att.name}> 

@@ -156,7 +156,7 @@ const CartIcon = styled.img`
     } 
 `
 
-const OutOfStock = styled.p`
+const OutOfStock = styled(Link)`
     position: absolute;
     top: 35%;
     right: 0;
@@ -165,9 +165,11 @@ const OutOfStock = styled.p`
     font-size: 30px;
     font-weight: 400;
     width: 100%;
+    text-align: center;
     color: #8D8F9A;
     text-shadow: 0 0 3px white;
     z-index: 1;
+    text-decoration: none;
     
     @media only screen and (max-width: 1200px) {
         font-size: 26px;
@@ -201,13 +203,13 @@ class Item extends Component {
             <AddToCartButton onClick={() => {addToCartFromCategoryPage(this.props.product)}} disabled={!inStock}>
                     <CartIcon src={whitecart} alt="add-to-cart-button" />
             </AddToCartButton>
-            <ItemContainer to={`/category/${category}/item/${id}`}>
+            <ItemContainer to={`/category/${category}/${id}`}>
                 <ItemImage disabled={!inStock} style={{backgroundImage: `url(${gallery[0]})`}}>
                 </ItemImage>
                 <Title disabled={!inStock}>{name} {brand}</Title>
                 <Price disabled={!inStock}>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
             </ItemContainer>
-            {!inStock && <OutOfStock>Out Of Stock</OutOfStock>}
+            {!inStock && <OutOfStock to={`/category/${category}/${id}`}>Out Of Stock</OutOfStock>}
             </Container>
         )
     }

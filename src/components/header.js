@@ -24,6 +24,10 @@ const Container = styled.nav`
     transform: translateX(-50%);
     z-index: 10;
     background-color: white;
+    @media only screen and (max-width: 420px) {
+        width: 105%;
+        padding: 0 7%;
+    }
 `
 
 const LinksContainer = styled.div`
@@ -43,6 +47,7 @@ const A = styled(Link)`
     font-size: 16px;
     padding: 0;
     height: 100%;
+    font-weight: 400;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -64,8 +69,8 @@ const A = styled(Link)`
 `
 
 const Icon = styled.img`
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     @media only screen and (max-width: 600px) {
         width: 22px;
         height: 22px;
@@ -73,8 +78,8 @@ const Icon = styled.img`
 `
 
 const SettingsContaier = styled.div`
-    width: 78px;
-    padding: 0 0 0 156px;
+    width: 90px;
+    padding: 0 0 0 144px;
     height: 100%;
     display: flex;
     justify-content: space-between;

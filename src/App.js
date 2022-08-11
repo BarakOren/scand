@@ -20,7 +20,6 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const AppContainer = styled.div`
-  text-align: center;
   width: 85%;
   padding: 0 7.5%;
 `
@@ -74,7 +73,7 @@ class App extends Component {
               <Route exact path="/"><Home error={error} loading={loading} categories={categories}/></Route>
               <Route exact path="/cart"><CartPage /></Route>
               <Route exact path="/category/:category" component={(props) => <CategoryPage {...props} />}/>
-              <Route exact path="/category/:category/item/:id" component={(props) => <ItemPage {...props} />}></Route>
+              <Route exact path="/category/:category/:id" component={(props) => <ItemPage {...props} />}></Route>
               <Route ><Error /></Route>
             </Switch>
             </>

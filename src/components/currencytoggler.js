@@ -19,7 +19,6 @@ const Container = styled.div`
 
 const Currency = styled.button`
     width: 100%;
-    height: 33%;
     padding: 12px 0;
     background: ${p => p.selected ? "#EEEEEE" : "none"};
     border: none;

@@ -16,6 +16,9 @@ const Page = styled.div`
     align-items: flex-start;
     gap: 0 30px;
     padding-bottom: 30px;
+    @media only screen and (max-width: 600px) {
+        flex-direction: column;
+    }
 `
 
 const ImagesContainer = styled.div`
@@ -25,6 +28,18 @@ const ImagesContainer = styled.div`
     align-items: flex-start;
     width: 150px;
     gap: 15px 0;
+    @media only screen and (max-width: 600px) {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(5, 80px);
+        grid-auto-rows: 80px;
+    }
+    @media only screen and (max-width: 500px) {
+        grid-template-columns: repeat(4, 80px);
+    }
+    @media only screen and (max-width: 400px) {
+        grid-template-columns: repeat(3, 80px);
+    }
 `
 
 const SmallImage = styled.button`
@@ -39,6 +54,10 @@ const SmallImage = styled.button`
         width: 120px;
         height: 120px;
     }
+    @media only screen and (max-width: 600px) {
+        width: 100%;
+        height: 100%;
+    }
 `
 
 const SelectedImage = styled.div`
@@ -48,6 +67,11 @@ const SelectedImage = styled.div`
     background-size: contain;
     background-repeat: no-repeat;
     position: relative;
+    @media only screen and (max-width: 600px) {
+        margin: 30px 0;
+        width: 100%;
+        height: 400px;
+    }
 `
 
 const DetailsContainer = styled.div`
@@ -60,6 +84,12 @@ const DetailsContainer = styled.div`
     margin-right: 50px;
     @media only screen and (max-width: 1000px) {
         margin-right: unset;
+        width: 35%;
+    }
+    @media only screen and (max-width: 600px) {
+        width: 100%;
+        text-align: center;
+        align-items: center;
     }
 `
 
@@ -68,6 +98,9 @@ const ItemName = styled.h1`
     font-weight: 600;
     text-align: left;
     margin: 0;
+    @media only screen and (max-width: 1000px) {
+        font-size: 22px;
+    }
 `   
 
 const SubName = styled.h1`
@@ -75,6 +108,9 @@ const SubName = styled.h1`
     font-weight: 400;
     text-align: left;
     margin: 10px 0;
+    @media only screen and (max-width: 1000px) {
+        font-size: 22px;
+    }
 ` 
 
 
@@ -83,6 +119,9 @@ const Label = styled.p`
     font-weight: 700;
     margin-bottom: 6px;
     color: #1D1F22;
+    @media only screen and (max-width: 1000px) {
+        font-size: 16px;
+    }
 `
 
 const OptionsContainer = styled.div`
@@ -91,6 +130,9 @@ const OptionsContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    @media only screen and (max-width: 600px) {
+        justify-content: center;
+    }
 `
 
 const SizeOption = styled.input`
@@ -117,6 +159,14 @@ const SizeOption = styled.input`
         background: #1D1F22;
         color: white;
     }
+
+    @media only screen and (max-width: 1000px) {
+        width: 56px;
+        height: 40px;
+        &:after {
+            font-size: 14px;
+        }
+    }
 `
 
 const ColorOption = styled.input`
@@ -132,12 +182,21 @@ const ColorOption = styled.input`
     &:checked {
         outline: 2px solid #5ECE7B;
     }
+    
+    @media only screen and (max-width: 1000px) {
+        height: 28px;
+        width: 28px;
+    }
 `
 
 const Price = styled.p`
     margin: 0;
     font-size: 24px;
     font-weight: 700;
+    margin: 0 6px 0 0;
+    @media only screen and (max-width: 1000px) {
+        font-size: 20px;
+    }
 `
 
 const Button = styled.button`
