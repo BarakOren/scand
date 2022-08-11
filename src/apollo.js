@@ -5,21 +5,21 @@ const client = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
-export const getCategories = () => {
-    return client.query({
-        query: gql`
-        {
-            categories {
-              name
-            }
-        }
-          `
-      })
-    .then(res => { return res.data });
-}
+export const getCategories = async () => {
+    const { data } = await client.query({
+          query: gql`
+          {
+              categories {
+                name
+              }
+          }
+            `
+      }) 
+      return data
+  }
 
-export const getProducts = (category) => {
-    return client.query({
+export const getProducts = async category => {
+    const { data } = await client.query({
         query: gql`
         {
             category(input: { title: "${category}" }){
@@ -51,11 +51,11 @@ export const getProducts = (category) => {
             }
           }`
       })
-    .then(res => {return res.data});
+    return data;
 }
   
-export const getProductInfo = (id) => {
-    return client.query({
+export const getProductInfo = async id => {
+    const { data } = await client.query({
       query: gql`
         {
           product(id: "${id}") {
@@ -85,11 +85,11 @@ export const getProductInfo = (id) => {
             }
           }`
       })
-    .then(res => {return res.data});
+    return data
 }
 
-export const getCurrencies = () => {
-    return client.query({
+export const getCurrencies = async () => {
+    const { data } = await client.query({
       query: gql`
           {
             currencies {
@@ -98,5 +98,5 @@ export const getCurrencies = () => {
             }
           }`
     })
-    .then(res => {return res.data})
+    return data;
 }
