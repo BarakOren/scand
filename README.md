@@ -1,5 +1,5 @@
-# Scaniweb Junior React Dev Task - Barak Oren
-
+# Scaniweb Junior React Dev Task
+### Name: Barak Oren
 -----
 npm start > http://localhost:3000/
 
