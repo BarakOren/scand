@@ -32,3 +32,8 @@ export const changeSizeOrColor = (item, whatToChange, changeTo) => ({
     type: cartTypes.CHANGE_SIZE_OR_COLOR,
     payload: {item, whatToChange, changeTo}
 })
+
+export const selectAttributeFromItemPage = (item, whatToChange, changeTo) => ({
+    type: cartTypes.SELECT_ATTRIBUTE_FROM_ITEM_PAGE,
+    payload: {item, whatToChange, changeTo}
+})

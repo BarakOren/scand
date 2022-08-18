@@ -92,3 +92,9 @@ export const changeSizeOrColorFunc = (cart, item, attributeToChange, changeTo) =
 
   return [...cart]
 }
+
+export const selectAttributeFromItem = (cart, item, attributeToChange, changeTo) => {
+    console.log(cart, item, attributeToChange, changeTo)
+
+    return [...cart]
+}

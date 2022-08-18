@@ -152,7 +152,9 @@ class Header extends Component {
         super(props);
         this.state = {
             param: this.props.location.pathname,
+            cartToggle: false
         }
+        this.toggleCart = this.toggleCart.bind(this);
     }
 
     componentDidMount() {
@@ -170,9 +172,13 @@ class Header extends Component {
     componentWillUnmount() {
         this.unlisten();
     }
+  
+    toggleCart () {
+        this.setState({cartToggle: !this.state.cartToggle})
+    }
 
     render(){
-        const {currency, cart, toggleCart, popupToggle, categories, currenciesToggle } = this.props;
+        const {currency, cart, popupToggle, categories, currenciesToggle, toggleCart} = this.props;
         const param = this.state.param
         const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
 
@@ -196,12 +202,13 @@ class Header extends Component {
                     <CurrencyToggler />
                 </CurrencyContainer>
                 
+                {/* <CartButton onClick={this.toggleCart} > */}
                 <CartButton onClick={toggleCart} >
                     <CartIcon src={cartimg} alt="cart-icon" />
                     {cart.length > 0 && <ItemsAmount>{quantity}</ItemsAmount>}
                 </CartButton>
              
-                <CartOverlay />
+                <CartOverlay cartToggle={this.state.cartToggle} />
 
             </SettingsContaier>
         </Container>

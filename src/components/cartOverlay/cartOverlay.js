@@ -129,11 +129,13 @@ class CartOverlay extends Component {
       }
 
     render(){
-        const {cart, cartOverlayToggle, toggleCart, currency} = this.props
+        const {cart, cartOverlayToggle, toggleCart, currency, cartToggle} = this.props
         const total = cart.reduce((totalQuantity, cartItem) => totalQuantity + cartItem.quantity * cartItem.prices.find(price => price.currency.label === currency.label).amount, 0)
         const quantity = cart.reduce((totalQuantity, cartItem) => totalQuantity + cartItem.quantity, 0)
+      
         
         return(
+            // <Container display={cartToggle ? "on" : "off"} ref={this.wrapperRef}>
             <Container display={cartOverlayToggle ? "on" : "off"} ref={this.wrapperRef}>
                 <MyBag>My Bag,<ItemCount> {quantity} items</ItemCount></MyBag>
                 

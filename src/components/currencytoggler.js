@@ -77,7 +77,7 @@ class CurrencyToggler extends Component {
         const {loading, error} = this.state;
         
         return(
-            <Container ref={this.currencyRef} display={currenciesToggle ? "on" : "off"} >
+            <Container display={currenciesToggle ? "on" : "off"} ref={this.currencyRef}  >
                 {loading && <MiniSpinner />}
                 {!loading && !error && currencies.map((curr) => {
                   return <Currency key={curr.label} selected={currency.label === curr.label}

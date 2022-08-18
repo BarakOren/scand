@@ -78,7 +78,7 @@ class App extends Component {
             </Switch>
             </>
         </Router>
-        <CartOverlayShader display={cartOverlayToggle ? "on" : "off"} />
+        {/* <CartOverlayShader display={cartOverlayToggle ? "on" : "off"} /> */}
       </AppContainer>
     );
   }

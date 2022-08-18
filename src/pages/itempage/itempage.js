@@ -2,32 +2,46 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import { withRouter } from 'react-router-dom'
 import { connect } from "react-redux";
-import {AddToCart} from "../../redux/cart/actions";
+import {AddToCart, selectAttributeFromItemPage} from "../../redux/cart/actions";
 import Spinner from "../../components/spinner";
 import { v4 as uuidv4 } from 'uuid';
 import { getProductInfo } from "../../apollo";
 
-
 const Page = styled.div`
     width: 100%;
+    height: 80vh;
     margin-top: 50px;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 0 30px;
-    padding-bottom: 30px;
+    /* padding-bottom: 30px; */
     @media only screen and (max-width: 600px) {
         flex-direction: column;
     }
 `
 
 const ImagesContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 150px;
-    gap: 15px 0;
+    width: 190px;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
     @media only screen and (max-width: 600px) {
         width: 100%;
         display: grid;
@@ -43,10 +57,10 @@ const ImagesContainer = styled.div`
 `
 
 const SmallImage = styled.button`
-    background: none;
     border: none;
     width: 150px;
     height: 150px;
+    margin-bottom: 30px;
     background-position: center;
     background-size: cover;
     cursor: pointer;
@@ -287,8 +301,9 @@ class ItemPage extends Component {
     handleChange = (e) => {
         // using form, so handleChange runs only when you change attribute.
         // no need to check if the user is selecting the same attribute again.
-        const state = this.state.attributes
-        this.setState({ attributes: {...state, [e.target.name]: e.target.value } })
+        this.setState({ 
+            attributes: {...this.state.attributes, [e.target.name]: e.target.value },
+        })
     }
 
     handleSubmit = (e) => {
@@ -300,8 +315,9 @@ class ItemPage extends Component {
         this.props.AddToCart(productClone)
     }
 
+
     render(){
-        const {currency} = this.props;
+        const {currency, selectAttributeFromItemPage} = this.props;
         const {loading, error, product, currentImage} = this.state
         const currentCurrency = product ? product.prices.find(cur => cur.currency.label === currency.label) : undefined
 
@@ -316,7 +332,6 @@ class ItemPage extends Component {
                             return <SmallImage key={image} onClick={() => this.switchImages(image)} style={{backgroundImage: `url(${image})`}} /> 
                         })}
                     </ImagesContainer>
-
                     <SelectedImage style={{backgroundImage: `url(${currentImage ? currentImage : product.gallery[0]})`}}>
                         {!product.inStock && <OutOfStock>Out Of Stock</OutOfStock>}
                     </SelectedImage>
@@ -379,7 +394,8 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    AddToCart: (item) => dispatch(AddToCart(item))
+    AddToCart: (item) => dispatch(AddToCart(item)),
+    selectAttributeFromItemPage: (item, changeType, selected) => dispatch(selectAttributeFromItemPage(item, changeType, selected))
 });
   
 
