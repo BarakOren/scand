@@ -67,7 +67,7 @@ class CurrencyToggler extends Component {
 
       handleClickOutside(event) {
         // closing window if the user clicked outside of the window.
-        if (this.props.currenciesToggle && this.currencyRef && !this.currencyRef.current.contains(event.target)) {
+        if (this.props.currenciesToggle && this.currencyRef && !this.currencyRef.current.contains(event.target) && this.props.iconRef && !this.props.iconRef.current.contains(event.target) ) {
           this.props.closeToggle();
         }
       }
@@ -75,7 +75,6 @@ class CurrencyToggler extends Component {
     render(){
         const {currency ,currenciesToggle, changeCurrency, currencies} = this.props
         const {loading, error} = this.state;
-        
         return(
             <Container display={currenciesToggle ? "on" : "off"} ref={this.currencyRef}  >
                 {loading && <MiniSpinner />}

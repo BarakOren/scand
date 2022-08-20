@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, createRef} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import icon from "../assets/icon.png";
@@ -154,6 +154,8 @@ class Header extends Component {
             param: this.props.location.pathname,
             cartToggle: false
         }
+        this.currencyIconRef = createRef();
+        this.cartIconRef = createRef();
         this.toggleCart = this.toggleCart.bind(this);
     }
 
@@ -196,19 +198,19 @@ class Header extends Component {
             </A>
                 
             <SettingsContaier>
-                <CurrencyContainer onClick={popupToggle}>
+                <CurrencyContainer ref={this.currencyIconRef} onClick={popupToggle}>
                     <Currency>{currency.symbol}</Currency>
                     <Arrow src={arrow} toggle={currenciesToggle ? "open" : ""} alt="arrow-button" />
-                    <CurrencyToggler />
+                    <CurrencyToggler iconRef={this.currencyIconRef} />
                 </CurrencyContainer>
                 
                 {/* <CartButton onClick={this.toggleCart} > */}
-                <CartButton onClick={toggleCart} >
+                <CartButton onClick={toggleCart} ref={this.cartIconRef}>
                     <CartIcon src={cartimg} alt="cart-icon" />
                     {cart.length > 0 && <ItemsAmount>{quantity}</ItemsAmount>}
                 </CartButton>
              
-                <CartOverlay cartToggle={this.state.cartToggle} />
+                <CartOverlay cartIconRef={this.cartIconRef} cartToggle={this.state.cartToggle} />
 
             </SettingsContaier>
         </Container>

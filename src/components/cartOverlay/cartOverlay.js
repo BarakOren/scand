@@ -123,7 +123,7 @@ class CartOverlay extends Component {
 
       handleClickOutside(event) {
         // closing window if the user clicked outside of the window.
-        if (this.props.cartOverlayToggle && this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+        if (this.props.cartOverlayToggle && this.wrapperRef && !this.wrapperRef.current.contains(event.target) && this.props.cartIconRef && !this.props.cartIconRef.current.contains(event.target) ) {
           this.props.closeOverlay();
         }
       }
