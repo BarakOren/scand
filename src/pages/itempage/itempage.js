@@ -316,7 +316,7 @@ class ItemPage extends Component {
 
 
     render(){
-        const {currency, selectAttributeFromItemPage} = this.props;
+        const {currency} = this.props;
         const {loading, error, product, currentImage} = this.state
         const currentCurrency = product ? product.prices.find(cur => cur.currency.label === currency.label) : undefined
         

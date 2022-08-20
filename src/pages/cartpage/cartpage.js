@@ -64,7 +64,7 @@ class CartPage extends Component {
                 <OrderContainer>
                     <Text>Tax 21%: <Bold>{currency.symbol}{tax.toFixed(2)}</Bold></Text>
                     <Text>Quantity: <Bold>{quantity}</Bold></Text>
-                    <Text>Total: <Bold>{currency.symbol}{total.toFixed(2)}</Bold></Text>
+                    <Text>Total <Bold>{currency.symbol}{total.toFixed(2)}</Bold></Text>
                 <Button>Order</Button>
                 </OrderContainer>
             </Page>

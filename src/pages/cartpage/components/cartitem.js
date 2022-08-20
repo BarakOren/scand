@@ -52,10 +52,10 @@ const ItemName = styled(Link)`
     }
 `   
 
-const SubName = styled.h1`
+const Brand = styled.h1`
     font-size: 22px;
     font-weight: 400;
-    margin: 16px 0 0 0;
+    margin: 0 0 16px 0;
 ` 
 
 const Price = styled.p`
@@ -78,7 +78,7 @@ const Label = styled.p`
 `
 
 const RightSide = styled.div`
-    width: 25%;
+    width: 30%;
     height: 100%;
     display: flex;
     align-items: center;
@@ -216,7 +216,7 @@ class CartItem extends Component {
         return(
         <ItemContainer>
             <DetailsContainer>
-                <SubName>{brand}</SubName>
+                <Brand>{brand}</Brand>
                 <ItemName to={`/category/${category}/${id}`}>{name}</ItemName>
                 <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
                 {item.attributes.map((att) => {

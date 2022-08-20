@@ -7,17 +7,23 @@ import OptionSelector from "./optionselector"
 
 
 const Container = styled.div`
-    height: 190px;
+    min-height: 190px;
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     margin: 30px 0;
+    position: relative;
 `
 
 const LeftColumn = styled.div`
     width: 136px;
-    min-height: 190px;
+    height: 100%;
+
+`
+
+const NameAndPriceContainer = styled.div`
+    width: 100%;
 `
 
 const ItemTitle = styled(Link)`
@@ -54,6 +60,7 @@ const Label = styled.p`
     }
 `
 
+
 const MiddleCol = styled.div`
     height: 100%;
     width: 24px;
@@ -61,7 +68,12 @@ const MiddleCol = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
 `
+
 
 const AmountButton = styled.button`
     width: 22px;
@@ -82,11 +94,12 @@ const CurrentAmount = styled.p`
 `
 
 const ItemImage = styled.div`
-    height: 100%;
+    /* height: 100%; */
     width: 136px;
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+    min-height: inherit;
 `
 
 class CartOverlayItem extends Component {
@@ -99,8 +112,10 @@ class CartOverlayItem extends Component {
         return(
             <Container>
                 <LeftColumn>
-                    <ItemTitle onClick={() => closeOverlay()} to={`/category/${category}/${id}`}>{name} - {brand}</ItemTitle>
+                    <NameAndPriceContainer>
+                    <ItemTitle onClick={() => closeOverlay()} to={`/category/${category}/${id}`}>{brand} - {name}</ItemTitle>
                     <Price>{currencyCurrency.currency.symbol}{currencyCurrency.amount}</Price>
+                    </NameAndPriceContainer>
                     {attributes.map((att) => {
                         return <div key={att.name + "cart"}> 
                         <Label size={attributes.length > 2 ? "small" : ""}>{att.name}:</Label>
