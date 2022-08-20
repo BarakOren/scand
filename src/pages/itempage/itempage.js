@@ -2,17 +2,18 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import { withRouter } from 'react-router-dom'
 import { connect } from "react-redux";
-import {AddToCart, selectAttributeFromItemPage} from "../../redux/cart/actions";
+import {AddToCart} from "../../redux/cart/actions";
 import Spinner from "../../components/spinner";
 import { v4 as uuidv4 } from 'uuid';
 import { getProductInfo } from "../../apollo";
+import parse from 'html-react-parser';
 
 const Page = styled.div`
     width: 100%;
     height: 80vh;
     margin-top: 50px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: flex-start;
     gap: 0 30px;
     /* padding-bottom: 30px; */
@@ -24,7 +25,7 @@ const Page = styled.div`
 const ImagesContainer = styled.div`
     width: 190px;
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: ${p => p.showScrollBar === "true" ? "scroll" : "hidden"};
     overflow-x: hidden;
     ::-webkit-scrollbar {
         width: 10px;
@@ -75,8 +76,8 @@ const SmallImage = styled.button`
 `
 
 const SelectedImage = styled.div`
-    height: 70vh;
-    width: 60%;
+    height: 100%;
+    width: 50%;
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -94,10 +95,8 @@ const DetailsContainer = styled.div`
     justify-content: space-between;
     align-items: flex-start;
     text-align: left;
-    width: 30%;
-    margin-right: 50px;
+    width: 300px;
     @media only screen and (max-width: 1000px) {
-        margin-right: unset;
         width: 35%;
     }
     @media only screen and (max-width: 600px) {
@@ -232,7 +231,7 @@ const Button = styled.button`
     }
 `
 
-const Description = styled.p`
+const Description = styled.div`
     font-family: Roboto;
     font-size: 16px;
     font-weight: 400;
@@ -320,14 +319,14 @@ class ItemPage extends Component {
         const {currency, selectAttributeFromItemPage} = this.props;
         const {loading, error, product, currentImage} = this.state
         const currentCurrency = product ? product.prices.find(cur => cur.currency.label === currency.label) : undefined
-
+        
         return(
             <Page>
                 {error && !loading && <Error>{error}</Error>}
                 {loading && <Spinner  />}
                 {!loading && !error &&
                 <>
-                    <ImagesContainer>
+                    <ImagesContainer showScrollBar={`${product.gallery.length > 4}`}>
                         {product.gallery.map((image) => {
                             return <SmallImage key={image} onClick={() => this.switchImages(image)} style={{backgroundImage: `url(${image})`}} /> 
                         })}
@@ -377,9 +376,7 @@ class ItemPage extends Component {
                             <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
                             <Button type="submit" disabled={!product.inStock}>{product.inStock ? "ADD TO CART" : "OUT OF STOCK"}</Button>
                     </Form>
-                    <Description
-                    dangerouslySetInnerHTML={{ __html: product.description}}
-                    />    
+                    <Description>{parse(product.description)}</Description>    
                     
                 </DetailsContainer>
                 </>
@@ -394,8 +391,7 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    AddToCart: (item) => dispatch(AddToCart(item)),
-    selectAttributeFromItemPage: (item, changeType, selected) => dispatch(selectAttributeFromItemPage(item, changeType, selected))
+    AddToCart: (item) => dispatch(AddToCart(item))
 });
   
 

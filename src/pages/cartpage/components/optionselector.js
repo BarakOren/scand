@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { changeSizeOrColor } from "../../redux/cart/actions";
+import { changeSizeOrColor } from "../../../redux/cart/actions";
 
 const OptionsContainer = styled.div`
     width: 100%;

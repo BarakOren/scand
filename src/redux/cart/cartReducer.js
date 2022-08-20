@@ -44,12 +44,6 @@ export const cartReducer = (state = initialState, action) => {
                 ...state,
                 cart: changeSizeOrColorFunc(state.cart, action.payload.item, action.payload.whatToChange, action.payload.changeTo)
             }
-            case cartTypes.SELECT_ATTRIBUTE_FROM_ITEM_PAGE: 
-            return {
-                ...state,
-                cart: selectAttributeFromItem(state.cart, action.payload.item, action.payload.whatToChange, action.payload.changeTo)
-            }
-
         default: 
         return state;
     }

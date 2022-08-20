@@ -117,10 +117,10 @@ class CategoryPage extends Component {
                 {!loading && error && <Error>{error}</Error>}
                 {!loading && !error && 
                 <>
-                    <CategoryTitle>{name}</CategoryTitle>
-                    <ItemsContainer length={products.length}>
+                    <CategoryTitle>{name.toUpperCase()}</CategoryTitle>
+                    <ItemsContainer>
                         {products.map((product) => {
-                            return <Item product={product} key={product.name} >{product.name}</Item>
+                            return <Item key={product.name} product={product}>{product.name}</Item>
                         })}
                     </ItemsContainer>
                 </>

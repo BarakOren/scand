@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import arrow from "../../assets/whitearrow.png";
+import arrow from "../../../assets/whitearrow.png";
 import { connect } from "react-redux";
-import { addFromCart, RemoveFromCart } from "../../redux/cart/actions";
+import { addFromCart, RemoveFromCart } from "../../../redux/cart/actions";
 import OptionSelector from "./optionselector.js"
 import {Link} from "react-router-dom"
 
@@ -216,8 +216,8 @@ class CartItem extends Component {
         return(
         <ItemContainer>
             <DetailsContainer>
-                <ItemName to={`/category/${category}/${id}`}>{name}</ItemName>
                 <SubName>{brand}</SubName>
+                <ItemName to={`/category/${category}/${id}`}>{name}</ItemName>
                 <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
                 {item.attributes.map((att) => {
                     return <div key={att.name}> 

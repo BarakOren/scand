@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import CartItem from "./cartitem";
+import CartItem from "./components/cartitem";
 import { connect } from "react-redux";
 
 const Page = styled.div`

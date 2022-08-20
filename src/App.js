@@ -73,12 +73,12 @@ class App extends Component {
               <Route exact path="/"><Home error={error} loading={loading} categories={categories}/></Route>
               <Route exact path="/cart"><CartPage /></Route>
               <Route exact path="/category/:category" component={(props) => <CategoryPage {...props} />}/>
-              <Route exact path="/category/:category/:id" component={(props) => <ItemPage {...props} />}></Route>
+              <Route exact path="/category/:category/:id" render={(props) => <ItemPage {...props} />}></Route>
               <Route ><Error /></Route>
             </Switch>
             </>
         </Router>
-        {/* <CartOverlayShader display={cartOverlayToggle ? "on" : "off"} /> */}
+        <CartOverlayShader display={cartOverlayToggle ? "on" : "off"} />
       </AppContainer>
     );
   }
