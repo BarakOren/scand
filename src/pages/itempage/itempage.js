@@ -62,6 +62,7 @@ const SmallImage = styled.button`
     width: 150px;
     height: 150px;
     margin-bottom: 30px;
+    background-image: ${p => `url(${p.image})`};
     background-position: center;
     background-size: cover;
     cursor: pointer;
@@ -78,6 +79,7 @@ const SmallImage = styled.button`
 const SelectedImage = styled.div`
     height: 100%;
     width: 50%;
+    background-image: ${p => `url(${p.image})`};
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -328,10 +330,10 @@ class ItemPage extends Component {
                 <>
                     <ImagesContainer showScrollBar={`${product.gallery.length > 4}`}>
                         {product.gallery.map((image) => {
-                            return <SmallImage key={image} onClick={() => this.switchImages(image)} style={{backgroundImage: `url(${image})`}} /> 
+                            return <SmallImage key={image} onClick={() => this.switchImages(image)} image={image}  /> 
                         })}
                     </ImagesContainer>
-                    <SelectedImage style={{backgroundImage: `url(${currentImage ? currentImage : product.gallery[0]})`}}>
+                    <SelectedImage image={currentImage ? currentImage : product.gallery[0]} >
                         {!product.inStock && <OutOfStock>Out Of Stock</OutOfStock>}
                     </SelectedImage>
 
@@ -372,7 +374,7 @@ class ItemPage extends Component {
                                 </div>
                             }) 
                         }
-                            <Label style={{marginTop: "30px"}}>Price:</Label>
+                            <Label>Price:</Label>
                             <Price>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
                             <Button type="submit" disabled={!product.inStock}>{product.inStock ? "ADD TO CART" : "OUT OF STOCK"}</Button>
                     </Form>

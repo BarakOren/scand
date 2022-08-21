@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 const Page = styled.div`
     width: 100%;
-    padding-bottom: 50px;
+    padding-bottom: 200px;
 `
 
 const Title = styled.h1`
@@ -34,7 +34,7 @@ const Button = styled.button`
     background: #5ECE7B;
     border: none;
     color: white;
-    width: 100%;
+    width: 260px;
     height: 43px;
     font-size: 14px;
     font-weight: 600;
@@ -56,7 +56,7 @@ class CartPage extends Component {
         const tax = (21 / 100) * total
         return(
             <Page>
-                <Title>Cart</Title>
+                <Title>CART</Title>
                 {cart.length === 0 && <NoItems>No Items..</NoItems>}
                 {cart.map((item, index) => {
                     return <CartItem key={index} item={item} /> 

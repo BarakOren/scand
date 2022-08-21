@@ -1,9 +1,9 @@
 import React, {Component, createRef} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import icon from "../assets/icon.png";
-import cartimg from "../assets/cart.png";
-import arrow from "../assets/arrow.png";
+import icon from "../assets/greencart.svg";
+import cartimg from "../assets/EmptyCart.svg";
+import arrow from "../assets/arrow.svg";
 import CurrencyToggler from "./currencytoggler";
 import CartOverlay from "./cartOverlay/cartOverlay";
 import { connect } from "react-redux";
@@ -84,7 +84,6 @@ const SettingsContaier = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     @media only screen and (max-width: 600px) {
         padding: 0;   
     }    

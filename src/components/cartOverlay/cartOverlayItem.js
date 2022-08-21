@@ -94,8 +94,8 @@ const CurrentAmount = styled.p`
 `
 
 const ItemImage = styled.div`
-    /* height: 100%; */
-    width: 136px;
+    background-image: ${p => `url(${p.image})`};
+    width: 136px; 
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -130,7 +130,7 @@ class CartOverlayItem extends Component {
                     <AmountButton onClick={() => removeFromCart(item)}>-</AmountButton>
                 </MiddleCol>
 
-                <ItemImage style={{backgroundImage: `url(${gallery[0]})`}} />
+                <ItemImage image={gallery[0]} />
 
             </Container>
         )

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import CartOverlayItem from "./cartOverlayItem";
 
 const Container = styled.div`
-    display: ${p => p.display === "on" ? "block" : "none"}; 
+    display: ${p => p.display === "on" ? "default" : "none"}; 
     min-height: 30vh;
     max-height: 70vh;
     width: 400px;

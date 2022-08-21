@@ -1,8 +1,8 @@
 import { cartTypes } from "./types";
-import {addToCartFunc, selectAttributeFromItem ,removeFromCart, changeSizeOrColorFunc, addFromCart, addToCartFromCategoryPage} from "./utils";
+import {addToCartFunc ,removeFromCart, changeSizeOrColorFunc, addFromCart, addToCartFromCategoryPage} from "./utils";
 
 const initialState = {
-    overlayToggler: true,
+    overlayToggler: false,
     cart: [],
 }
 

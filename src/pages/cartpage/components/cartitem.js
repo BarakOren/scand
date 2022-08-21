@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import arrow from "../../../assets/whitearrow.png";
+import arrow from "../../../assets/whiteArrow.svg";
 import { connect } from "react-redux";
 import { addFromCart, RemoveFromCart } from "../../../redux/cart/actions";
 import OptionSelector from "./optionselector.js"
@@ -11,10 +11,11 @@ const ItemContainer = styled.div`
     border-top: 1px solid #E5E5E5;
     border-bottom: 1px solid #E5E5E5;
     width: 100%;
-    height: 300px;
+    min-height: 300px;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    position: relative;
     @media only screen and (max-width: 420px) {
         flex-direction: column;
         align-items: center;
@@ -41,27 +42,35 @@ const DetailsContainer = styled.div`
 
 const ItemName = styled(Link)`
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 400;
     text-align: left;
     margin: 0;
     text-decoration: none;
     color: inherit; 
+    @media only screen and (max-width: 700px) {
+        font-size: 20px;
+    }
     @media only screen and (max-width: 420px) {
-        font-size: 22px;
         text-align: unset;
     }
 `   
 
 const Brand = styled.h1`
     font-size: 22px;
-    font-weight: 400;
     margin: 0 0 16px 0;
+    font-weight: 600;
+    @media only screen and (max-width: 700px) {
+        font-size: 20px;
+    }
 ` 
 
 const Price = styled.p`
     margin: 20px 0;
     font-size: 20px;
     font-weight: 700;
+    @media only screen and (max-width: 700px) {
+        font-size: 18px;
+    }
  
 `
 
@@ -69,51 +78,42 @@ const Label = styled.p`
     font-size: 18px;
     font-weight: 700;
     margin: 0;
-    /* margin: 0 0 10px 0; */
     margin: ${p => p.size >= 3 ? "8px 0 4px 0" : "10px 0 7px 0"};
+    @media only screen and (max-width: 700px) {
+        font-size: 14px;
+    }
     @media only screen and (max-width: 420px) {
         font-size: 14px;
         text-align: center;
     }
 `
 
-const RightSide = styled.div`
-    width: 30%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    @media only screen and (max-width: 1200px) {
-        width:30%;
-    }
-
-    @media only screen and (max-width: 1000px) {
-        width:40%;
-    }
-
-    @media only screen and (max-width: 800px) {
-        width: 50%;
-    }
-  
-    @media only screen and (max-width: 700px) {
-        width: 60%;
-    }
-
-    @media only screen and (max-width: 420px) {
-        flex-direction: column;
-        width: 100%;
-    }
-`
-
 const MiddleCol = styled.div`
-    height: 100%;
+    height: calc(100% - 48px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    position: absolute;
+    top:50%;
+    right: 22%;
+    transform: translateY(-50%);
+    @media only screen and (max-width: 1000px) {
+        right: 28%;
+    }
+
+    @media only screen and (max-width: 700px) {
+        right: 50%;
+        transform: translate(50%, -50%);
+    }
+
     @media only screen and (max-width: 420px) {
         flex-direction: row;
-        width: 90%;
+        width: 70%;
+        margin-top: 20px;
+        position: unset;
+        transform: unset;
+        height: auto;
     }
 `
 
@@ -130,8 +130,9 @@ const AmountButton = styled.button`
     cursor: pointer;
 
     @media only screen and (max-width: 700px) {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
+        font-size: 22px;
     }
     @media only screen and (max-width: 500px) {
         width: 30px;
@@ -146,11 +147,21 @@ const CurrentAmount = styled.p`
 `
 
 const ItemImage = styled.div`
-    width: 80%;
-    height: 100%;
+    width: 20%;
+    background-image: ${p => `url(${p.image})`};
     background-position: center;
     background-size: cover;
-    position: relative;
+    background-repeat: no-repeat;
+    min-height: inherit;
+    @media only screen and (max-width: 1000px) {
+        width: 25%;
+        background-size: contain;
+    }
+    @media only screen and (max-width: 700px) {
+        width: 40%;
+        background-size: cover;
+    }
+
     @media only screen and (max-width: 420px) {
         width: 90%;
         height: 300px;
@@ -162,7 +173,7 @@ const ImageArrowButton = styled.button`
     height: 24px;
     background: rgb(0, 0, 0, 0.73);
     position: absolute;
-    bottom: 10px; 
+    bottom: 30px; 
     right: ${p => p.left ? "40px" : "10px"};
     border: none;
     display: flex;
@@ -178,7 +189,7 @@ const ImageArrowButton = styled.button`
 const Arrow = styled.img`
     width: 60%;
     height: auto;
-    transform: ${p => p.left ? "" : "rotate(180deg)"};
+    transform: ${p => p.left ? "rotate(180deg)" : ""};
 `
 
 
@@ -227,17 +238,15 @@ class CartItem extends Component {
                 })}
             </DetailsContainer>
 
-                <RightSide>
                     <MiddleCol>
                         <AmountButton onClick={() => addFromCart(item)}>+</AmountButton>
                         <CurrentAmount>{quantity || "0"}</CurrentAmount>
                         <AmountButton onClick={() => removeFromCart(item)}>-</AmountButton>
                     </MiddleCol>
-                    <ItemImage style={{backgroundImage: `url(${gallery[currentImage]})`}}>
+                    <ItemImage image={gallery[currentImage]}>
                         <ImageArrowButton disabled={gallery.length === 1} onClick={() => this.toggleRight(gallery)}><Arrow  src={arrow} alt="right" /></ImageArrowButton>
                         <ImageArrowButton disabled={gallery.length === 1} onClick={() => this.toggleLeft(gallery)} left={true}><Arrow left={true} src={arrow} alt="left" /></ImageArrowButton>
                     </ItemImage>
-                </RightSide>
                
         </ItemContainer>
         )

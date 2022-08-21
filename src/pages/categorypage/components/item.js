@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import whitecart from "../../../assets/whitecart.png";
+import whitecart from "../../../assets/whiteEmptyCart.svg";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import {addToCartFromCategoryPage} from "../../../redux/cart/actions";
@@ -45,6 +45,7 @@ const ItemContainer = styled(Link)`
 `
 
 const ItemImage = styled.div`
+    background-image: ${p => `url(${p.image})`};
     width: 100%;
     height: 75%;
     background-position: center;
@@ -199,12 +200,12 @@ class Item extends Component {
         const currentCurrency = prices.find(cur => cur.currency.label === currency.label);
 
         return(
-            <Container style={{position: "relative"}}>
+            <Container >
             <AddToCartButton onClick={() => {addToCartFromCategoryPage(this.props.product)}} disabled={!inStock}>
                     <CartIcon src={whitecart} alt="add-to-cart-button" />
             </AddToCartButton>
             <ItemContainer to={`/category/${category}/${id}`}>
-                <ItemImage disabled={!inStock} style={{backgroundImage: `url(${gallery[0]})`}}>
+                <ItemImage disabled={!inStock} image={gallery[0]}>
                 </ItemImage>
                 <Title disabled={!inStock}>{name} {brand}</Title>
                 <Price disabled={!inStock}>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
