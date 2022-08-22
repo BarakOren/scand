@@ -26,17 +26,26 @@ const NameAndPriceContainer = styled.div`
     width: 100%;
 `
 
-const ItemTitle = styled(Link)`
-    font-size: 18px;
+const Brand = styled.p`
+    font-size: 16px;
     font-weight: 300;
     width: 100%;
     text-align: left;
-    margin: 0px 0 3px 0;
+    margin: 0px 0 5px 0;
     text-decoration: none;
     color: inherit;
     @media only screen and (max-width: 1400px) {
         font-size: 16px;
-    }
+    }   
+`
+
+const ItemTitle = styled(Link)`
+    font-size: 16px;
+    font-weight: 300;
+    width: 100%;
+    text-align: left;
+    text-decoration: none;
+    color: inherit;
 `
 
 const Price = styled.p`
@@ -44,17 +53,19 @@ const Price = styled.p`
     font-weight: 500;
     text-align: left;
     width: 100%;
-    margin: 3px 0 0px 0;
+    margin: 6px 0 0px 0;
     @media only screen and (max-width: 1400px) {
         font-size: 16px;
     }
 `
 
 const Label = styled.p`
-    font-size: ${p => p.size ? "12px" : "14px"};
+    font-size: 14px;
+    /* font-size: ${p => p.size ? "12px" : "14px"}; */
     font-weight: 400;
     text-align: left;
-    margin: ${p => p.size ? "10px 0 1px 0" : "16px 0 6px 0"};
+    /* margin: ${p => p.size ? "10px 0 1px 0" : "16px 0 6px 0"}; */
+    margin: 10px 0 4px 0;
     @media only screen and (max-width: 420px) {
         font-size: 12px;
     }
@@ -69,7 +80,7 @@ const MiddleCol = styled.div`
     align-items: center;
     justify-content: space-between;
     position: absolute;
-    left: 50%;
+    left: 55%;
     top: 0;
     transform: translateX(-50%);
 `
@@ -95,7 +106,7 @@ const CurrentAmount = styled.p`
 
 const ItemImage = styled.div`
     background-image: ${p => `url(${p.image})`};
-    width: 136px; 
+    width: 121px; 
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -113,12 +124,13 @@ class CartOverlayItem extends Component {
             <Container>
                 <LeftColumn>
                     <NameAndPriceContainer>
-                    <ItemTitle onClick={() => closeOverlay()} to={`/category/${category}/${id}`}>{brand} - {name}</ItemTitle>
+                    <Brand>{brand}</Brand>
+                    <ItemTitle onClick={() => closeOverlay()} to={`/category/${category}/${id}`}>{name}</ItemTitle>
                     <Price>{currencyCurrency.currency.symbol}{currencyCurrency.amount}</Price>
                     </NameAndPriceContainer>
                     {attributes.map((att) => {
                         return <div key={att.name + "cart"}> 
-                        <Label size={attributes.length > 2 ? "small" : ""}>{att.name}:</Label>
+                        <Label >{att.name}:</Label>
                         <OptionSelector size={attributes.length > 2 ? "small" : ""} item={item} att={att} />
                         </div>
                     })}

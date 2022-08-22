@@ -16,17 +16,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Raleway', sans-serif;
     overflow-x: hidden;
     overflow-y: ${p => p.scrollBarToggle ? "hidden" : "auto"};
-    padding-right: ${p => p.scrollBarToggle ? "17px" : "0"};
-    ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, .5);
-    box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-  }
+    padding-right: ${p => p.scrollBarToggle && p.pageBiggerThanWindow ? "17px" : "0"};
+    background-color: ${p => p.pageBiggerThanWindow ? "red" : "blue"};
   }
 
 `;
@@ -57,14 +48,36 @@ class App extends Component {
     this.state = {
         loading: true,
         categories: [],
-        error: null
+        error: null,
+        pageBiggerThanWindow: null
     }
+    this.check = this.check.bind(this);
 
   }
   
+  check() {
+    console.log("start")
+    const res = window.innerHeight < document.body.clientHeight
+    // true = scroll is on
+    if(this.state.pageBiggerThanWindow !== res){
+      this.setState({pageBiggerThanWindow: res})
+      console.log("changed", this.state.pageBiggerThanWindow)
+    }
+  }
 
   async componentDidMount(){
-   
+    this.setState({pageBiggerThanWindow: window.innerHeight < document.body.clientHeight})
+    window.addEventListener("resize", this.check);
+    const resizeObserver = new ResizeObserver(entries => {
+      console.log('Body height changed:', entries[0].target.clientHeight)
+      if((window.innerHeight < entries[0].target.clientHeight) !== this.state.pageBiggerThanWindow){
+        this.setState({pageBiggerThanWindow: window.innerHeight < entries[0].target.clientHeight})
+      }
+    }
+    )
+    resizeObserver.observe(document.body)
+
+
       try {
         const res = await getCategories();
         this.setState({categories: res.categories, loading: false})
@@ -75,13 +88,16 @@ class App extends Component {
       }
   }
 
+
+  
+
   render(){
     const { cartOverlayToggle } = this.props;
     const { loading, categories, error } = this.state
-    
+
     return (
-      <AppContainer >
-        <GlobalStyle scrollBarToggle={cartOverlayToggle}  />
+      <AppContainer ref={this.resizeElement} >
+        <GlobalStyle pageBiggerThanWindow={this.state.pageBiggerThanWindow} scrollBarToggle={cartOverlayToggle}  />
         <Router>
             <>
             <Header  loading={loading} categories={categories}/>
@@ -104,7 +120,6 @@ class App extends Component {
 const mapStateToProps = store => ({
     cartOverlayToggle: store.cart.overlayToggler,
 })
-
 
 export default connect(mapStateToProps)(App);
 

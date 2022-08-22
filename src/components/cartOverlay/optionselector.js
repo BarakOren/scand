@@ -8,6 +8,7 @@ const OptionsContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    flex-wrap: wrap;
     gap: 0 5px;
 `
 
@@ -21,15 +22,15 @@ const SizeOption = styled.button`
     justify-content: center;
     color: ${p => p.selected ? "white" : "#1D1F22"};
     border: 1px solid #1D1F22;
-    width: ${p => p.size === "small" ? "28px" : "32px"};
-    height: ${p => p.size === "small" ? "28px" : "32px"};
-    font-size: ${p => p.size === "small" ? "10px" : "12px"};
+    width: ${p => p.square ? "24px" : ""};
+    height: ${p => p.size === "small" ? "24px" : "24px"};
+    font-size: 14px;
     background: ${p => p.selected ? "#1D1F22" : "none"};
-    @media only screen and (max-width: 1400px) {
+    /* @media only screen and (max-width: 1400px) {
         width: ${p => p.size === "small" ? "26px" : "30px"};
         height: ${p => p.size === "small" ? "26px" : "30px"};
         font-size: ${p => p.size === "small" ? "8px" : "10px"};
-    }
+    } */
     @media only screen and (max-width: 420px) {
         font-size: 10px;
         width: ${p => p.size === "small" ? "20px" : "22px"};
@@ -40,8 +41,8 @@ const SizeOption = styled.button`
 
 const ColorOption = styled.button`
     cursor: pointer;
-    height: 15px;
-    width: 15px;
+    height: 16px;
+    width: 16px;
     background-color: ${p => p.bg};
     outline: ${p => p.selected ? "1px solid #5ECE7B" : "none"} ;
     border: ${p => p.white ? "1px solid #1D1F22" : "none"};
@@ -61,7 +62,7 @@ class OptionSelector extends Component {
             <OptionsContainer>
                 {att.items.map((attItem) => {
                     return att.type === "text" ? 
-                    <SizeOption onClick={() => changeSizeOrColor(item, att.name, attItem.value)} key={attItem.value} size={size} selected={attItem.value === selectedAtt.selected}>{attItem.value}</SizeOption>
+                    <SizeOption onClick={() => changeSizeOrColor(item, att.name, attItem.value)} key={attItem.value} square={attItem.value.length <= 3} size={size} selected={attItem.value === selectedAtt.selected}>{attItem.value}</SizeOption>
                     :
                     <ColorOption onClick={() => changeSizeOrColor(item, att.name, attItem.value)} key={attItem.value} white={attItem.value === "#FFFFFF"}  bg={attItem.value} selected={attItem.value === this.props.att.selected}/>
                 })}
