@@ -5,6 +5,7 @@ import {toggleOverlay, closeOverlay} from "../../redux/cart/actions"
 import styled from "styled-components";
 import CartOverlayItem from "./cartOverlayItem";
 
+
 const Container = styled.div`
     display: ${p => p.display === "on" ? "default" : "none"}; 
     min-height: 30vh;

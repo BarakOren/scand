@@ -7,7 +7,7 @@ import {addToCartFromCategoryPage} from "../../../redux/cart/actions";
 
 const Container = styled.li`
     width: 100%;
-    height: 100%;
+    min-height: 200px;
     padding: 10px;
     position: relative;
     &:hover{ 
@@ -24,15 +24,10 @@ const ItemContainer = styled(Link)`
     text-decoration: none;
     color: #1D1F22;
     font-size: 20px;
-
     
     @media only screen and (max-width: 1500px) {
         font-size: 18px;
     }
-
-    /* @media only screen and (max-width: 1200px) {
-        font-size: 18px;
-    } */
 
     @media only screen and (max-width: 1000px) {
         font-size: 14px;
@@ -207,7 +202,7 @@ class Item extends Component {
             <ItemContainer to={`/category/${category}/${id}`}>
                 <ItemImage disabled={!inStock} image={gallery[0]}>
                 </ItemImage>
-                <Title disabled={!inStock}>{name} {brand}</Title>
+                <Title disabled={!inStock}>{brand} {name}</Title>
                 <Price disabled={!inStock}>{currentCurrency.currency.symbol}{currentCurrency.amount}</Price>
             </ItemContainer>
             {!inStock && <OutOfStock to={`/category/${category}/${id}`}>Out Of Stock</OutOfStock>}

@@ -10,14 +10,35 @@ import ItemPage from "./pages/itempage/itempage";
 import CartPage from "./pages/cartpage/cartpage";
 import Error from "./pages/error";
 
+
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     font-family: 'Raleway', sans-serif;
     overflow-x: hidden;
-    overflow-y: ${p => p.scrollBarToggle ? "hidden" : "auto"};
-    padding-right: ${p => p.scrollBarToggle && p.pageBiggerThanWindow ? "17px" : "0"};
-    background-color: ${p => p.pageBiggerThanWindow ? "red" : "blue"};
+    position: ${p => p.scrollBarToggle ? "fixed" : "static"};
+    width: ${p => p.scrollBarToggle ? "100%" : "unset"};
+    left: ${p => p.scrollBarToggle ? "0" : "unset"};
+    overflow-y: scroll;
+
+
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+
   }
 
 `;
@@ -51,33 +72,9 @@ class App extends Component {
         error: null,
         pageBiggerThanWindow: null
     }
-    this.check = this.check.bind(this);
-
   }
   
-  check() {
-    console.log("start")
-    const res = window.innerHeight < document.body.clientHeight
-    // true = scroll is on
-    if(this.state.pageBiggerThanWindow !== res){
-      this.setState({pageBiggerThanWindow: res})
-      console.log("changed", this.state.pageBiggerThanWindow)
-    }
-  }
-
   async componentDidMount(){
-    this.setState({pageBiggerThanWindow: window.innerHeight < document.body.clientHeight})
-    window.addEventListener("resize", this.check);
-    const resizeObserver = new ResizeObserver(entries => {
-      console.log('Body height changed:', entries[0].target.clientHeight)
-      if((window.innerHeight < entries[0].target.clientHeight) !== this.state.pageBiggerThanWindow){
-        this.setState({pageBiggerThanWindow: window.innerHeight < entries[0].target.clientHeight})
-      }
-    }
-    )
-    resizeObserver.observe(document.body)
-
-
       try {
         const res = await getCategories();
         this.setState({categories: res.categories, loading: false})
@@ -88,9 +85,6 @@ class App extends Component {
       }
   }
 
-
-  
-
   render(){
     const { cartOverlayToggle } = this.props;
     const { loading, categories, error } = this.state
@@ -98,6 +92,7 @@ class App extends Component {
     return (
       <AppContainer ref={this.resizeElement} >
         <GlobalStyle pageBiggerThanWindow={this.state.pageBiggerThanWindow} scrollBarToggle={cartOverlayToggle}  />
+        <CartOverlayShader display={cartOverlayToggle ? "on" : ""} />
         <Router>
             <>
             <Header  loading={loading} categories={categories}/>
@@ -110,7 +105,6 @@ class App extends Component {
             </Switch>
             </>
         </Router>
-        <CartOverlayShader display={cartOverlayToggle ? "on" : "off"} />
       </AppContainer>
     );
   }
