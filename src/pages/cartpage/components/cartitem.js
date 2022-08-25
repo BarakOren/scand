@@ -155,11 +155,9 @@ const ItemImage = styled.div`
     min-height: inherit;
     @media only screen and (max-width: 1000px) {
         width: 25%;
-        background-size: contain;
     }
     @media only screen and (max-width: 700px) {
         width: 40%;
-        background-size: cover;
     }
 
     @media only screen and (max-width: 420px) {

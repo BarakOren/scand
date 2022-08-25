@@ -1,11 +1,9 @@
-import React, {Component, createRef} from "react";
+import React, {Component} from "react";
 import styled, {createGlobalStyle} from "styled-components";
 import { connect } from "react-redux";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import { getCategories } from "./apollo"
 import CategoryPage from "./pages/categorypage/categorypage";
 import Header from "./components/header";
-import Home from "./pages/home";
 import ItemPage from "./pages/itempage/itempage";
 import CartPage from "./pages/cartpage/cartpage";
 import Error from "./pages/error";
@@ -63,45 +61,22 @@ const CartOverlayShader = styled.div`
 
 class App extends Component {
 
-  constructor(){
-    super();
-
-    this.state = {
-        loading: true,
-        categories: [],
-        error: null,
-        pageBiggerThanWindow: null
-    }
-  }
-  
-  async componentDidMount(){
-      try {
-        const res = await getCategories();
-        this.setState({categories: res.categories, loading: false})
-      }
-      catch (error) {
-        console.log(error.message)
-        this.setState({loading: false, error: true})
-      }
-  }
-
   render(){
     const { cartOverlayToggle } = this.props;
-    const { loading, categories, error } = this.state
 
     return (
-      <AppContainer ref={this.resizeElement} >
-        <GlobalStyle pageBiggerThanWindow={this.state.pageBiggerThanWindow} scrollBarToggle={cartOverlayToggle}  />
+      <AppContainer >
+        <GlobalStyle scrollBarToggle={cartOverlayToggle}  />
         <CartOverlayShader display={cartOverlayToggle ? "on" : ""} />
         <Router>
             <>
-            <Header  loading={loading} categories={categories}/>
+            <Header />
             <Switch>
-              <Route exact path="/"><Home error={error} loading={loading} categories={categories}/></Route>
+              <Route exact path="/" component={(props) => <CategoryPage {...props} />}/>
               <Route exact path="/cart"><CartPage /></Route>
               <Route exact path="/category/:category" component={(props) => <CategoryPage {...props} />}/>
               <Route exact path="/category/:category/:id" render={(props) => <ItemPage {...props} />}></Route>
-              <Route ><Error /></Route>
+              <Route path="*"><Error /></Route>
             </Switch>
             </>
         </Router>

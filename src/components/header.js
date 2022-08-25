@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { toggleOverlay } from "../redux/cart/actions";
 import { popupToggle } from "../redux/currencies/actions";
 import { withRouter } from 'react-router-dom';
+import { getCategories } from "../apollo";
 
 const Container = styled.nav`
     width: 100%;
@@ -151,22 +152,29 @@ class Header extends Component {
         super(props);
         this.state = {
             param: this.props.location.pathname,
-            cartToggle: false
+            cartToggle: false,
+            categories: []
         }
-        this.currencyIconRef = createRef();
-        this.cartIconRef = createRef();
         this.toggleCart = this.toggleCart.bind(this);
+        this.cartIconRef = createRef()
+        this.currencyIconRef = createRef()
     }
 
     componentDidMount() {
         // getting pathname on first loading
         if(this.state.param === window.location.pathname){
-            this.setState({ param : "/" + window.location.pathname.split('/')[2] })
+            if(this.state.param === "/"){this.setState({param: "/"})} 
+            else {this.setState({ param : "/" + window.location.pathname.split('/')[2] })}
         }
         
-        this.unlisten = this.props.history.listen((location, action) => {
+        getCategories().then(res => {
+            this.setState({categories: res.categories})
+        })
+
+        this.unlisten = this.props.history.listen((location) => {
             // listening to url changes
-                this.setState({ param : "/" + location.pathname.split('/')[2] })
+                if(location.pathname === "/"){this.setState({param: "/"})}
+                else {this.setState({ param : "/" + location.pathname.split('/')[2] })}
         });
     }
 
@@ -179,16 +187,17 @@ class Header extends Component {
     }
 
     render(){
-        const {currency, cart, popupToggle, categories, currenciesToggle, toggleCart} = this.props;
+        const {currency, cart, popupToggle, currenciesToggle, toggleCart} = this.props;
+        const {categories} = this.state
         const param = this.state.param
         const quantity = cart.reduce((accumaltedQuantity, cartItem) => accumaltedQuantity + cartItem.quantity, 0)
-
+        
         return (
         <Container>
             <LinksContainer>
             {categories.map((link) => {
                 const {name} = link
-                return <A current={param === `/${name}` ? 'selected' : ''} key={name} to={`/category/${name}`}>{name.toUpperCase()}</A>
+                return <A current={(param === `/${name}` ? 'selected' : '') || (param === "/" && name === "all" ? "selected" : "") } key={name} to={`/category/${name}`}>{name.toUpperCase()}</A>
             })}
             </LinksContainer>
             
@@ -202,8 +211,7 @@ class Header extends Component {
                     <Arrow src={arrow} toggle={currenciesToggle ? "open" : ""} alt="arrow-button" />
                     <CurrencyToggler iconRef={this.currencyIconRef} />
                 </CurrencyContainer>
-                
-                {/* <CartButton onClick={this.toggleCart} > */}
+    
                 <CartButton onClick={toggleCart} ref={this.cartIconRef}>
                     <CartIcon src={cartimg} alt="cart-icon" />
                     {cart.length > 0 && <ItemsAmount>{quantity}</ItemsAmount>}

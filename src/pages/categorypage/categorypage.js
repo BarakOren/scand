@@ -23,6 +23,10 @@ const CategoryTitle = styled.h1`
       @media only screen and (max-width: 760) {
         margin: 30px 0;
     }
+    
+    @media only screen and (max-width: 500px) {
+        text-align: center;
+    }
 `
 
 const Error = styled.h1`
@@ -33,43 +37,46 @@ const Error = styled.h1`
 `
 
 const ItemsContainer = styled.ul`
-    width: 97%;
+    width: 98%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 430px;
-    grid-gap: 60px 10vw;
+    grid-template-columns: repeat(3, 250px);
+    justify-content: space-between;
+    grid-gap: 60px 0;
     padding: 0;
     list-style-type: none;
 
     @media only screen and (max-width: 1500px) {
-        grid-auto-rows: 350px;
+        grid-template-columns: repeat(3, 240px);
     }
 
-    @media only screen and (max-width: 1200px) {
-        grid-auto-rows: 300px;
+    @media only screen and (max-width: 1300px) {
+        grid-template-columns: repeat(3, 240px);
+    }
+
+    @media only screen and (max-width: 1100px) {
+        grid-template-columns: repeat(3, 240px);
     }
 
     @media only screen and (max-width: 1000px) {
-        grid-auto-rows: 250px;
+        grid-template-columns: repeat(3, 210px);
     }
 
     @media only screen and (max-width: 900px) {
-        grid-template-columns: repeat(2, 1fr);
-        grid-gap: 60px 30%;
-        grid-auto-rows: 300px;
+        grid-template-columns: repeat(2, 230px);
     }
 
-    @media only screen and (max-width: 760px) {
-        grid-auto-rows: 280px;
+    @media only screen and (max-width: 650px) {
+        grid-template-columns: repeat(2, 200px);
     }
 
-    @media only screen and (max-width: 600px) {
-        grid-auto-rows: 210px;
-        grid-gap: 60px 20%;
+    @media only screen and (max-width: 550px) {
+        grid-template-columns: repeat(2, 170px);
     }
 
-    @media only screen and (max-width: 400px) {
-        grid-gap: 60px 10%;
+    @media only screen and (max-width: 450px) {
+        justify-content: center;
+        grid-template-columns: repeat(1, 70%);
+        grid-gap: 20px 0;
     }
 `
 
@@ -88,9 +95,9 @@ class CategoryPage extends Component {
 
     getItems = async () => {
         try {
-            const res = await getProducts(this.props.match.params.category);
+            const res = await getProducts(this.props.match.path === "/" ? "all" : this.props.match.params.category);
             this.setState({name: res.category.name ,products: res.category.products, loading: false})
-          }
+        }
           catch (error) {
             console.log(error.message)
             this.setState({loading: false, error: "Sorry, no such category"})
@@ -109,7 +116,6 @@ class CategoryPage extends Component {
     } 
 
     render(){
-        
         const {loading, error, name, products } = this.state
         return(
             <Page>

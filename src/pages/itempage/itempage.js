@@ -80,7 +80,7 @@ const SelectedImage = styled.div`
     height: 100%;
     width: 50%;
     background-image: ${p => `url(${p.image})`};
-    background-position: center;
+    background-position: top;
     background-size: contain;
     background-repeat: no-repeat;
     position: relative;

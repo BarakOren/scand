@@ -7,18 +7,35 @@ import {addToCartFromCategoryPage} from "../../../redux/cart/actions";
 
 const Container = styled.li`
     width: 100%;
-    min-height: 200px;
-    padding: 10px;
+    min-height: 300px;
+    padding: 16px;
     position: relative;
     &:hover{ 
         box-shadow: 0px 4px 35px 0px #A8ACB030;
     }
+
+    @media only screen and (max-width: 1500px) {
+        min-height: 285px;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        min-height: 250px;
+    }
+
+    @media only screen and (max-width: 900px) {
+        min-height: 280px;
+    }
+
+    @media only screen and (max-width: 550px) {
+        min-height: 230px;
+    }
+ 
 `
 
 const ItemContainer = styled(Link)`
     list-style-type: none;
     height: 100%;
-    width: 100%;
+    width: inherit;
     transition: .2s all;
     position: relative;
     text-decoration: none;
@@ -42,48 +59,57 @@ const ItemContainer = styled(Link)`
 const ItemImage = styled.div`
     background-image: ${p => `url(${p.image})`};
     width: 100%;
-    height: 75%;
+    height: 78%;
     background-position: center;
     background-size: cover;
-    margin-bottom: 1vw;
     position: relative;
     opacity: ${p => p.disabled ? "0.5" : "1"};
+
+    @media only screen and (max-width: 1000px) {
+        height: 75%;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        height: 80%;
+    }
+
 `
 
 const Title = styled.p`
-    width: 100%;
+    width: inherit;
     text-align: left;
     font-weight: 300;
-    margin: 20px 0 6px 0;
+    margin: 14px 0 0 0;
     opacity: ${p => p.disabled ? "0.5" : "1"};
+    overflow:hidden; 
+    white-space:nowrap; 
+    text-overflow: ellipsis;
 
     @media only screen and (max-width: 600px) {
-        margin: 10px 0 2px 0;
-        font-size: 12px;
+        margin: 10px 0 0 0;
+        font-size: 14px;
     }
 `
 
 const Price = styled.p`
     font-weight: 500;
     text-align: left;
-    margin: 6px 0;
+    margin: 4px 0px 0px 0px;
     width: 100%;
-  
     opacity: ${p => p.disabled ? "0.5" : "1"};
-
     @media only screen and (max-width: 1050px) {
-        margin: 4px 0;
+        margin: 4px 0 0 0;
     }
 
     @media only screen and (max-width: 600px) {
-        margin: 2px 0;
-        font-size: 12px;
+        margin: 2px 0 0 0;
+        font-size: 14px;
     }
 `
 
 
 const AddToCartButton = styled.button`  
-    display: ${p => p.disabled ? "none" : "default"};
+    display: ${p => p.disabled ? "none" : "block"};
     opacity: 1;
     width: 38px;
     height: 38px;
@@ -91,8 +117,8 @@ const AddToCartButton = styled.button`
     background: #5ECE7B;
     border-radius: 50%;
     position: absolute;
-    top: 312px;
-    right: 20px;
+    top: 228px;
+    right: 25px;
     cursor: pointer;
     transition: .4s opacity;
     z-index: 1;
@@ -102,36 +128,38 @@ const AddToCartButton = styled.button`
     }
 
     @media only screen and (max-width: 1500px) {
-        top: 252px;
+        top: 216px;
     }
 
     @media only screen and (max-width: 1200px) {
-        top: 215px;
+        top: 218px;
     }
  
     @media only screen and (max-width: 1000px){
-        top: 178px; 
+        top: 198px; 
+        width: 32px;
+        height: 32px;
     }
 
     @media only screen and (max-width: 900px){
-        top: 214px;
+        top: 222px;
     }
 
     @media only screen and (max-width: 760px) {
-        width: 32px;
-        height: 32px;
-        top: 202px;
+        top: 223px;
     }
 
-    @media only screen and (max-width: 600px) {
-        top: 152px;
+    @media only screen and (max-width: 550px) {
+        top: 185px;
+        width: 28px;
+        height: 28px;
     }
 
     @media only screen and (max-width: 400px) {
-        right: 15px;
+        right: 28px;
         width: 24px;
         height: 24px;
-        top: 155px;
+        top: 186px;
     } 
 `
 
@@ -142,14 +170,15 @@ const CartIcon = styled.img`
     right: 1px;
     top: 2px;
 
-    @media only screen and (max-width: 760px) {
+    @media only screen and (max-width: 1000px) {
         width: 16px;
     }
 
-    @media only screen and (max-width: 400px) {
+    @media only screen and (max-width: 550px) {
         width: 12px;
         height: 12px;
-    } 
+    }
+
 `
 
 const OutOfStock = styled(Link)`
@@ -195,9 +224,9 @@ class Item extends Component {
         const currentCurrency = prices.find(cur => cur.currency.label === currency.label);
 
         return(
-            <Container >
+            <Container>
             <AddToCartButton onClick={() => {addToCartFromCategoryPage(this.props.product)}} disabled={!inStock}>
-                    <CartIcon src={whitecart} alt="add-to-cart-button" />
+                <CartIcon src={whitecart} alt="add-to-cart-button" />
             </AddToCartButton>
             <ItemContainer to={`/category/${category}/${id}`}>
                 <ItemImage disabled={!inStock} image={gallery[0]}>

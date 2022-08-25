@@ -26,11 +26,7 @@ const SizeOption = styled.button`
     height: ${p => p.size === "small" ? "24px" : "24px"};
     font-size: 14px;
     background: ${p => p.selected ? "#1D1F22" : "none"};
-    /* @media only screen and (max-width: 1400px) {
-        width: ${p => p.size === "small" ? "26px" : "30px"};
-        height: ${p => p.size === "small" ? "26px" : "30px"};
-        font-size: ${p => p.size === "small" ? "8px" : "10px"};
-    } */
+ 
     @media only screen and (max-width: 420px) {
         font-size: 10px;
         width: ${p => p.size === "small" ? "20px" : "22px"};

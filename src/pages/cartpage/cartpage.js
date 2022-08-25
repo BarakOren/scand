@@ -13,10 +13,11 @@ const Title = styled.h1`
     font-size: 32px;
     font-weight: 700;
     text-align: left;
+    margin: 80px 0;
 `
 
 const OrderContainer = styled.div`
-    width: 30%;
+    width: 50%;
 `
 
 const Text = styled.p`

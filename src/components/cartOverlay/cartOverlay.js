@@ -8,9 +8,9 @@ import CartOverlayItem from "./cartOverlayItem";
 
 const Container = styled.div`
     display: ${p => p.display === "on" ? "default" : "none"}; 
-    min-height: 30vh;
+    min-height: 200px;
     max-height: 70vh;
-    width: 400px;
+    width: 320px;
     padding: 32px 16px;
     background-color: white;
     position: absolute;
@@ -124,19 +124,17 @@ class CartOverlay extends Component {
 
       handleClickOutside(event) {
         // closing window if the user clicked outside of the window.
-        if (this.props.cartOverlayToggle && this.wrapperRef && !this.wrapperRef.current.contains(event.target) && this.props.cartIconRef && !this.props.cartIconRef.current.contains(event.target) ) {
-          this.props.closeOverlay();
+        if (this.props.cartOverlayToggle && !this.wrapperRef.current.contains(event.target) && this.props.cartIconRef && !this.props.cartIconRef.current.contains(event.target)) {
+            this.props.closeOverlay();
         }
       }
 
     render(){
-        const {cart, cartOverlayToggle, toggleCart, currency, cartToggle} = this.props
+        const {cart, cartOverlayToggle, toggleCart, currency} = this.props
         const total = cart.reduce((totalQuantity, cartItem) => totalQuantity + cartItem.quantity * cartItem.prices.find(price => price.currency.label === currency.label).amount, 0)
         const quantity = cart.reduce((totalQuantity, cartItem) => totalQuantity + cartItem.quantity, 0)
       
-        
         return(
-            // <Container display={cartToggle ? "on" : "off"} ref={this.wrapperRef}>
             <Container display={cartOverlayToggle ? "on" : "off"} ref={this.wrapperRef}>
                 <MyBag>My Bag,<ItemCount> {quantity} items</ItemCount></MyBag>
                 

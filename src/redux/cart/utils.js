@@ -18,6 +18,7 @@ export const addToCartFunc = (cartItems, cartItemToAdd) => {
 };
 
 export const addFromCart = (cartItems, cartItemToAdd) => {
+  // adding from cartoverlay
   return cartItems.map(item => item.uid === cartItemToAdd.uid
       ? { ...item, quantity: item.quantity + 1 }
       : item

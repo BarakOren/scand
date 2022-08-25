@@ -17,9 +17,8 @@ const Container = styled.div`
 `
 
 const LeftColumn = styled.div`
-    width: 136px;
+    width: 45%;
     height: 100%;
-
 `
 
 const NameAndPriceContainer = styled.div`
@@ -61,10 +60,8 @@ const Price = styled.p`
 
 const Label = styled.p`
     font-size: 14px;
-    /* font-size: ${p => p.size ? "12px" : "14px"}; */
     font-weight: 400;
     text-align: left;
-    /* margin: ${p => p.size ? "10px 0 1px 0" : "16px 0 6px 0"}; */
     margin: 10px 0 4px 0;
     @media only screen and (max-width: 420px) {
         font-size: 12px;
@@ -80,9 +77,8 @@ const MiddleCol = styled.div`
     align-items: center;
     justify-content: space-between;
     position: absolute;
-    left: 55%;
+    left: 50%;
     top: 0;
-    transform: translateX(-50%);
 `
 
 
@@ -106,10 +102,9 @@ const CurrentAmount = styled.p`
 
 const ItemImage = styled.div`
     background-image: ${p => `url(${p.image})`};
-    width: 121px; 
+    width: 39%; 
     background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-size: cover;
     min-height: inherit;
 `
 
