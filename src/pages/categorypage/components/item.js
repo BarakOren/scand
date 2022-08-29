@@ -7,27 +7,48 @@ import {addToCartFromCategoryPage} from "../../../redux/cart/actions";
 
 const Container = styled.li`
     width: 100%;
-    min-height: 300px;
+    height: 412px;
     padding: 16px;
     position: relative;
+    line-height: 28.8px;
+    /* box-shadow: inset 0 0 0 16px lightGreen; */
     &:hover{ 
         box-shadow: 0px 4px 35px 0px #A8ACB030;
     }
-
-    @media only screen and (max-width: 1500px) {
-        min-height: 285px;
+/* 58 */
+    @media only screen and (max-width: 1365px) {
+        height: 365px;
     }
 
-    @media only screen and (max-width: 1000px) {
-        min-height: 250px;
+    @media only screen and (max-width: 1175px) {
+        height: 320px;
     }
 
-    @media only screen and (max-width: 900px) {
-        min-height: 280px;
+    @media only screen and (max-width: 1056px) {
+        height: 280px;
+        line-height: 25px;
     }
 
-    @media only screen and (max-width: 550px) {
-        min-height: 230px;
+    @media only screen and (max-width: 951px) {
+        height: 233px;
+    }
+
+    @media only screen and (max-width: 851px) {
+        height: 320px;
+        line-height: 28.8px;
+    }
+
+    @media only screen and (max-width: 700px) {
+        height: 233px;
+        line-height: 25px;
+    }
+
+    @media only screen and (max-width: 540px) {
+        height: 210px;
+    }
+
+    @media only screen and (max-width: 440px) {
+        height: 250px;
     }
  
 `
@@ -40,37 +61,58 @@ const ItemContainer = styled(Link)`
     position: relative;
     text-decoration: none;
     color: #1D1F22;
-    font-size: 20px;
+    font-size: 18px;
     
-    @media only screen and (max-width: 1500px) {
-        font-size: 18px;
-    }
-
-    @media only screen and (max-width: 1000px) {
-        font-size: 14px;
-    }
-
-    @media only screen and (max-width: 900px) {
+    @media only screen and (max-width: 951px) {
         font-size: 16px;
     }
+
+    @media only screen and (max-width: 540px) {
+        font-size: 14px;
+    }
+ 
 
 `
 
 const ItemImage = styled.div`
     background-image: ${p => `url(${p.image})`};
     width: 100%;
-    height: 78%;
+    height: 330px;
     background-position: center;
     background-size: cover;
     position: relative;
     opacity: ${p => p.disabled ? "0.5" : "1"};
 
-    @media only screen and (max-width: 1000px) {
-        height: 75%;
+    @media only screen and (max-width: 1365px) {
+        height:  283px;
     }
 
-    @media only screen and (max-width: 1000px) {
-        height: 80%;
+    @media only screen and (max-width: 1175px) {
+        height: 238px;
+    }
+
+    @media only screen and (max-width: 1056px) {
+        height: 207px;
+    }
+
+    @media only screen and (max-width: 951px) {
+        height: 171px;
+    }
+
+    @media only screen and (max-width: 851px) {
+        height: 238px;
+    }
+
+    @media only screen and (max-width: 700px) {
+        height: 171px;
+    }
+
+    @media only screen and (max-width: 540px) {
+        height: 148px;
+    }
+
+    @media only screen and (max-width: 440px) {
+        height: 188px;
     }
 
 `
@@ -79,32 +121,36 @@ const Title = styled.p`
     width: inherit;
     text-align: left;
     font-weight: 300;
-    margin: 14px 0 0 0;
+    margin: 24px 0 0 0;
     opacity: ${p => p.disabled ? "0.5" : "1"};
     overflow:hidden; 
     white-space:nowrap; 
     text-overflow: ellipsis;
-
-    @media only screen and (max-width: 600px) {
-        margin: 10px 0 0 0;
-        font-size: 14px;
+    @media only screen and (max-width: 951px) {
+        margin: 12px 0 0 0;
     }
+
+    @media only screen and (max-width: 851px) {
+        margin: 24px 0 0 0;
+    }
+    
+    @media only screen and (max-width: 700px) {
+        margin: 12px 0 0 0;
+    }
+ 
 `
 
 const Price = styled.p`
     font-weight: 500;
     text-align: left;
-    margin: 4px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
     width: 100%;
     opacity: ${p => p.disabled ? "0.5" : "1"};
     @media only screen and (max-width: 1050px) {
-        margin: 4px 0 0 0;
+        /* margin: 4px 0 0 0; */
     }
 
-    @media only screen and (max-width: 600px) {
-        margin: 2px 0 0 0;
-        font-size: 14px;
-    }
+ 
 `
 
 
@@ -117,7 +163,7 @@ const AddToCartButton = styled.button`
     background: #5ECE7B;
     border-radius: 50%;
     position: absolute;
-    top: 228px;
+    top: 325px;
     right: 25px;
     cursor: pointer;
     transition: .4s opacity;
@@ -127,7 +173,43 @@ const AddToCartButton = styled.button`
         opacity: 1;
     }
 
-    @media only screen and (max-width: 1500px) {
+    @media only screen and (max-width: 1365px) {
+        top: 279px;
+    }
+
+    @media only screen and (max-width: 1175px) {
+        top: 234px;
+    }
+
+    @media only screen and (max-width: 1056px) {
+        top: 204px;
+    }
+
+    @media only screen and (max-width: 951px) {
+        top: 170px;
+        width: 32px;
+        height: 32px;
+    }
+
+    @media only screen and (max-width: 851px) {
+        top: 234px;
+        width: 38px;
+        height: 38px;
+    }
+
+    @media only screen and (max-width: 700px) {
+        top: 233px;
+    }
+
+    @media only screen and (max-width: 540px) {
+        top: 210px;
+    }
+
+    @media only screen and (max-width: 440px) {
+        top: 250px;
+    }
+
+    /* @media only screen and (max-width: 1500px) {
         top: 216px;
     }
 
@@ -160,7 +242,7 @@ const AddToCartButton = styled.button`
         width: 24px;
         height: 24px;
         top: 186px;
-    } 
+    }  */
 `
 
 const CartIcon = styled.img`

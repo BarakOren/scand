@@ -39,23 +39,50 @@ const Error = styled.h1`
 const ItemsContainer = styled.ul`
     width: 98%;
     display: grid;
-    grid-template-columns: repeat(3, 250px);
+    grid-template-columns: repeat(3, 354px);
     justify-content: space-between;
-    grid-gap: 60px 0;
+    grid-gap: 80px 0;
     padding: 0;
     list-style-type: none;
 
-    @media only screen and (max-width: 1500px) {
-        grid-template-columns: repeat(3, 240px);
+    @media only screen and (max-width: 1365px) {
+        grid-template-columns: repeat(3, 300px);
     }
 
-    @media only screen and (max-width: 1300px) {
-        grid-template-columns: repeat(3, 240px);
+    @media only screen and (max-width: 1175px) {
+        grid-template-columns: repeat(3, 270px);
     }
 
-    @media only screen and (max-width: 1100px) {
-        grid-template-columns: repeat(3, 240px);
+    @media only screen and (max-width: 1056px) {
+        grid-template-columns: repeat(3, 239px);
     }
+
+    @media only screen and (max-width: 951px) {
+        grid-template-columns: repeat(3, 200px);
+    }
+
+    @media only screen and (max-width: 851px) {
+        grid-template-columns: repeat(2, 270px);
+    }
+
+    @media only screen and (max-width: 700px) {
+        grid-template-columns: repeat(2, 200px);
+        gap: 40px 0;
+    }
+
+    @media only screen and (max-width: 540px) {
+        grid-template-columns: repeat(2, 160px);
+    }
+
+    @media only screen and (max-width: 440px) {
+        grid-template-columns: repeat(1, 230px);
+        justify-content: center;
+    }
+
+/* 
+    
+
+    
 
     @media only screen and (max-width: 1000px) {
         grid-template-columns: repeat(3, 210px);
@@ -77,7 +104,7 @@ const ItemsContainer = styled.ul`
         justify-content: center;
         grid-template-columns: repeat(1, 70%);
         grid-gap: 20px 0;
-    }
+    } */
 `
 
 
