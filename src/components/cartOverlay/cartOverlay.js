@@ -10,11 +10,11 @@ const Container = styled.div`
     display: ${p => p.display === "on" ? "default" : "none"}; 
     min-height: 200px;
     max-height: 70vh;
-    width: 320px;
+    width: 325px;
     padding: 32px 16px;
     background-color: white;
     position: absolute;
-    right: 4vw;
+    right: 5vw;
     top: 80px;
     z-index: 2;
     overflow-y: scroll;
@@ -46,8 +46,7 @@ const Container = styled.div`
 `
 
 const MyBag = styled.h2`
-    margin-top: 0;
-    margin-bottom: 40px;
+    margin: 0 0 40px 0;
     font-weight: 700;
     font-size: 16px;
     width: 100%;
@@ -67,13 +66,13 @@ const TotalContainer = styled.div`
 `
 
 const TotalText = styled.p`
-    font-family: Roboto;
+   font-family: 'Roboto';
     font-size: 16px;
     font-weight: 500;
-    text-align: left;
 `
 
 const TotalPrice = styled.p`
+    font-family: 'Raleway';
     font-size: 16px;
     font-weight: 700;
 `
@@ -88,8 +87,8 @@ const ButtonContainer = styled.div`
 
 const Button = styled(Link)`
     text-decoration: none;
-    width: 40%;
-    height: 100%;
+    width: 140px;
+    height: 43px;
     border: 1px solid ${p => p.border};
     color: ${p => p.color};
     background: ${p => p.bg};
@@ -145,7 +144,7 @@ class CartOverlay extends Component {
                 })}
 
                 <TotalContainer>
-                    <TotalText>Total:</TotalText>
+                    <TotalText>Total</TotalText>
                     <TotalPrice>{currency.symbol}{total.toFixed(2)}</TotalPrice>
                 </TotalContainer>
                 

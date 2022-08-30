@@ -17,7 +17,7 @@ const Container = styled.div`
 `
 
 const LeftColumn = styled.div`
-    width: 45%;
+    width: 136px;
     height: 100%;
 `
 
@@ -30,20 +30,20 @@ const Brand = styled.p`
     font-weight: 300;
     width: 100%;
     text-align: left;
-    margin: 0px 0 5px 0;
+    margin: 0;
     text-decoration: none;
     color: inherit;
-    @media only screen and (max-width: 1400px) {
-        font-size: 16px;
-    }   
+    line-height: 25.6px;
+
 `
 
-const ItemTitle = styled(Link)`
+const ItemName = styled(Link)`
     font-size: 16px;
     font-weight: 300;
     width: 100%;
     text-align: left;
     text-decoration: none;
+    line-height: 25.6px;
     color: inherit;
 `
 
@@ -52,17 +52,16 @@ const Price = styled.p`
     font-weight: 500;
     text-align: left;
     width: 100%;
-    margin: 6px 0 0px 0;
-    @media only screen and (max-width: 1400px) {
-        font-size: 16px;
-    }
+    margin: 4px 0 0px 0;
+    line-height: 25.6px;
 `
 
 const Label = styled.p`
     font-size: 14px;
     font-weight: 400;
     text-align: left;
-    margin: 10px 0 4px 0;
+    margin: 8px 0;
+    line-height: 16px;
     @media only screen and (max-width: 420px) {
         font-size: 12px;
     }
@@ -83,8 +82,8 @@ const MiddleCol = styled.div`
 
 
 const AmountButton = styled.button`
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     color: #1D1F22;
     border: 1px solid #1D1F22;
     background: none;
@@ -102,7 +101,7 @@ const CurrentAmount = styled.p`
 
 const ItemImage = styled.div`
     background-image: ${p => `url(${p.image})`};
-    width: 39%; 
+    width: 121px; 
     background-position: center;
     background-size: cover;
     min-height: inherit;
@@ -120,7 +119,7 @@ class CartOverlayItem extends Component {
                 <LeftColumn>
                     <NameAndPriceContainer>
                     <Brand>{brand}</Brand>
-                    <ItemTitle onClick={() => closeOverlay()} to={`/category/${category}/${id}`}>{name}</ItemTitle>
+                    <ItemName onClick={() => closeOverlay()} to={`/category/${category}/${id}`}>{name}</ItemName>
                     <Price>{currencyCurrency.currency.symbol}{currencyCurrency.amount}</Price>
                     </NameAndPriceContainer>
                     {attributes.map((att) => {

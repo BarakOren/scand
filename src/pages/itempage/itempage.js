@@ -10,22 +10,27 @@ import parse from 'html-react-parser';
 
 const Page = styled.div`
     width: 100%;
-    height: 80vh;
+    min-height: 80vh;
     margin-top: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 0 30px;
-    /* padding-bottom: 30px; */
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: start;
+
+
+    @media only screen and (max-width: 1327px) {
+        justify-content: space-between;
+    }
+
     @media only screen and (max-width: 600px) {
         flex-direction: column;
     }
 `
 
 const ImagesContainer = styled.div`
-    width: 190px;
-    height: 100%;
-    overflow-y: ${p => p.showScrollBar === "true" ? "scroll" : "hidden"};
+    width: 90px;
+    max-height: 80vh;
+    margin-right: 30px;
+    overflow-y: auto;
     overflow-x: hidden;
     ::-webkit-scrollbar {
         width: 10px;
@@ -43,72 +48,71 @@ const ImagesContainer = styled.div`
         background: #555;
     }
 
-    @media only screen and (max-width: 600px) {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(5, 80px);
-        grid-auto-rows: 80px;
+    @media only screen and (max-width: 1327px) {
+        margin-right: 10px;
     }
-    @media only screen and (max-width: 500px) {
-        grid-template-columns: repeat(4, 80px);
-    }
-    @media only screen and (max-width: 400px) {
-        grid-template-columns: repeat(3, 80px);
-    }
+
 `
 
 const SmallImage = styled.button`
     border: none;
-    width: 150px;
-    height: 150px;
+    width: 80px;
+    height: 80px;
     margin-bottom: 30px;
     background-image: ${p => `url(${p.image})`};
     background-position: center;
     background-size: cover;
     cursor: pointer;
-    @media only screen and (max-width: 1000px) {
-        width: 120px;
-        height: 120px;
-    }
-    @media only screen and (max-width: 600px) {
-        width: 100%;
-        height: 100%;
-    }
+ 
 `
 
 const SelectedImage = styled.div`
-    height: 100%;
-    width: 50%;
+    height: 511px;
+    width: 610px;
     background-image: ${p => `url(${p.image})`};
-    background-position: top;
-    background-size: contain;
+    background-position: center;
+    background-size: cover;
     background-repeat: no-repeat;
+    margin-right: 100px;
     position: relative;
-    @media only screen and (max-width: 600px) {
-        margin: 30px 0;
-        width: 100%;
-        height: 400px;
+    
+
+    @media only screen and (max-width: 1327px) {
+        margin-right: 10px;
     }
+
+    @media only screen and (max-width: 1199px) {
+        height: 511px;
+        width: 500px;
+    }
+
+    @media only screen and (max-width: 1060px) {
+        height: 450px;
+        width: 400px;
+    }
+
+    
+    @media only screen and (max-width: 901px) {
+        height: 450px;
+        width: 350px;
+    }
+
 `
 
 const DetailsContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
     text-align: left;
-    width: 300px;
+    width: 292px;
     @media only screen and (max-width: 1000px) {
-        width: 35%;
-    }
-    @media only screen and (max-width: 600px) {
-        width: 100%;
-        text-align: center;
-        align-items: center;
+        width: 250px;
     }
 `
 
-const ItemName = styled.h1`
+const Brand = styled.h1`
+    line-height: 27px;
     font-size: 30px;
     font-weight: 600;
     text-align: left;
@@ -118,11 +122,12 @@ const ItemName = styled.h1`
     }
 `   
 
-const SubName = styled.h1`
+const Name = styled.h1`
+    line-height: 27px;
     font-size: 30px;
     font-weight: 400;
     text-align: left;
-    margin: 10px 0;
+    margin: 16px 0 43px 0;
     @media only screen and (max-width: 1000px) {
         font-size: 22px;
     }
@@ -130,9 +135,13 @@ const SubName = styled.h1`
 
 
 const Label = styled.p`
+    font-family: 'Roboto';
     font-size: 18px;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0em;
     color: #1D1F22;
     @media only screen and (max-width: 1000px) {
         font-size: 16px;
@@ -145,6 +154,7 @@ const OptionsContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    margin: 0 0 24px 0;
     @media only screen and (max-width: 600px) {
         justify-content: center;
     }
@@ -163,7 +173,7 @@ const SizeOption = styled.input`
     justify-content: center;
     cursor: pointer;
     -webkit-appearance: none;
-    margin: 0 10px 0 0;
+    margin: ${p => p.last ? "0" : "0 13px 0 0"} ;
 
     &:after {
         content: "${p => p.value}";
@@ -205,10 +215,12 @@ const ColorOption = styled.input`
 `
 
 const Price = styled.p`
-    margin: 0;
+    font-family: 'Raleway';
     font-size: 24px;
     font-weight: 700;
-    margin: 0 6px 0 0;
+    margin: 2px 0 0 0;
+    letter-spacing: 0em;
+
     @media only screen and (max-width: 1000px) {
         font-size: 20px;
     }
@@ -226,7 +238,7 @@ const Button = styled.button`
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    margin-top: 30px;
+    margin: 30px 0 40px 0;
     &:disabled {
         background: #1D1F22;
         opacity: 0.3;
@@ -237,8 +249,8 @@ const Description = styled.div`
     font-family: Roboto;
     font-size: 16px;
     font-weight: 400;
-    margin-top: 30px;
     line-height: 30px;
+    margin: 0;
 `
 
 const Form = styled.form`
@@ -256,6 +268,10 @@ const OutOfStock = styled.p`
     font-weight: 400;
     letter-spacing: 0px;
     color: #8D8F9A;
+
+    @media only screen and (max-width: 901px) {
+        font-size: 20px;
+    }
 `
 
 const Error = styled.h1`
@@ -328,7 +344,7 @@ class ItemPage extends Component {
                 {loading && <Spinner  />}
                 {!loading && !error &&
                 <>
-                    <ImagesContainer showScrollBar={`${product.gallery.length > 4}`}>
+                    <ImagesContainer>
                         {product.gallery.map((image) => {
                             return <SmallImage key={image} onClick={() => this.switchImages(image)} image={image}  /> 
                         })}
@@ -338,17 +354,18 @@ class ItemPage extends Component {
                     </SelectedImage>
 
                     <DetailsContainer> 
-                        <ItemName>{product.brand}</ItemName>
-                        <SubName>{product.name}</SubName>
+                        <Brand>{product.brand}</Brand>
+                        <Name>{product.name}</Name>
                         <Form onSubmit={this.handleSubmit}>
                         {
                             product.attributes.map((attribute,index) => {
                                 return <div key={index}>
                                 <Label>{attribute.name}:</Label>
-                                <OptionsContainer>
-                                {attribute.items.map(item => {
+                                <OptionsContainer containerType={attribute.name}>
+                                {attribute.items.map((item, index) => {
                                     if(attribute.type !== "swatch")
-                                        return <SizeOption 
+                                    return <SizeOption
+                                        last={index === attribute.items.length - 1} 
                                         onChange={this.handleChange}
                                         type="radio"
                                         key={item.value}

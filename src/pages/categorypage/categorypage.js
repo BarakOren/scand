@@ -20,7 +20,7 @@ const CategoryTitle = styled.h1`
     @media only screen and (max-width: 1000px) {
         margin: 50px 0;
     }
-      @media only screen and (max-width: 760) {
+      @media only screen and (max-width: 760px) {
         margin: 30px 0;
     }
     
@@ -78,33 +78,6 @@ const ItemsContainer = styled.ul`
         grid-template-columns: repeat(1, 230px);
         justify-content: center;
     }
-
-/* 
-    
-
-    
-
-    @media only screen and (max-width: 1000px) {
-        grid-template-columns: repeat(3, 210px);
-    }
-
-    @media only screen and (max-width: 900px) {
-        grid-template-columns: repeat(2, 230px);
-    }
-
-    @media only screen and (max-width: 650px) {
-        grid-template-columns: repeat(2, 200px);
-    }
-
-    @media only screen and (max-width: 550px) {
-        grid-template-columns: repeat(2, 170px);
-    }
-
-    @media only screen and (max-width: 450px) {
-        justify-content: center;
-        grid-template-columns: repeat(1, 70%);
-        grid-gap: 20px 0;
-    } */
 `
 
 

@@ -11,11 +11,9 @@ const Container = styled.li`
     padding: 16px;
     position: relative;
     line-height: 28.8px;
-    /* box-shadow: inset 0 0 0 16px lightGreen; */
     &:hover{ 
         box-shadow: 0px 4px 35px 0px #A8ACB030;
     }
-/* 58 */
     @media only screen and (max-width: 1365px) {
         height: 365px;
     }
@@ -50,7 +48,6 @@ const Container = styled.li`
     @media only screen and (max-width: 440px) {
         height: 250px;
     }
- 
 `
 
 const ItemContainer = styled(Link)`
@@ -70,8 +67,6 @@ const ItemContainer = styled(Link)`
     @media only screen and (max-width: 540px) {
         font-size: 14px;
     }
- 
-
 `
 
 const ItemImage = styled.div`
@@ -146,11 +141,6 @@ const Price = styled.p`
     margin: 0px 0px 0px 0px;
     width: 100%;
     opacity: ${p => p.disabled ? "0.5" : "1"};
-    @media only screen and (max-width: 1050px) {
-        /* margin: 4px 0 0 0; */
-    }
-
- 
 `
 
 
@@ -164,7 +154,7 @@ const AddToCartButton = styled.button`
     border-radius: 50%;
     position: absolute;
     top: 325px;
-    right: 25px;
+    right: 31px;
     cursor: pointer;
     transition: .4s opacity;
     z-index: 1;
@@ -209,40 +199,6 @@ const AddToCartButton = styled.button`
         top: 250px;
     }
 
-    /* @media only screen and (max-width: 1500px) {
-        top: 216px;
-    }
-
-    @media only screen and (max-width: 1200px) {
-        top: 218px;
-    }
- 
-    @media only screen and (max-width: 1000px){
-        top: 198px; 
-        width: 32px;
-        height: 32px;
-    }
-
-    @media only screen and (max-width: 900px){
-        top: 222px;
-    }
-
-    @media only screen and (max-width: 760px) {
-        top: 223px;
-    }
-
-    @media only screen and (max-width: 550px) {
-        top: 185px;
-        width: 28px;
-        height: 28px;
-    }
-
-    @media only screen and (max-width: 400px) {
-        right: 28px;
-        width: 24px;
-        height: 24px;
-        top: 186px;
-    }  */
 `
 
 const CartIcon = styled.img`
