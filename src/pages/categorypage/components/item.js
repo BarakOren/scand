@@ -223,7 +223,6 @@ const OutOfStock = styled(Link)`
     position: absolute;
     top: 35%;
     right: 0;
-    font-family: Raleway;
     margin: 0;
     font-size: 30px;
     font-weight: 400;

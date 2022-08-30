@@ -71,7 +71,6 @@ const Price = styled.p`
     @media only screen and (max-width: 700px) {
         font-size: 18px;
     }
- 
 `
 
 const Label = styled.p`
@@ -189,8 +188,6 @@ const Arrow = styled.img`
     height: auto;
     transform: ${p => p.left ? "rotate(180deg)" : ""};
 `
-
-
 
 class CartItem extends Component {
 

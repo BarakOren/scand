@@ -34,7 +34,6 @@ const Brand = styled.p`
     text-decoration: none;
     color: inherit;
     line-height: 25.6px;
-
 `
 
 const ItemName = styled(Link)`
@@ -67,7 +66,6 @@ const Label = styled.p`
     }
 `
 
-
 const MiddleCol = styled.div`
     height: 100%;
     width: 24px;
@@ -79,7 +77,6 @@ const MiddleCol = styled.div`
     left: 50%;
     top: 0;
 `
-
 
 const AmountButton = styled.button`
     width: 24px;

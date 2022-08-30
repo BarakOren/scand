@@ -35,10 +35,6 @@ const Container = styled.div`
         background: #555;
     }
 
-    @media only screen and (max-width: 1400px) {
-        width: 325px;
-    }
-
     @media only screen and (max-width: 600px) {
         width: 70%;
         right: 0;
@@ -72,7 +68,6 @@ const TotalText = styled.p`
 `
 
 const TotalPrice = styled.p`
-    font-family: 'Raleway';
     font-size: 16px;
     font-weight: 700;
 `

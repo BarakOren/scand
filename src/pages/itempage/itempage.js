@@ -215,7 +215,6 @@ const ColorOption = styled.input`
 `
 
 const Price = styled.p`
-    font-family: 'Raleway';
     font-size: 24px;
     font-weight: 700;
     margin: 2px 0 0 0;
@@ -246,7 +245,7 @@ const Button = styled.button`
 `
 
 const Description = styled.div`
-    font-family: Roboto;
+    font-family: 'Roboto';
     font-size: 16px;
     font-weight: 400;
     line-height: 30px;
@@ -263,7 +262,6 @@ const OutOfStock = styled.p`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-family: Raleway;
     font-size: 30px;
     font-weight: 400;
     letter-spacing: 0px;
